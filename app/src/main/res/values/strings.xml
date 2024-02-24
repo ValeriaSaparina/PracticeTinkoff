@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Travels</string>
+    <string name="email">Email</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="registration">Registration</string>
+    <string name="sign_in">Sign in</string>
+</resources>
