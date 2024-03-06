@@ -1,7 +1,5 @@
-package com.example.travels.ui.viewmodels
+package com.example.travels.ui.signUp
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,6 +7,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.travels.di.DataContainer
 import com.example.travels.domain.auth.SignUpUserUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
@@ -16,11 +16,11 @@ class SignUpViewModel(
 ) : ViewModel() {
 
 
-    private val _singingUp = MutableLiveData(false)
-    val signingUp: LiveData<Boolean> get() = _singingUp
+    private val _singingUp = MutableStateFlow(false)
+    val signingUp: StateFlow<Boolean> get() = _singingUp
 
-    private val _error = MutableLiveData<Throwable?>(null)
-    val error: LiveData<Throwable?> get() = _error
+    private val _error = MutableStateFlow<Throwable?>(null)
+    val error: StateFlow<Throwable?> get() = _error
 
     fun onSignUpClick(email: String, firstname: String, lastname: String, password: String) {
         signUp(email, firstname, lastname, password)

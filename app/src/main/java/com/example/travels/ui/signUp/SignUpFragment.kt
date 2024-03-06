@@ -1,4 +1,4 @@
-package com.example.travels.ui.fragments
+package com.example.travels.ui.signUp
 
 import android.os.Bundle
 import android.util.Patterns
@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import com.example.travels.R
 import com.example.travels.databinding.FragmentSignUpBinding
 import com.example.travels.ui.BaseFragment
-import com.example.travels.ui.viewmodels.SignUpViewModel
 import com.example.travels.utils.Regexes
 
 class SignUpFragment : BaseFragment() {
@@ -40,7 +39,7 @@ class SignUpFragment : BaseFragment() {
 
     private fun observe() {
         with(viewModel) {
-            error.observe(viewLifecycleOwner) {
+            error.observe {
                 if (it != null) {
                     showToast(it.message!!)
                 }
@@ -52,7 +51,7 @@ class SignUpFragment : BaseFragment() {
         viewBinding?.run {
             signUpBtn.setOnClickListener {
                 if (isValidData()) {
-                    if (viewModel.signingUp.value != true) {
+                    if (!viewModel.signingUp.value) {
                         viewModel.onSignUpClick(
                             emailEt.text.toString(),
                             firstnameEt.text.toString(),

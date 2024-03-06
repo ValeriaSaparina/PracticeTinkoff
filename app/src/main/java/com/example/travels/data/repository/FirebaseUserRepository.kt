@@ -1,4 +1,4 @@
-package com.example.travels.data.repositoriesImpl
+package com.example.travels.data.repository
 
 import android.util.Log
 import com.example.travels.data.mapper.UserMapper

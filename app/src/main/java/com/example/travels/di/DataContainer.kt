@@ -1,6 +1,6 @@
 package com.example.travels.di
 
-import com.example.travels.data.repositoriesImpl.FirebaseUserRepository
+import com.example.travels.data.repository.FirebaseUserRepository
 import com.example.travels.domain.auth.SignInUserUseCase
 import com.example.travels.domain.auth.SignUpUserUseCase
 

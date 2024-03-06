@@ -1,4 +1,4 @@
-package com.example.travels.ui.fragments
+package com.example.travels.ui.signIn
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.travels.databinding.FragmentSignInBinding
 import com.example.travels.ui.BaseFragment
-import com.example.travels.ui.viewmodels.SignInViewModel
 
 class SignInFragment : BaseFragment() {
     private var viewBinding: FragmentSignInBinding? = null
@@ -34,7 +33,7 @@ class SignInFragment : BaseFragment() {
     private fun initListeners() {
         viewBinding?.apply {
             signInBtn.setOnClickListener {
-                if (viewModel.signingIn.value != true) {
+                if (!viewModel.signingIn.value) {
                     viewModel.onSignUpClick(emailEt.text.toString(), passwordEt.text.toString())
                 }
             }
@@ -43,7 +42,7 @@ class SignInFragment : BaseFragment() {
 
     private fun observe() {
         with(viewModel) {
-            error.observe(viewLifecycleOwner) {
+            error.observe {
                 if (it != null) {
                     showToast(it.message!!)
                 }
