@@ -5,39 +5,29 @@ import com.example.travels.data.mapper.UserMapper
 import com.example.travels.domain.user.UserModel
 import com.example.travels.domain.user.UserRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class FirebaseUserRepository : UserRepository {
+class FirebaseUserRepository @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val db: FirebaseFirestore
 
-    private val auth: FirebaseAuth = Firebase.auth
-    private val db: FirebaseFirestore = Firebase.firestore
+) : UserRepository {
+
     private var currentUser: UserModel? = null
 
     override suspend fun createUserWithEmailAndPassword(
         email: String,
         password: String
     ): UserModel {
-        val result = auth.createUserWithEmailAndPassword(email, password).await()
-        result.user?.run {
-            Log.d("CREATE_USER", "success")
-            return UserMapper.firebaseUserToUserModel(this)
-        }
-        throw Throwable("Something went wrong")
+        val userFB = auth.createUserWithEmailAndPassword(email, password).await()
+        return UserMapper.firebaseUserToUserModel(userFB.user!!)
     }
 
-    override suspend fun saveUserToStore(user: UserModel): Boolean {
-        return try {
-            val result = db.collection("users").document(user.id).set(user)
-            currentUser = user
-            result.isSuccessful
-        } catch (e: Exception) {
-            Log.d("SAVE_USER", e.message.toString())
-            false
-        }
+    override suspend fun saveUserToStore(user: UserModel) {
+        db.collection("users").document(user.id).set(user).await()
+        currentUser = user
     }
 
     override suspend fun signUp(
@@ -54,17 +44,8 @@ class FirebaseUserRepository : UserRepository {
         return user
     }
 
-    override suspend fun signIn(email: String, password: String): Boolean {
-        var isSuccess = false
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                isSuccess = true
-                Log.d("SIGN_IN", "success")
-            }
-            .addOnFailureListener {
-                Log.d("SIGN_IN", "${it.message}")
-            }.await()
-        return isSuccess
+    override suspend fun signIn(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).await()
     }
 
     override suspend fun getCurrentUser(): UserModel {

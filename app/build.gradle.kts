@@ -1,7 +1,9 @@
 plugins {
+    id("kotlin-kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -40,6 +42,11 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -64,4 +71,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
+    // Cicerone
+    implementation("com.github.terrakok:cicerone:7.1")
+
+    // Hilt Dagger
+    val daggerVersion = "2.49"
+    implementation("com.google.dagger:hilt-android:$daggerVersion")
+    "kapt"("com.google.dagger:hilt-compiler:$daggerVersion")
+
 }
+
+

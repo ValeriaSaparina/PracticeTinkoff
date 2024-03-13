@@ -15,4 +15,6 @@
     <string name="input_correct_lastname">Input correct lastname</string>
     <string name="authorization">Authorization</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="wait_error">please, wait</string>
+    <string name="unexpected_error">Something went wrong</string>
 </resources>

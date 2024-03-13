@@ -1,48 +1,43 @@
 package com.example.travels.ui.signIn
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.travels.di.DataContainer
-import com.example.travels.domain.auth.SignInUserUseCase
+import com.example.travels.domain.usecase.auth.SignInUserUseCase
+import com.example.travels.utils.AuthErrors
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignInViewModel(
+@HiltViewModel
+class SignInViewModel @Inject constructor(
     private val signInUserUserCase: SignInUserUseCase
 ) : ViewModel() {
 
     private val _signingIn = MutableStateFlow(false)
-    val signingIn: StateFlow<Boolean> get() = _signingIn
 
-    private val _error = MutableStateFlow<Throwable?>(null)
-    val error: StateFlow<Throwable?> get() = _error
+    private val _error = MutableStateFlow<AuthErrors?>(null)
+    val error: StateFlow<AuthErrors?> get() = _error
 
     fun onSignUpClick(email: String, password: String) {
-        signIn(email, password)
+        if (!_signingIn.value) {
+            signIn(email, password)
+        } else {
+            _error.value = AuthErrors.WAIT
+        }
     }
 
     private fun signIn(email: String, password: String) {
         viewModelScope.launch {
-            try {
+            runCatching {
                 _signingIn.value = true
-                signInUserUserCase(email, password)
-            } catch (e: Throwable) {
-                _error.value = e
-            } finally {
+                signInUserUserCase.invoke(email, password)
+            }.onSuccess {
                 _signingIn.value = false
-            }
-        }
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val useCase = DataContainer.signInUserUseCase
-                SignInViewModel(useCase)
+            }.onFailure {
+                _error.value = AuthErrors.UNEXPECTED
+                _signingIn.value = false
             }
         }
     }

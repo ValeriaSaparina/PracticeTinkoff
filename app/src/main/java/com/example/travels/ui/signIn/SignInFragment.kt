@@ -5,13 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.example.travels.R
 import com.example.travels.databinding.FragmentSignInBinding
-import com.example.travels.ui.BaseFragment
+import com.example.travels.ui.Screens
+import com.example.travels.ui.base.BaseFragment
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInFragment : BaseFragment() {
     private var viewBinding: FragmentSignInBinding? = null
-    private val viewModel: SignInViewModel by viewModels {
-        SignInViewModel.Factory
+
+    private val viewModel: SignInViewModel by viewModels()
+
+    private val navigator by lazy {
+        AppNavigator(requireActivity(), R.id.container)
     }
 
     override fun onCreateView(
@@ -33,9 +42,11 @@ class SignInFragment : BaseFragment() {
     private fun initListeners() {
         viewBinding?.apply {
             signInBtn.setOnClickListener {
-                if (!viewModel.signingIn.value) {
-                    viewModel.onSignUpClick(emailEt.text.toString(), passwordEt.text.toString())
-                }
+                viewModel.onSignUpClick(emailEt.text.toString(), passwordEt.text.toString())
+            }
+
+            signUpTv.setOnClickListener {
+                router.newRootScreen(Screens.SignUp())
             }
         }
     }
@@ -44,9 +55,28 @@ class SignInFragment : BaseFragment() {
         with(viewModel) {
             error.observe {
                 if (it != null) {
-                    showToast(it.message!!)
+                    showAuthError(it)
+                } else {
+//                    router.newRootScreen(Screens.Places())
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
+    }
+
+
+    companion object {
+        private val cicerone = Cicerone.create()
+        private val router = cicerone.router
+        private val navigatorHolder get() = cicerone.getNavigatorHolder()
     }
 }

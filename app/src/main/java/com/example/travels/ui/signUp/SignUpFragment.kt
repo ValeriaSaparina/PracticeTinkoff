@@ -1,22 +1,28 @@
 package com.example.travels.ui.signUp
 
 import android.os.Bundle
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import com.example.travels.R
 import com.example.travels.databinding.FragmentSignUpBinding
-import com.example.travels.ui.BaseFragment
-import com.example.travels.utils.Regexes
+import com.example.travels.ui.Screens
+import com.example.travels.ui.base.BaseFragment
+import com.example.travels.utils.validate
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : BaseFragment() {
     private var viewBinding: FragmentSignUpBinding? = null
 
-    private val viewModel: SignUpViewModel by viewModels {
-        SignUpViewModel.Factory
+
+    private val viewModel: SignUpViewModel by viewModels()
+
+    private val navigator by lazy {
+        AppNavigator(requireActivity(), R.id.container)
     }
 
 
@@ -31,17 +37,17 @@ class SignUpFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observe()
         initListener()
-
     }
 
     private fun observe() {
         with(viewModel) {
             error.observe {
                 if (it != null) {
-                    showToast(it.message!!)
+                    showAuthError(it)
+                } else {
+//                    router.newRootScreen(Screens.Places())
                 }
             }
         }
@@ -50,88 +56,60 @@ class SignUpFragment : BaseFragment() {
     private fun initListener() {
         viewBinding?.run {
             signUpBtn.setOnClickListener {
-                if (isValidData()) {
-                    if (!viewModel.signingUp.value) {
-                        viewModel.onSignUpClick(
-                            emailEt.text.toString(),
-                            firstnameEt.text.toString(),
-                            lastnameEt.text.toString(),
-                            passwordEt.text.toString()
-                        )
-                    } else {
-                        showToast("Please wait")
-                    }
-                } else {
-                    showToast(getString(R.string.invalid_data))
-                }
+                    viewModel.onSignUpClick(
+                        emailEt.text.toString(),
+                        firstnameEt.text.toString(),
+                        lastnameEt.text.toString(),
+                        passwordEt.text.toString(),
+                        confirmPasswordEt.text.toString()
+                    )
             }
 
-            emailEt.setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus && !isValidEmail()) {
-                    (view as? EditText)?.error = getString(R.string.input_correct_email)
-                }
+            signInTv.setOnClickListener {
+                router.newRootScreen(Screens.SignIn())
             }
 
-            passwordEt.setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus && !isValidPassword()) {
-                    (view as? EditText)?.error = getString(R.string.short_password)
-                }
-            }
-
-            confirmPasswordEt.setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus && !isSamePassword()) {
-                    (view as? EditText)?.error = getString(R.string.different_passwords)
-                }
-            }
-
-            firstnameEt.setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus && !isValidFirstname()) {
-                    (view as EditText).error = getString(R.string.input_correct_firstname)
-                }
-            }
-
-            lastnameEt.setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus && !isValidLastname()) {
-                    (view as EditText).error = getString(R.string.input_correct_lastname)
-                }
-            }
-
+            emailEt.validate(
+                { text -> viewModel.isValidEmail(text) },
+                getString(R.string.input_correct_email)
+            )
+            passwordEt.validate(
+                { text -> viewModel.isValidPassword(text) },
+                getString(R.string.short_password)
+            )
+            confirmPasswordEt.validate({ text ->
+                viewModel.isSamePassword(
+                    text,
+                    passwordEt.text.toString()
+                )
+            }, getString(R.string.different_passwords))
+            firstnameEt.validate(
+                { text -> viewModel.isValidName(text) },
+                getString(R.string.input_correct_firstname)
+            )
+            lastnameEt.validate(
+                { text -> viewModel.isValidName(text) },
+                getString(R.string.input_correct_lastname)
+            )
         }
     }
 
-
-    private fun isValidEmail(): Boolean {
-        viewBinding?.emailEt?.run {
-            return Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches()
-        }
-        throw IllegalStateException("viewBinding is not initialized")
+    override fun onResume() {
+        super.onResume()
+        navigatorHolder.setNavigator(navigator)
     }
 
-    private fun isValidPassword(): Boolean {
-        viewBinding?.passwordEt?.run {
-            return text.toString().length >= 8
-        }
-        throw IllegalStateException("viewBinding is not initialized")
-    }
-
-    private fun isSamePassword(): Boolean {
-        viewBinding?.run {
-            return passwordEt.text.toString() == confirmPasswordEt.text.toString()
-        }
-        throw IllegalStateException("viewBinding is not initialized")
-    }
-
-    private fun isValidData(): Boolean {
-        return isValidEmail() && isValidPassword() && isSamePassword() && isValidFirstname() && isValidLastname()
-    }
-
-    private fun isValidFirstname(): Boolean {
-        return viewBinding?.firstnameEt?.text?.matches(Regexes.nameRegex) ?: false
-    }
-
-    private fun isValidLastname(): Boolean {
-        return viewBinding?.lastnameEt?.text?.matches(Regexes.nameRegex) ?: false
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
     }
 
 
+    companion object {
+        private val cicerone = Cicerone.create()
+
+        private val router = cicerone.router
+
+        private val navigatorHolder get() = cicerone.getNavigatorHolder()
+    }
 }

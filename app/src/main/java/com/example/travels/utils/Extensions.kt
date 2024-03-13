@@ -1,5 +1,6 @@
 package com.example.travels.utils
 
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +14,14 @@ inline fun <T> Flow<T>.observe(fragment: Fragment, crossinline block: (T) -> Uni
     return lifecycleOwner.lifecycleScope.launch {
         lifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
             collect { data -> block(data) }
+        }
+    }
+}
+
+fun EditText.validate(validateFun: (String) -> Boolean, errorMessage: String) {
+    this.setOnFocusChangeListener { _, hasFocus ->
+        if (!hasFocus && !validateFun(this.text.toString())) {
+            this.error = errorMessage
         }
     }
 }
