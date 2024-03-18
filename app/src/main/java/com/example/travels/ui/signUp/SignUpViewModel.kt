@@ -53,16 +53,12 @@ class SignUpViewModel @Inject constructor(
         password: String,
     ) {
         viewModelScope.launch {
-
-            runCatching {
-                _signingUp.value = true
-                signUpUserUseCase.invoke(email, firstname, lastname, password)
-            }.onSuccess {
-                _signingUp.value = false
-            }.onFailure {
-                _signingUp.value = false
+            _signingUp.value = true
+            val result = signUpUserUseCase.invoke(email, firstname, lastname, password)
+            if (result.isFailure) {
                 _error.value = AuthErrors.UNEXPECTED
             }
+            _signingUp.value = false
         }
     }
 

@@ -30,15 +30,12 @@ class SignInViewModel @Inject constructor(
 
     private fun signIn(email: String, password: String) {
         viewModelScope.launch {
-            runCatching {
-                _signingIn.value = true
-                signInUserUserCase.invoke(email, password)
-            }.onSuccess {
-                _signingIn.value = false
-            }.onFailure {
+            _signingIn.value = true
+            val result = signInUserUserCase.invoke(email, password)
+            if (result.isFailure) {
                 _error.value = AuthErrors.UNEXPECTED
-                _signingIn.value = false
             }
+            _signingIn.value = false
         }
     }
 

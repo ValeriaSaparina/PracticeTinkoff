@@ -2,6 +2,7 @@ package com.example.travels.domain.usecase.auth
 
 import com.example.travels.domain.user.UserModel
 import com.example.travels.domain.user.UserRepository
+import com.example.travels.utils.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,5 +12,9 @@ class SignUpUserUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         email: String, firstname: String, lastname: String, password: String
-    ): UserModel = userRepository.signUp(email, firstname, lastname, password)
+    ): Result<UserModel> {
+        return runSuspendCatching {
+            userRepository.signUp(email, firstname, lastname, password)
+        }
+    }
 }

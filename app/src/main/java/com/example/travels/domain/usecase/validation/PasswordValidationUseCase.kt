@@ -1,9 +1,10 @@
 package com.example.travels.domain.usecase.validation
 
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-
-class PasswordValidationUseCase {
+@Singleton
+class PasswordValidationUseCase @Inject constructor() {
     operator fun invoke(password: String): Boolean {
         return password.length >= 8
     }

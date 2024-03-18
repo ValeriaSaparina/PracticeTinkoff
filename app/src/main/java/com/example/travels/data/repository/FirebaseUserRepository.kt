@@ -1,6 +1,5 @@
 package com.example.travels.data.repository
 
-import android.util.Log
 import com.example.travels.data.mapper.UserMapper
 import com.example.travels.domain.user.UserModel
 import com.example.travels.domain.user.UserRepository
@@ -12,23 +11,7 @@ import javax.inject.Inject
 class FirebaseUserRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val db: FirebaseFirestore
-
 ) : UserRepository {
-
-    private var currentUser: UserModel? = null
-
-    override suspend fun createUserWithEmailAndPassword(
-        email: String,
-        password: String
-    ): UserModel {
-        val userFB = auth.createUserWithEmailAndPassword(email, password).await()
-        return UserMapper.firebaseUserToUserModel(userFB.user!!)
-    }
-
-    override suspend fun saveUserToStore(user: UserModel) {
-        db.collection("users").document(user.id).set(user).await()
-        currentUser = user
-    }
 
     override suspend fun signUp(
         email: String,
@@ -44,32 +27,27 @@ class FirebaseUserRepository @Inject constructor(
         return user
     }
 
-    override suspend fun signIn(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password).await()
+    override suspend fun signIn(email: String, password: String): UserModel {
+        val userFB = auth.signInWithEmailAndPassword(email, password).await()
+        return UserMapper.firebaseUserToUserModel(userFB.user!!)
     }
 
-    override suspend fun getCurrentUser(): UserModel {
+    private suspend fun createUserWithEmailAndPassword(
+        email: String,
+        password: String
+    ): UserModel {
+        val userFB = auth.createUserWithEmailAndPassword(email, password).await()
+        return UserMapper.firebaseUserToUserModel(userFB.user!!)
+    }
 
-        if (currentUser == null) {
-            initCurrentUser()
+    private suspend fun saveUserToStore(user: UserModel) {
+        db.collection("users").document(user.id).set(user).await()
+    }
+
+    override suspend fun getUserById(uId: String): UserModel {
+            return UserMapper.firebaseDocToUserModel(
+                db.collection("users").document(uId).get().await()
+            )
         }
-        return currentUser ?: throw IllegalStateException("User is not authorized")
-    }
 
-    override suspend fun initCurrentUser() {
-        val uId = auth.currentUser?.uid
-        if (uId != null) {
-            db.collection("users").document(uId).get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        Log.d("SIGN_IN", "DocumentSnapshot data: ${document.data}")
-                        currentUser = UserMapper.firebaseDocToUserModel(document)
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.d("SIGN_IN", "get failed with $exception")
-                }.await()
-        }
     }
-
-}
