@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.usecase.auth.SignInUserUseCase
 import com.example.travels.utils.AuthErrors
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,7 +37,11 @@ class SignInViewModel @Inject constructor(
             _signingIn.value = true
             val result = signInUserUserCase.invoke(email, password)
             result.onFailure {
-                _error.value = AuthErrors.UNEXPECTED
+                if (it is FirebaseAuthInvalidCredentialsException) {
+                    _error.value = AuthErrors.INVALID_CREDENTIALS
+                } else {
+                    _error.value = AuthErrors.UNEXPECTED
+                }
             }.onSuccess {
                 _success.value = true
             }

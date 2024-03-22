@@ -17,12 +17,12 @@ open class BaseFragment : Fragment() {
         return observe(fragment = this@BaseFragment, block)
     }
 
-    protected fun showAuthError(error: AuthErrors?) {
-        when(error) {
+    protected fun showAuthError(error: AuthErrors) {
+        when (error) {
             AuthErrors.WAIT -> showToast(getString(R.string.wait_error))
             AuthErrors.INVALID_DATA -> showToast(getString(R.string.invalid_data))
             AuthErrors.UNEXPECTED -> showToast(getString(R.string.unexpected_error))
-            else -> {}
+            AuthErrors.INVALID_CREDENTIALS -> showToast(getString(R.string.invalid_credentials))
         }
     }
 

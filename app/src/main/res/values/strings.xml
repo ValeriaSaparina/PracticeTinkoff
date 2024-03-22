@@ -17,4 +17,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="wait_error">please, wait</string>
     <string name="unexpected_error">Something went wrong</string>
+    <string name="invalid_credentials">Invalid credentials</string>
 </resources>

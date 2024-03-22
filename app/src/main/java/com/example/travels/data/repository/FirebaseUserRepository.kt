@@ -46,9 +46,9 @@ class FirebaseUserRepository @Inject constructor(
     }
 
     override suspend fun getUserById(uId: String): UserModel {
-            return mapper.firebaseDocToUserModel(
-                db.collection("users").document(uId).get().await()
-            )
-        }
-
+        return mapper.firebaseDocToUserModel(
+            db.collection("users").document(uId).get().await()
+        )
     }
+
+}
