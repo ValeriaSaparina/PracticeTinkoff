@@ -10,7 +10,8 @@ import javax.inject.Inject
 
 class FirebaseUserRepository @Inject constructor(
     private val auth: FirebaseAuth,
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val mapper: UserMapper
 ) : UserRepository {
 
     override suspend fun signUp(
@@ -29,7 +30,7 @@ class FirebaseUserRepository @Inject constructor(
 
     override suspend fun signIn(email: String, password: String): UserModel {
         val userFB = auth.signInWithEmailAndPassword(email, password).await()
-        return UserMapper.firebaseUserToUserModel(userFB.user!!)
+        return mapper.firebaseUserToUserModel(userFB.user!!)
     }
 
     private suspend fun createUserWithEmailAndPassword(
@@ -37,7 +38,7 @@ class FirebaseUserRepository @Inject constructor(
         password: String
     ): UserModel {
         val userFB = auth.createUserWithEmailAndPassword(email, password).await()
-        return UserMapper.firebaseUserToUserModel(userFB.user!!)
+        return mapper.firebaseUserToUserModel(userFB.user!!)
     }
 
     private suspend fun saveUserToStore(user: UserModel) {
@@ -45,7 +46,7 @@ class FirebaseUserRepository @Inject constructor(
     }
 
     override suspend fun getUserById(uId: String): UserModel {
-            return UserMapper.firebaseDocToUserModel(
+            return mapper.firebaseDocToUserModel(
                 db.collection("users").document(uId).get().await()
             )
         }

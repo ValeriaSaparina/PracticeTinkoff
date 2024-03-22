@@ -40,7 +40,11 @@ class SignUpFragment : BaseFragment() {
             error.observe {
                 if (it != null) {
                     showAuthError(it)
-                } else {
+                }
+            }
+
+            success.observe {
+                if (it) {
 //                    router.newRootScreen(Screens.Places())
                 }
             }
@@ -64,27 +68,30 @@ class SignUpFragment : BaseFragment() {
             }
 
             emailEt.validate(
-                { text -> viewModel.isValidEmail(text) },
-                getString(R.string.input_correct_email)
-            )
+                getString(R.string.input_correct_email),
+            ) { text -> viewModel.isValidEmail(text) }
+
             passwordEt.validate(
-                { text -> viewModel.isValidPassword(text) },
-                getString(R.string.short_password)
-            )
-            confirmPasswordEt.validate({ text ->
+                getString(R.string.short_password),
+                ) { text -> viewModel.isValidPassword(text) }
+
+            confirmPasswordEt.validate(
+                getString(R.string.different_passwords),
+            ) { text ->
                 viewModel.isSamePassword(
                     text,
                     passwordEt.text.toString()
                 )
-            }, getString(R.string.different_passwords))
+            }
+
             firstnameEt.validate(
-                { text -> viewModel.isValidName(text) },
                 getString(R.string.input_correct_firstname)
-            )
+            ) { text -> viewModel.isValidName(text) }
+
             lastnameEt.validate(
-                { text -> viewModel.isValidName(text) },
-                getString(R.string.input_correct_lastname)
-            )
+                getString(R.string.input_correct_lastname),
+            ) { text -> viewModel.isValidName(text) }
+
         }
     }
 

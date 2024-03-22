@@ -28,6 +28,9 @@ class SignUpViewModel @Inject constructor(
     private val _error = MutableStateFlow<AuthErrors?>(null)
     val error: StateFlow<AuthErrors?> get() = _error
 
+    private val _success = MutableStateFlow(false)
+    val success: StateFlow<Boolean> get() = _success
+
     fun onSignUpClick(
         email: String,
         firstname: String,
@@ -55,8 +58,10 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             _signingUp.value = true
             val result = signUpUserUseCase.invoke(email, firstname, lastname, password)
-            if (result.isFailure) {
+            result.onFailure {
                 _error.value = AuthErrors.UNEXPECTED
+            }.onSuccess {
+                _success.value = true
             }
             _signingUp.value = false
         }

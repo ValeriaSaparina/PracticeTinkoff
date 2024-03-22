@@ -50,7 +50,11 @@ class SignInFragment : BaseFragment() {
             error.observe {
                 if (it != null) {
                     showAuthError(it)
-                } else {
+                }
+            }
+
+            success.observe {
+                if (it) {
 //                    router.newRootScreen(Screens.Places())
                 }
             }

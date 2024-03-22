@@ -19,7 +19,7 @@ inline fun <T> Flow<T>.observe(fragment: Fragment, crossinline block: (T) -> Uni
     }
 }
 
-fun EditText.validate(validateFun: (String) -> Boolean, errorMessage: String) {
+fun EditText.validate(errorMessage: String, validateFun: (String) -> Boolean) {
     this.setOnFocusChangeListener { _, hasFocus ->
         if (!hasFocus && !validateFun(this.text.toString())) {
             this.error = errorMessage
