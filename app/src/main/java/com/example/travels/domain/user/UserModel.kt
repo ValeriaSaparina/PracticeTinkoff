@@ -5,6 +5,4 @@ data class UserModel(
     val email: String,
     val firstname: String? = null,
     val lastname: String? = null,
-) {
-    constructor() : this("", "")
-}
+)
