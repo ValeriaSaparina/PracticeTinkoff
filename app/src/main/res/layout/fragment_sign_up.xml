@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registration"
+        android:textColor="@color/md_theme_light_onBackground"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@id/email_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/firstname_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/firstname_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/firstname"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/lastname_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/email_til">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/firstname_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lastname_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/lastname"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/password_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/firstname_til">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastname_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/repeat_password_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/lastname_til"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/repeat_password_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirm_password"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/sign_up_btn"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/password_til"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirm_password_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/sign_up_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/repeat_password_til" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sign_in_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/authorization"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_btn" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_gl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_gl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
