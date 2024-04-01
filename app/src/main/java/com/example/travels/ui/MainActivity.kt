@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            App.router.newRootScreen(Screens.SignIn())
+            App.router.newRootScreen(Screens.Places()) // TODO: init screen
         }
 
     }
