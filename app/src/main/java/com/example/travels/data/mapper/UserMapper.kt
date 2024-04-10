@@ -1,6 +1,6 @@
 package com.example.travels.data.mapper
 
-import com.example.travels.domain.user.UserModel
+import com.example.travels.domain.auth.model.UserModel
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject

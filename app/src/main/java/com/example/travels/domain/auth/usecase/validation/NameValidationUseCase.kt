@@ -1,4 +1,4 @@
-package com.example.travels.domain.usecase.validation
+package com.example.travels.domain.auth.usecase.validation
 
 import com.example.travels.utils.Regexes
 import javax.inject.Inject

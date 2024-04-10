@@ -1,8 +1,8 @@
 package com.example.travels.data.repository
 
 import com.example.travels.data.mapper.UserMapper
-import com.example.travels.domain.user.UserModel
-import com.example.travels.domain.user.UserRepository
+import com.example.travels.domain.auth.model.UserModel
+import com.example.travels.domain.auth.repositoty.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await

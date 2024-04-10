@@ -2,11 +2,11 @@ package com.example.travels.ui.signUp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.travels.domain.usecase.auth.SignUpUserUseCase
-import com.example.travels.domain.usecase.validation.EmailValidationUseCase
-import com.example.travels.domain.usecase.validation.NameValidationUseCase
-import com.example.travels.domain.usecase.validation.PasswordValidationUseCase
-import com.example.travels.domain.usecase.validation.SamePasswordUseCase
+import com.example.travels.domain.auth.usecase.auth.SignUpUserUseCase
+import com.example.travels.domain.auth.usecase.validation.EmailValidationUseCase
+import com.example.travels.domain.auth.usecase.validation.NameValidationUseCase
+import com.example.travels.domain.auth.usecase.validation.PasswordValidationUseCase
+import com.example.travels.domain.auth.usecase.validation.SamePasswordUseCase
 import com.example.travels.utils.AuthErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

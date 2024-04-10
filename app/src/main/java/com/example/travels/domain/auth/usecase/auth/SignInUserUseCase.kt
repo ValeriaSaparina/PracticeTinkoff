@@ -1,7 +1,7 @@
-package com.example.travels.domain.usecase.auth
+package com.example.travels.domain.auth.usecase.auth
 
-import com.example.travels.domain.user.UserModel
-import com.example.travels.domain.user.UserRepository
+import com.example.travels.domain.auth.model.UserModel
+import com.example.travels.domain.auth.repositoty.UserRepository
 import com.example.travels.utils.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton

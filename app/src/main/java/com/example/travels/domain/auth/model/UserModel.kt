@@ -1,4 +1,4 @@
-package com.example.travels.domain.user
+package com.example.travels.domain.auth.model
 
 data class UserModel(
     val id: String,
