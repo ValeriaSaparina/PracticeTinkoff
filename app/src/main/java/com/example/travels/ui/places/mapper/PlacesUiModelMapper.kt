@@ -67,15 +67,7 @@ class PlacesUiModelMapper @Inject constructor() {
     private fun mapMetaDomainToMetaUi(metaDomain: MetaDomainModel): MetaUiModel {
         return MetaUiModel(
             code = metaDomain.code,
-            error = when (metaDomain.code) {
-                400 -> ApiErrors.PARAM_IS_EMPTY
-                403 -> ApiErrors.FORBIDDEN
-                404 -> ApiErrors.ITEM_NOT_FOUND
-                408 -> ApiErrors.BACKEND_EXCEPTION
-                505 -> ApiErrors.SERVICE_UNAVAILABLE
-                200 -> null
-                else -> ApiErrors.UNEXPECTED
-            }
+            error = ApiErrors.mapToApiError(metaDomain.code)
         )
     }
 

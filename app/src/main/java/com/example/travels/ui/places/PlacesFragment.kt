@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.travels.databinding.FragmentPlacesBinding
 import com.example.travels.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +28,7 @@ class PlacesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter()
         initListeners()
         observe()
     }
@@ -34,7 +36,7 @@ class PlacesFragment : BaseFragment() {
     private fun observe() {
         viewModel.result.observe {
             viewBinding?.run {
-                placesRv.adapter = PlacesAdapter(it?.result?.items ?: listOf())
+                (placesRv.adapter as PlacesAdapter).submitList(it?.result?.items)
             }
         }
 
@@ -49,6 +51,15 @@ class PlacesFragment : BaseFragment() {
         viewBinding?.run {
             searchBtn.setOnClickListener {
                 viewModel.onLoadPlacesClick(inputEt.text.toString())
+            }
+        }
+    }
+
+    private fun initAdapter() {
+        viewBinding?.run {
+            with(placesRv) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = PlacesAdapter()
             }
         }
     }
