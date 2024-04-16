@@ -1,6 +1,6 @@
-package com.example.travels.data.repository
+package com.example.travels.data.user.repository
 
-import com.example.travels.data.mapper.UserMapper
+import com.example.travels.data.user.mapper.UserMapper
 import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.domain.auth.repositoty.UserRepository
 import com.google.firebase.auth.FirebaseAuth

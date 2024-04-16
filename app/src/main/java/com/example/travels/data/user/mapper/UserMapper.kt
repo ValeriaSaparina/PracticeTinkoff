@@ -1,4 +1,4 @@
-package com.example.travels.data.mapper
+package com.example.travels.data.user.mapper
 
 import com.example.travels.domain.auth.model.UserModel
 import com.google.firebase.auth.FirebaseUser

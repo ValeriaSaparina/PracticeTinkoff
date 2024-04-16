@@ -1,7 +1,7 @@
 package com.example.travels.di
 
 import com.example.travels.data.places.repository.PlacesRepositoryImpl
-import com.example.travels.data.repository.FirebaseUserRepository
+import com.example.travels.data.user.repository.FirebaseUserRepository
 import com.example.travels.domain.auth.repositoty.UserRepository
 import com.example.travels.domain.places.repository.PlacesRepository
 import dagger.Binds
