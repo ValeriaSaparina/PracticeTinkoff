@@ -1,4 +1,4 @@
-package com.example.travels.domain.places.usercase
+package com.example.travels.domain.places.usecase
 
 import com.example.travels.domain.places.model.PlacesDomainModel
 import com.example.travels.domain.places.repository.PlacesRepository

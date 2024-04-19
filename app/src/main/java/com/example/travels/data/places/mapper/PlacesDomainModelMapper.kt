@@ -17,26 +17,26 @@ import javax.inject.Singleton
 @Singleton
 class PlacesDomainModelMapper @Inject constructor() {
 
-    fun mapResponseToDomainModel(response: PlacesResponseModel?): PlacesDomainModel? {
-
+    fun mapResponseToDomainModel(response: PlacesResponseModel?): PlacesDomainModel {
         return response?.let {
+            with(it) {
+                val meta = mapMetaResponseToMetaDomainModel(meta)
 
-            val meta = mapMetaResponseToMetaDomainModel(it.meta)
-
-            val result = ResultDomainModel(
-                items = it.result?.items?.map { item ->
-                    mapItemResponseToItemDomainModel(item)
-                }
-                    ?: listOf(),
-                total = it.result?.total ?: 0
-            )
+                val result = ResultDomainModel(
+                    items = result?.items?.map { item ->
+                        mapItemResponseToItemDomainModel(item)
+                    }
+                        ?: listOf(),
+                    total = result?.total ?: 0
+                )
 
 
-            PlacesDomainModel(
-                meta = meta,
-                result = result
-            )
-        }
+                PlacesDomainModel(
+                    meta = meta,
+                    result = result
+                )
+            }
+        } ?: throw NullPointerException("response is null")
     }
 
     private fun mapMetaResponseToMetaDomainModel(meta: MetaResponse): MetaDomainModel {

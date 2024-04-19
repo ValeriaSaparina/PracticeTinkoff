@@ -2,14 +2,14 @@ package com.example.travels.ui.places
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travels.databinding.ItemPlaceBinding
 import com.example.travels.ui.places.model.ItemUiModel
 
 class PlacesAdapter(
-) : ListAdapter<ItemUiModel?, PlacesAdapter.ViewHolder>(PlacesDiffCallback()) {
+) : PagingDataAdapter<ItemUiModel, PlacesAdapter.ViewHolder>(PlacesDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -36,13 +36,13 @@ class PlacesAdapter(
 
     }
 
-    private class PlacesDiffCallback : DiffUtil.ItemCallback<ItemUiModel?>() {
+    private class PlacesDiffCallback : DiffUtil.ItemCallback<ItemUiModel>() {
         override fun areItemsTheSame(oldItem: ItemUiModel, newItem: ItemUiModel): Boolean {
-            return oldItem == newItem // TODO: diffCallback
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: ItemUiModel, newItem: ItemUiModel): Boolean {
-            return oldItem == newItem // TODO: diffCallback
+            return oldItem == newItem
         }
 
     }

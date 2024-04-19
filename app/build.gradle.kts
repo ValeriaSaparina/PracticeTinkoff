@@ -94,12 +94,17 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     val loggingVersion = "4.12.0"
     implementation("com.squareup.okhttp3:logging-interceptor:$loggingVersion")
-
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
+    // Paging
+    val pagingVersion = "3.2.1"
+    implementation("androidx.paging:paging-runtime:$pagingVersion")
 
     // kotlinx-serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // viewBindingDelegate
+    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
 
 }
 

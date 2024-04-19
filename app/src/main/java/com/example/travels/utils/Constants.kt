@@ -7,4 +7,6 @@ object Constants {
     const val API_KEY: String = "833f402f-2135-486e-93dc-a5a086c08e5b"
 
     const val EMPTY_RATING: Float = 0.0F
+
+    const val PAGE_SIZE: Int = 10
 }

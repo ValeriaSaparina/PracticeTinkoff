@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.travels.databinding.FragmentPlacesBinding
 import com.example.travels.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PlacesFragment : BaseFragment() {
 
     private var viewBinding: FragmentPlacesBinding? = null
     private val viewModel: PlacesViewModel by viewModels()
+
+    private var searchJob: Job? = null
 
 
     override fun onCreateView(
@@ -34,26 +39,27 @@ class PlacesFragment : BaseFragment() {
     }
 
     private fun observe() {
-        viewModel.result.observe {
-            viewBinding?.run {
-                (placesRv.adapter as PlacesAdapter).submitList(it?.result?.items)
-            }
-        }
 
         viewModel.error.observe {
             if (it != null) {
                 showToast(it.name)
             }
         }
+
     }
 
     private fun initListeners() {
         viewBinding?.run {
             searchBtn.setOnClickListener {
-                viewModel.onLoadPlacesClick(inputEt.text.toString())
+                searchJob?.cancel()
+                searchJob = lifecycleScope.launch {
+                    viewModel.searchRepos(inputEt.text.toString())
+                        .collect { (placesRv.adapter as PlacesAdapter).submitData(it) }
+                }
             }
         }
     }
+
 
     private fun initAdapter() {
         viewBinding?.run {

@@ -44,10 +44,10 @@ class PlacesUiModelMapper @Inject constructor() {
         }
     }
 
-    private fun mapItemDomainToItemUiModel(item: ItemDomainModel?): ItemUiModel? {
-        return item?.let {
+    private fun mapItemDomainToItemUiModel(item: ItemDomainModel?): ItemUiModel {
+        item?.let {
             val info = it.name.split(", ")
-            ItemUiModel(
+            return ItemUiModel(
                 id = it.id,
                 type = it.type,
                 name = info.getOrNull(0) ?: "",
@@ -56,6 +56,7 @@ class PlacesUiModelMapper @Inject constructor() {
                 review = mapReviewDomainToUiModel(it.review)
             )
         }
+        return ItemUiModel()
     }
 
     private fun mapReviewDomainToUiModel(review: ReviewDomainModel): ReviewUiModel {
