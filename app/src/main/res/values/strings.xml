@@ -18,4 +18,9 @@
     <string name="wait_error">please, wait</string>
     <string name="unexpected_error">Something went wrong</string>
     <string name="invalid_credentials">Invalid credentials</string>
+    <string name="not_found">Not found</string>
+    <string name="search">Search</string>
+    <string name="filter">filter</string>
+    <string name="favorite">favorite</string>
+    <string name="image_of_place">image of place</string>
 </resources>

@@ -6,40 +6,49 @@
     android:layout_height="match_parent">
 
 
-    <!--
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="16dp"
+        android:background="@drawable/shape_search_bar"
+        android:elevation="6dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.search.SearchBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/md_theme_light_secondaryContainer"
-                app:layout_constraintTop_toTopOf="parent"
-                app:menu="@menu/filter_menu" />
-        </com.google.android.material.appbar.AppBarLayout>
-    -->
+        <ImageView
+            android:id="@+id/filter_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:src="@drawable/baseline_filter_list_24"
+            android:contentDescription="@string/filter" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_et"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:hint="Input"
-        app:layout_constraintEnd_toStartOf="@id/search_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/query_et"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_weight="1"
+            android:background="@color/md_theme_light_secondaryContainer"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:textColor="@color/md_theme_light_onSecondaryContainer" />
 
-    <Button
-        android:id="@+id/search_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:text="Search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/search_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:src="@drawable/baseline_search_24"
+            android:contentDescription="@string/search" />
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/places_rv"
@@ -49,8 +58,8 @@
         android:layout_marginTop="4dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_btn"
-        app:spanCount="1"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:spanCount="2"
         tools:listitem="@layout/item_place" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

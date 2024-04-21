@@ -21,12 +21,8 @@ class PlacesDomainModelMapper @Inject constructor() {
         return response?.let {
             with(it) {
                 val meta = mapMetaResponseToMetaDomainModel(meta)
-
                 val result = ResultDomainModel(
-                    items = result?.items?.map { item ->
-                        mapItemResponseToItemDomainModel(item)
-                    }
-                        ?: listOf(),
+                    items = mapItemResponseToItemDomainModel(result?.items),
                     total = result?.total ?: 0
                 )
 
@@ -37,6 +33,16 @@ class PlacesDomainModelMapper @Inject constructor() {
                 )
             }
         } ?: throw NullPointerException("response is null")
+    }
+
+    private fun mapItemResponseToItemDomainModel(items: List<ItemResponse?>?): List<ItemDomainModel?> {
+        val result = mutableListOf<ItemDomainModel?>()
+        items?.forEach {
+            if (it?.type?.contains("adm_") == false) {
+                result.add(mapItemResponseToItemDomainModel(it))
+            }
+        }
+        return result
     }
 
     private fun mapMetaResponseToMetaDomainModel(meta: MetaResponse): MetaDomainModel {

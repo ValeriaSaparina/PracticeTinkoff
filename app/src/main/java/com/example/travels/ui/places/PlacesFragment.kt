@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.travels.databinding.FragmentPlacesBinding
 import com.example.travels.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,11 +50,13 @@ class PlacesFragment : BaseFragment() {
 
     private fun initListeners() {
         viewBinding?.run {
-            searchBtn.setOnClickListener {
+            searchIc.setOnClickListener {
                 searchJob?.cancel()
                 searchJob = lifecycleScope.launch {
-                    viewModel.searchRepos(inputEt.text.toString())
-                        .collect { (placesRv.adapter as PlacesAdapter).submitData(it) }
+                    val result = viewModel.searchRepos(queryEt.text.toString())
+                    result.collect {
+                        (placesRv.adapter as PlacesAdapter).submitData(it)
+                    }
                 }
             }
         }
@@ -64,7 +66,7 @@ class PlacesFragment : BaseFragment() {
     private fun initAdapter() {
         viewBinding?.run {
             with(placesRv) {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = GridLayoutManager(context, 2)
                 adapter = PlacesAdapter()
             }
         }

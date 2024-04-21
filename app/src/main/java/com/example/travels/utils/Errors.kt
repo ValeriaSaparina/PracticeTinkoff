@@ -11,6 +11,7 @@ enum class NetworkErrors {
     EMPTY_RESPONSE,
     WAIT,
     UNEXPECTED,
+    MAX_PAGES,
 }
 
 enum class ApiErrors {

@@ -41,7 +41,8 @@ class PlacesRepositoryImpl @Inject constructor(
             PlacesPagingSource(
                 placesApi,
                 mapperDomainModel = mapper,
-                mapperUiModel = uiModelMapper
+                mapperUiModel = uiModelMapper,
+                query = query
             )
         },
         config = PagingConfig(

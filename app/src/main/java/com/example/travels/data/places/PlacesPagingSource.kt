@@ -14,7 +14,7 @@ class PlacesPagingSource @Inject constructor(
     private val placesApi: PlacesApi,
     private val mapperUiModel: PlacesUiModelMapper,
     private val mapperDomainModel: PlacesDomainModelMapper,
-//    private val query: String     //TODO: assisted inject
+    private val query: String,
 ) : PagingSource<Int, ItemUiModel>() {
 
     override fun getRefreshKey(state: PagingState<Int, ItemUiModel>): Int? {
@@ -28,16 +28,15 @@ class PlacesPagingSource @Inject constructor(
         return try {
             val page = params.key ?: 1
             val data = placesApi.getPlacesByQueryPage(
-                query = "Cafe",
+                query = query,
                 page = page
             )
-
             LoadResult.Page(
                 data = mapperUiModel.mapDomainToUiModel(
                     mapperDomainModel.mapResponseToDomainModel(data)
                 ).result?.items ?: listOf(),
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (data == null) null else page + 1
+                nextKey = if (data?.meta?.code != 200) null else page + 1
             )
         } catch (e: IOException) {
             LoadResult.Error(e)
