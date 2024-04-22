@@ -23,4 +23,7 @@
     <string name="filter">filter</string>
     <string name="favorite">favorite</string>
     <string name="image_of_place">image of place</string>
+    <string name="places">places</string>
+    <string name="profile">profile</string>
+    <string name="routes">routes</string>
 </resources>
