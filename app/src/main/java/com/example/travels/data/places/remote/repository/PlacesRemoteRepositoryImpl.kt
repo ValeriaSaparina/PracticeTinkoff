@@ -1,23 +1,23 @@
-package com.example.travels.data.places.repository
+package com.example.travels.data.places.remote.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.travels.data.places.PlacesPagingSource
-import com.example.travels.data.places.mapper.PlacesDomainModelMapper
 import com.example.travels.data.places.remote.PlacesApi
+import com.example.travels.data.places.remote.mapper.PlacesResponseDomainModelMapper
 import com.example.travels.domain.places.model.PlacesDomainModel
-import com.example.travels.domain.places.repository.PlacesRepository
+import com.example.travels.domain.places.repository.PlacesRemoteRepository
 import com.example.travels.ui.places.mapper.PlacesUiModelMapper
 import com.example.travels.ui.places.model.ItemUiModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class PlacesRepositoryImpl @Inject constructor(
+class PlacesRemoteRepositoryImpl @Inject constructor(
     private val placesApi: PlacesApi,
-    private val mapper: PlacesDomainModelMapper,
+    private val mapper: PlacesResponseDomainModelMapper,
     private val uiModelMapper: PlacesUiModelMapper
-) : PlacesRepository {
+) : PlacesRemoteRepository {
 
     override suspend fun getPlaceByTextQuery(query: String): PlacesDomainModel {
         return mapper.mapResponseToDomainModel(response = placesApi.getPlaceByTextQuery(query))

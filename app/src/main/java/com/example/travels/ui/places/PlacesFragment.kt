@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.travels.R
 import com.example.travels.databinding.FragmentPlacesBinding
 import com.example.travels.ui.base.BaseFragment
+import com.example.travels.ui.places.model.ItemUiModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -67,11 +68,20 @@ class PlacesFragment : BaseFragment() {
     }
 
 
+    private fun onItemClicked(item: ItemUiModel) {
+//        router.navigateTo(Screens.PlaceDetails())
+    }
+
+    private fun onFavIcClicked(item: ItemUiModel) {
+        viewModel.onFavIcClicked(item)
+    }
+
+
     private fun initAdapter() {
         viewBinding?.run {
             with(placesRv) {
                 layoutManager = GridLayoutManager(context, 2)
-                adapter = PlacesAdapter()
+                adapter = PlacesAdapter(::onItemClicked, ::onFavIcClicked)
             }
         }
     }

@@ -5,7 +5,7 @@ import com.example.travels.domain.places.model.PlacesDomainModel
 import com.example.travels.ui.places.model.ItemUiModel
 import kotlinx.coroutines.flow.Flow
 
-interface PlacesRepository {
+interface PlacesRemoteRepository {
 
     suspend fun getPlaceByTextQuery(query: String): PlacesDomainModel
     suspend fun getPlacesByPage(query: String, page: Long, pageSize: Int = 50): PlacesDomainModel

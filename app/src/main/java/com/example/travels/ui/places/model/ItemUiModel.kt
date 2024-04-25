@@ -7,6 +7,7 @@ data class ItemUiModel(
     val description: String = "",
     val address: String = "",
     val review: ReviewUiModel = ReviewUiModel(),
+    var isFav: Boolean = false
 )
 
 data class ReviewUiModel(

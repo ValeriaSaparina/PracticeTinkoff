@@ -1,5 +1,6 @@
 package com.example.travels.ui.places.mapper
 
+import com.example.travels.domain.places.model.FavItemDomainModel
 import com.example.travels.domain.places.model.ItemDomainModel
 import com.example.travels.domain.places.model.MetaDomainModel
 import com.example.travels.domain.places.model.PlacesDomainModel
@@ -53,7 +54,7 @@ class PlacesUiModelMapper @Inject constructor() {
                 name = info.getOrNull(0) ?: "",
                 description = info.getOrNull(1) ?: "",
                 address = "${it.addressName}; ${it.addressComment}",
-                review = mapReviewDomainToUiModel(it.review)
+                review = mapReviewDomainToUiModel(it.review),
             )
         }
         return ItemUiModel()
@@ -70,6 +71,33 @@ class PlacesUiModelMapper @Inject constructor() {
             code = metaDomain.code,
             error = ApiErrors.mapToApiError(metaDomain.code)
         )
+    }
+
+    fun toFavItemDomainModel(item: ItemUiModel): FavItemDomainModel {
+        return with(item) {
+            FavItemDomainModel(
+                id = id.toLong(),
+                type = type,
+                name = name,
+                description = description,
+                address = address,
+                review = review.rating,
+            )
+        }
+    }
+
+    fun toUiModel(item: FavItemDomainModel): ItemUiModel {
+        return with(item) {
+            ItemUiModel(
+                id = id.toString(),
+                type = type,
+                name = name,
+                description = description,
+                address = address,
+                review = ReviewUiModel(review),
+                isFav = true
+            )
+        }
     }
 
 }

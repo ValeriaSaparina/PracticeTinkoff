@@ -2,8 +2,8 @@ package com.example.travels.data.places
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.travels.data.places.mapper.PlacesDomainModelMapper
 import com.example.travels.data.places.remote.PlacesApi
+import com.example.travels.data.places.remote.mapper.PlacesResponseDomainModelMapper
 import com.example.travels.ui.places.mapper.PlacesUiModelMapper
 import com.example.travels.ui.places.model.ItemUiModel
 import retrofit2.HttpException
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class PlacesPagingSource @Inject constructor(
     private val placesApi: PlacesApi,
     private val mapperUiModel: PlacesUiModelMapper,
-    private val mapperDomainModel: PlacesDomainModelMapper,
+    private val mapperDomainModel: PlacesResponseDomainModelMapper,
     private val query: String,
 ) : PagingSource<Int, ItemUiModel>() {
 

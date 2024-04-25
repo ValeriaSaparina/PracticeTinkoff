@@ -1,4 +1,4 @@
-package com.example.travels.data.places.mapper
+package com.example.travels.data.places.remote.mapper
 
 import com.example.travels.data.places.remote.response.ItemResponse
 import com.example.travels.data.places.remote.response.MetaResponse
@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlacesDomainModelMapper @Inject constructor() {
+class PlacesResponseDomainModelMapper @Inject constructor() {
 
     fun mapResponseToDomainModel(response: PlacesResponseModel?): PlacesDomainModel {
         return response?.let {
@@ -35,7 +35,7 @@ class PlacesDomainModelMapper @Inject constructor() {
         } ?: throw NullPointerException("response is null")
     }
 
-    private fun mapItemResponseToItemDomainModel(items: List<ItemResponse?>?): List<ItemDomainModel?> {
+    fun mapItemResponseToItemDomainModel(items: List<ItemResponse?>?): List<ItemDomainModel?> {
         val result = mutableListOf<ItemDomainModel?>()
         items?.forEach {
             if (it?.type?.contains("adm_") == false) {
@@ -55,7 +55,7 @@ class PlacesDomainModelMapper @Inject constructor() {
         )
     }
 
-    private fun mapItemResponseToItemDomainModel(item: ItemResponse?): ItemDomainModel? {
+    fun mapItemResponseToItemDomainModel(item: ItemResponse?): ItemDomainModel? {
         return item?.let {
             ItemDomainModel(
                 id = it.id,
