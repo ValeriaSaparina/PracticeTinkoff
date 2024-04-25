@@ -1,6 +1,5 @@
 package com.example.travels.ui.places
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -41,7 +40,6 @@ class PlacesViewModel @Inject constructor(
 
     fun onFavIcClicked(item: ItemUiModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("FAV", "${item.isFav}")
             if (item.isFav) {
                 deleteFromFavPlacesUseCase.invoke(item)
             } else {
@@ -50,8 +48,6 @@ class PlacesViewModel @Inject constructor(
             item.isFav = !item.isFav
         }
     }
-
-    // TODO: проверка на fav запросами к бд
 
 //    val placesList: StateFlow<Flow<PagingData<PlacesUiModel>>?> get() = _placesList
 //    private val queryFlow = MutableSharedFlow<String>()

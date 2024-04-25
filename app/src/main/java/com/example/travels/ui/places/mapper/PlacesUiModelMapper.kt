@@ -100,4 +100,12 @@ class PlacesUiModelMapper @Inject constructor() {
         }
     }
 
+    fun toUiModel(items: List<FavItemDomainModel>): List<ItemUiModel> {
+        val result = mutableListOf<ItemUiModel>()
+        items.forEach {
+            result.add(toUiModel(it))
+        }
+        return result
+    }
+
 }

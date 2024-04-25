@@ -1,6 +1,5 @@
 package com.example.travels.ui.places
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -33,7 +32,6 @@ class PlacesAdapter(
         private val viewBinding: ItemPlaceBinding,
     ) : RecyclerView.ViewHolder(viewBinding.root) {
         fun bind(item: ItemUiModel) {
-            Log.d("FAV", "in bind: isFav: ${item.isFav}")
             with(viewBinding) {
                 nameTv.text = item.name
                 descriptionTv.text = item.description

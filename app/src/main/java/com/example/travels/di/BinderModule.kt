@@ -1,11 +1,9 @@
 package com.example.travels.di
 
-import com.example.travels.data.places.local.repository.PlacesLocalRepositoryImpl
-import com.example.travels.data.places.remote.repository.PlacesRemoteRepositoryImpl
+import com.example.travels.data.places.repository.PlacesRepositoryImpl
 import com.example.travels.data.user.repository.FirebaseUserRepository
 import com.example.travels.domain.auth.repositoty.UserRepository
-import com.example.travels.domain.places.repository.PlacesLocalRepository
-import com.example.travels.domain.places.repository.PlacesRemoteRepository
+import com.example.travels.domain.places.repository.PlacesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,9 +20,6 @@ interface BinderModule {
 
     @Binds
     @Singleton
-    fun bindPlacesRemoteRepositoryImpl(placesRepositoryImpl: PlacesRemoteRepositoryImpl): PlacesRemoteRepository
+    fun bindPlacesRepositoryImpl(placesRepositoryImpl: PlacesRepositoryImpl): PlacesRepository
 
-    @Binds
-    @Singleton
-    fun bindPlacesLocalRepositoryImpl(placesLocalRepositoryImpl: PlacesLocalRepositoryImpl): PlacesLocalRepository
 }

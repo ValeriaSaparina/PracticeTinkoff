@@ -13,6 +13,7 @@ import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.places.model.ItemUiModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,7 @@ class PlacesFragment : BaseFragment() {
         viewBinding?.run {
             searchIc.setOnClickListener {
                 searchJob?.cancel()
-                searchJob = lifecycleScope.launch {
+                searchJob = lifecycleScope.launch(Dispatchers.IO) {
                     val result = viewModel.searchRepos(queryEt.text.toString())
                     result.collect {
                         (placesRv.adapter as PlacesAdapter).submitData(it)

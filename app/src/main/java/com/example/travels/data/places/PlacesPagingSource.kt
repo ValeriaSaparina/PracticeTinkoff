@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.travels.data.places.remote.PlacesApi
 import com.example.travels.data.places.remote.mapper.PlacesResponseDomainModelMapper
+import com.example.travels.domain.places.repository.PlacesRepository
 import com.example.travels.ui.places.mapper.PlacesUiModelMapper
 import com.example.travels.ui.places.model.ItemUiModel
 import retrofit2.HttpException
@@ -14,6 +15,7 @@ class PlacesPagingSource @Inject constructor(
     private val placesApi: PlacesApi,
     private val mapperUiModel: PlacesUiModelMapper,
     private val mapperDomainModel: PlacesResponseDomainModelMapper,
+    private val repository: PlacesRepository,
     private val query: String,
 ) : PagingSource<Int, ItemUiModel>() {
 
@@ -31,10 +33,15 @@ class PlacesPagingSource @Inject constructor(
                 query = query,
                 page = page
             )
+            val favorites = repository.getIdAllFavPlaces()
+            val places = mapperUiModel.mapDomainToUiModel(
+                mapperDomainModel.mapResponseToDomainModel(data)
+            ).result?.items?.onEach {
+                it.isFav = favorites.contains(it.id.toLong())
+            } ?: listOf()
+
             LoadResult.Page(
-                data = mapperUiModel.mapDomainToUiModel(
-                    mapperDomainModel.mapResponseToDomainModel(data)
-                ).result?.items ?: listOf(),
+                data = places,
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (data?.meta?.code != 200) null else page + 1
             )
