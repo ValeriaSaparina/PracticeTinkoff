@@ -10,10 +10,9 @@ import com.example.travels.data.places.local.mapper.FavPlaceDomainModelMapper
 import com.example.travels.data.places.remote.PlacesApi
 import com.example.travels.data.places.remote.mapper.PlacesResponseDomainModelMapper
 import com.example.travels.domain.places.model.FavItemDomainModel
+import com.example.travels.domain.places.model.PlaceDomainModel
 import com.example.travels.domain.places.model.PlacesDomainModel
 import com.example.travels.domain.places.repository.PlacesRepository
-import com.example.travels.ui.places.mapper.PlacesUiModelMapper
-import com.example.travels.ui.places.model.ItemUiModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -22,7 +21,6 @@ class PlacesRepositoryImpl @Inject constructor(
     private val favoritePlacesDao: FavoritePlacesDao,
     private val favPlaceDomainModelMapper: FavPlaceDomainModelMapper,
     private val responseDomainModelMapper: PlacesResponseDomainModelMapper,
-    private val uiModelMapper: PlacesUiModelMapper
 ) : PlacesRepository {
 
     override suspend fun getPlaceByTextQuery(query: String): PlacesDomainModel {
@@ -46,13 +44,12 @@ class PlacesRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun searchPlaces(query: String): Flow<PagingData<ItemUiModel>> = Pager(
+    override suspend fun searchPlaces(query: String): Flow<PagingData<PlaceDomainModel>> = Pager(
         pagingSourceFactory = {
             PlacesPagingSource(
                 placesApi = placesApi,
                 repository = this,
                 mapperDomainModel = responseDomainModelMapper,
-                mapperUiModel = uiModelMapper,
                 query = query
             )
         },

@@ -11,17 +11,17 @@ import com.example.travels.data.places.local.entity.FavoritePlacesEntity
 interface FavoritePlacesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addNewPlaces(vararg places: FavoritePlacesEntity)
+    suspend fun addNewPlaces(vararg places: FavoritePlacesEntity)
 
     @Query("select * from favorite_places")
-    fun getAllFavPlaces(): List<FavoritePlacesEntity>?
+    suspend fun getAllFavPlaces(): List<FavoritePlacesEntity>?
 
     @Query("select * from favorite_places where id=:id")
-    fun getFavPlace(id: Long): FavoritePlacesEntity?
+    suspend fun getFavPlace(id: Long): FavoritePlacesEntity?
 
     @Delete
-    fun deleteFavPlace(place: FavoritePlacesEntity)
+    suspend fun deleteFavPlace(place: FavoritePlacesEntity)
 
     @Query("DELETE FROM favorite_places")
-    fun deleteAllFavPlaces()
+    suspend fun deleteAllFavPlaces()
 }

@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travels.R
 import com.example.travels.databinding.ItemPlaceBinding
-import com.example.travels.ui.places.model.ItemUiModel
+import com.example.travels.ui.places.model.PlaceUiModel
 
 class PlacesAdapter(
-    private val onItemClicked: (ItemUiModel) -> Unit,
-    private val onFavIcClicked: (ItemUiModel) -> Unit
+    private val onItemClicked: (PlaceUiModel) -> Unit,
+    private val onFavIcClicked: (PlaceUiModel) -> Unit
 ) :
-    PagingDataAdapter<ItemUiModel, PlacesAdapter.ViewHolder>(PlacesDiffCallback()) {
+    PagingDataAdapter<PlaceUiModel, PlacesAdapter.ViewHolder>(PlacesDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -31,7 +31,7 @@ class PlacesAdapter(
     inner class ViewHolder(
         private val viewBinding: ItemPlaceBinding,
     ) : RecyclerView.ViewHolder(viewBinding.root) {
-        fun bind(item: ItemUiModel) {
+        fun bind(item: PlaceUiModel) {
             with(viewBinding) {
                 nameTv.text = item.name
                 descriptionTv.text = item.description
@@ -51,12 +51,12 @@ class PlacesAdapter(
     }
 
 
-    private class PlacesDiffCallback : DiffUtil.ItemCallback<ItemUiModel>() {
-        override fun areItemsTheSame(oldItem: ItemUiModel, newItem: ItemUiModel): Boolean {
+    private class PlacesDiffCallback : DiffUtil.ItemCallback<PlaceUiModel>() {
+        override fun areItemsTheSame(oldItem: PlaceUiModel, newItem: PlaceUiModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ItemUiModel, newItem: ItemUiModel): Boolean {
+        override fun areContentsTheSame(oldItem: PlaceUiModel, newItem: PlaceUiModel): Boolean {
             return oldItem == newItem
         }
 

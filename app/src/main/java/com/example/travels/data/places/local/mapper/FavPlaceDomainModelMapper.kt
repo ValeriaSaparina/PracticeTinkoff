@@ -17,7 +17,14 @@ class FavPlaceDomainModelMapper @Inject constructor() {
                 review = review
             )
         }
-    } ?: FavItemDomainModel()
+    } ?: FavItemDomainModel(
+        id = -1,
+        type = "",
+        name = "",
+        description = "",
+        address = "",
+        review = 0f,
+    )
 
     fun toEntity(item: FavItemDomainModel): FavoritePlacesEntity =
         with(item) {

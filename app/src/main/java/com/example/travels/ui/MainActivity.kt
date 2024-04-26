@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.places -> {
-                    router.replaceScreen(Screens.Places())
+                    router.navigateTo(Screens.Places())
                     true
                 }
 
                 R.id.routes -> {
-                    router.replaceScreen(Screens.Routes())
+                    router.navigateTo(Screens.Routes())
                     true
                 }
 
@@ -44,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+//    override fun getOnBackInvokedDispatcher(): OnBackInvokedDispatcher {
+//        router.exit()
+//        return super.getOnBackInvokedDispatcher()
+//    }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
