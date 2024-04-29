@@ -1,29 +1,44 @@
 package com.example.travels.ui.places
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.map
+import com.example.travels.domain.places.usecase.AddNewFavPlaceUseCase
+import com.example.travels.domain.places.usecase.DeleteFromFavPlacesUseCase
 import com.example.travels.domain.places.usecase.SearchPlacesUseCase
-import com.example.travels.ui.places.model.ItemUiModel
+import com.example.travels.ui.places.mapper.PlacesUiModelMapper
+import com.example.travels.ui.places.model.PlaceUiModel
 import com.example.travels.utils.NetworkErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PlacesViewModel @Inject constructor(
     private val searchPlacesUseCase: SearchPlacesUseCase,
+    private val addNewFavPlaceUseCase: AddNewFavPlaceUseCase,
+    private val deleteFromFavPlacesUseCase: DeleteFromFavPlacesUseCase,
+    private val mapper: PlacesUiModelMapper,
 ) : ViewModel() {
 
     private val _error = MutableStateFlow<NetworkErrors?>(null)
     val error: StateFlow<NetworkErrors?> get() = _error
 
-    suspend fun searchRepos(query: String): Flow<PagingData<ItemUiModel>> {
+    suspend fun searchRepos(query: String): Flow<PagingData<PlaceUiModel>> {
         searchPlacesUseCase.invoke(query)
             .onSuccess {
-                return it
+                return it.map { pagingData ->
+                    pagingData.map { place ->
+                        mapper.mapItemDomainToItemUiModel(place)
+                    }
+                }
             }
             .onFailure {
                 _error.value = NetworkErrors.UNEXPECTED
@@ -31,6 +46,16 @@ class PlacesViewModel @Inject constructor(
         return flowOf()
     }
 
+    fun onFavIcClicked(item: PlaceUiModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (item.isFav) {
+                deleteFromFavPlacesUseCase.invoke(item.id.toLong())
+            } else {
+                addNewFavPlaceUseCase.invoke(item)
+            }
+            item.isFav = !item.isFav
+        }
+    }
 
 //    val placesList: StateFlow<Flow<PagingData<PlacesUiModel>>?> get() = _placesList
 //    private val queryFlow = MutableSharedFlow<String>()

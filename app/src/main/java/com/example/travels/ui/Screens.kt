@@ -14,5 +14,6 @@ object Screens {
     fun Places() = FragmentScreen { PlacesFragment() }
     fun Routes() = FragmentScreen { RoutesFragment() }
     fun Profile() = FragmentScreen { ProfileFragment() }
+//    fun PlaceDetails() = FragmentScreen { PlaceDetailsFragment() }
 
 }

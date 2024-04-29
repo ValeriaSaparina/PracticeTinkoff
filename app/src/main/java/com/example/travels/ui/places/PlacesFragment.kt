@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.travels.R
 import com.example.travels.databinding.FragmentPlacesBinding
 import com.example.travels.ui.base.BaseFragment
+import com.example.travels.ui.places.model.PlaceUiModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -56,7 +58,7 @@ class PlacesFragment : BaseFragment() {
         viewBinding?.run {
             searchIc.setOnClickListener {
                 searchJob?.cancel()
-                searchJob = lifecycleScope.launch {
+                searchJob = lifecycleScope.launch(Dispatchers.IO) {
                     val result = viewModel.searchRepos(queryEt.text.toString())
                     result.collect {
                         (placesRv.adapter as PlacesAdapter).submitData(it)
@@ -67,11 +69,20 @@ class PlacesFragment : BaseFragment() {
     }
 
 
+    private fun onItemClicked(item: PlaceUiModel) {
+//        router.navigateTo(Screens.PlaceDetails())
+    }
+
+    private fun onFavIcClicked(item: PlaceUiModel) {
+        viewModel.onFavIcClicked(item)
+    }
+
+
     private fun initAdapter() {
         viewBinding?.run {
             with(placesRv) {
                 layoutManager = GridLayoutManager(context, 2)
-                adapter = PlacesAdapter()
+                adapter = PlacesAdapter(::onItemClicked, ::onFavIcClicked)
             }
         }
     }
