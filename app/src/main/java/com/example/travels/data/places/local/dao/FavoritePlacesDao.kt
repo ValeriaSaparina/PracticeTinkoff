@@ -1,7 +1,6 @@
 package com.example.travels.data.places.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -19,9 +18,12 @@ interface FavoritePlacesDao {
     @Query("select * from favorite_places where id=:id")
     suspend fun getFavPlace(id: Long): FavoritePlacesEntity?
 
-    @Delete
-    suspend fun deleteFavPlace(place: FavoritePlacesEntity)
+    @Query("delete from favorite_places where id=:id")
+    suspend fun deleteFavPlace(id: Long)
 
-    @Query("DELETE FROM favorite_places")
+    @Query("delete from favorite_places")
     suspend fun deleteAllFavPlaces()
+
+    @Query("select id from favorite_places")
+    suspend fun getIdAllFavPlaces(): List<Long>
 }

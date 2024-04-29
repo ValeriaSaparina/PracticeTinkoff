@@ -16,7 +16,7 @@ interface PlacesRepository {
     suspend fun getIdAllFavPlaces(): List<Long>
     suspend fun getFavPlaceById(id: Long): FavItemDomainModel
     suspend fun deleteAllFavPlaces()
-    suspend fun deleteFromFavPlaces(item: FavItemDomainModel)
+    suspend fun deleteFromFavPlaces(id: Long)
     suspend fun addNewFavPlaces(vararg items: FavItemDomainModel)
 
 }

@@ -67,8 +67,8 @@ class PlacesRepositoryImpl @Inject constructor(
         favoritePlacesDao.addNewPlaces(*entities.toTypedArray())
     }
 
-    override suspend fun deleteFromFavPlaces(item: FavItemDomainModel) {
-        favoritePlacesDao.deleteFavPlace(favPlaceDomainModelMapper.toEntity(item))
+    override suspend fun deleteFromFavPlaces(id: Long) {
+        favoritePlacesDao.deleteFavPlace(id)
     }
 
     override suspend fun getAllFavPlaces(): List<FavItemDomainModel> {
@@ -78,11 +78,7 @@ class PlacesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getIdAllFavPlaces(): List<Long> {
-        val result = mutableListOf<Long>()
-        favoritePlacesDao.getAllFavPlaces()?.forEach {
-            result.add(it.id)
-        }
-        return result
+        return favoritePlacesDao.getIdAllFavPlaces()
     }
 
     override suspend fun getFavPlaceById(id: Long): FavItemDomainModel {

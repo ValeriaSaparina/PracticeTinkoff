@@ -38,6 +38,6 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideDebugDao(db: FavoritesDatabase) = db.favoritePlacesDao
+    fun providePlacesDao(db: FavoritesDatabase) = db.favoritePlacesDao
 
 }

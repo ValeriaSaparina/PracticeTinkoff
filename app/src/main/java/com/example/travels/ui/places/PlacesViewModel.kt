@@ -36,8 +36,7 @@ class PlacesViewModel @Inject constructor(
             .onSuccess {
                 return it.map { pagingData ->
                     pagingData.map { place ->
-                        val res = mapper.mapItemDomainToItemUiModel(place)
-                        res
+                        mapper.mapItemDomainToItemUiModel(place)
                     }
                 }
             }
@@ -50,7 +49,7 @@ class PlacesViewModel @Inject constructor(
     fun onFavIcClicked(item: PlaceUiModel) {
         viewModelScope.launch(Dispatchers.IO) {
             if (item.isFav) {
-                deleteFromFavPlacesUseCase.invoke(item)
+                deleteFromFavPlacesUseCase.invoke(item.id.toLong())
             } else {
                 addNewFavPlaceUseCase.invoke(item)
             }
