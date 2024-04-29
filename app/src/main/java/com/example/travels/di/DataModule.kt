@@ -34,7 +34,7 @@ class DataModule {
     @Singleton
     @Provides
     fun provide(@ApplicationContext ctx: Context): FavoritesDatabase =
-        Room.databaseBuilder(ctx, FavoritesDatabase::class.java, "debug.db").build()
+        Room.databaseBuilder(ctx, FavoritesDatabase::class.java, "favorite.db").build()
 
     @Provides
     @Singleton
