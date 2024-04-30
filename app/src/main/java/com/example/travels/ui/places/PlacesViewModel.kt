@@ -3,6 +3,7 @@ package com.example.travels.ui.places
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.travels.domain.places.usecase.AddNewFavPlaceUseCase
 import com.example.travels.domain.places.usecase.DeleteFromFavPlacesUseCase
@@ -15,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,19 +31,23 @@ class PlacesViewModel @Inject constructor(
     private val _error = MutableStateFlow<NetworkErrors?>(null)
     val error: StateFlow<NetworkErrors?> get() = _error
 
-    suspend fun searchRepos(query: String): Flow<PagingData<PlaceUiModel>> {
-        searchPlacesUseCase.invoke(query)
-            .onSuccess {
-                return it.map { pagingData ->
-                    pagingData.map { place ->
-                        mapper.mapItemDomainToItemUiModel(place)
-                    }
+    private val _result = MutableStateFlow<Flow<PagingData<PlaceUiModel>>?>(null)
+    val result: StateFlow<Flow<PagingData<PlaceUiModel>>?> get() = _result
+    fun searchRepos(query: String) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            searchPlacesUseCase.invoke(query)
+                .onSuccess {
+                    _result.value = it.map { pagingData ->
+                        pagingData.map { place ->
+                            mapper.mapItemDomainToItemUiModel(place)
+                        }
+                    }.cachedIn(viewModelScope)
                 }
-            }
-            .onFailure {
-                _error.value = NetworkErrors.UNEXPECTED
-            }
-        return flowOf()
+                .onFailure {
+                    _error.value = NetworkErrors.UNEXPECTED
+                }
+        }
     }
 
     fun onFavIcClicked(item: PlaceUiModel) {

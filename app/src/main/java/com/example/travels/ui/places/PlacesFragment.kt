@@ -13,8 +13,7 @@ import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.places.model.PlaceUiModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -23,7 +22,7 @@ class PlacesFragment : BaseFragment() {
     private var viewBinding: FragmentPlacesBinding? = null
     private val viewModel: PlacesViewModel by viewModels()
 
-    private var searchJob: Job? = null
+    private val placesAdapter = PlacesAdapter(::onItemClicked, ::onFavIcClicked)
 
 
     override fun onCreateView(
@@ -46,9 +45,19 @@ class PlacesFragment : BaseFragment() {
 
     private fun observe() {
 
-        viewModel.error.observe {
-            if (it != null) {
-                showToast(it.name)
+        with(viewModel) {
+            error.observe {
+                if (it != null) {
+                    showToast(it.name)
+
+                }
+            }
+            result.observe { result ->
+                lifecycleScope.launch {
+                    result?.collectLatest {
+                        placesAdapter.submitData(it)
+                    }
+                }
             }
         }
 
@@ -57,13 +66,7 @@ class PlacesFragment : BaseFragment() {
     private fun initListeners() {
         viewBinding?.run {
             searchIc.setOnClickListener {
-                searchJob?.cancel()
-                searchJob = lifecycleScope.launch(Dispatchers.IO) {
-                    val result = viewModel.searchRepos(queryEt.text.toString())
-                    result.collect {
-                        (placesRv.adapter as PlacesAdapter).submitData(it)
-                    }
-                }
+                viewModel.searchRepos(queryEt.text.toString())
             }
         }
     }
@@ -82,8 +85,19 @@ class PlacesFragment : BaseFragment() {
         viewBinding?.run {
             with(placesRv) {
                 layoutManager = GridLayoutManager(context, 2)
-                adapter = PlacesAdapter(::onItemClicked, ::onFavIcClicked)
+                adapter = placesAdapter.withLoadStateHeaderAndFooter(
+                    header = PlacesLoaderStateAdapter(),
+                    footer = PlacesLoaderStateAdapter(),
+                )
             }
+        }
+    }
+
+    companion object {
+        const val TAG = "PLACES_FRAGMENT"
+
+        fun newInstance(): PlacesFragment {
+            return PlacesFragment()
         }
     }
 
