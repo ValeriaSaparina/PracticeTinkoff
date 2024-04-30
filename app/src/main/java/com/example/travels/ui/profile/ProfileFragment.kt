@@ -8,8 +8,6 @@ import androidx.fragment.app.viewModels
 import com.example.travels.databinding.FragmentProfileBinding
 import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.ui.base.BaseFragment
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +27,7 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe()
-        viewModel.loadUserProfile(Firebase.auth.uid ?: "")
+        viewModel.loadCurrentUserProfile()
     }
 
     private fun observe() {

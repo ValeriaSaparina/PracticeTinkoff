@@ -3,7 +3,7 @@ package com.example.travels.ui.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.auth.model.UserModel
-import com.example.travels.domain.profile.GetUserByIdUseCase
+import com.example.travels.domain.profile.GetCurrentUserUseCase
 import com.example.travels.utils.NetworkErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : ViewModel() {
 
     private val _error = MutableStateFlow<NetworkErrors?>(null)
@@ -23,10 +23,9 @@ class ProfileViewModel @Inject constructor(
     private val _user = MutableStateFlow<UserModel?>(null)
     val user: StateFlow<UserModel?> get() = _user
 
-    fun loadUserProfile(id: String) {
-        // ?
+    fun loadCurrentUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
-            getUserByIdUseCase.invoke(id)
+            getCurrentUserUseCase.invoke()
                 .onSuccess {
                     _user.emit(it)
                 }
