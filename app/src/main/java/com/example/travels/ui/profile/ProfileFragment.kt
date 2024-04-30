@@ -1,5 +1,6 @@
 package com.example.travels.ui.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe()
+        initListeners()
         viewModel.loadCurrentUserProfile()
     }
 
@@ -45,10 +47,35 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showData(user: UserModel) {
         viewBinding?.run {
             with(this) {
+                nameTv.text = "${user.firstname} ${user.lastname}"
+                linkTv.text = ""
+            }
+        }
+    }
 
+    private fun initListeners() {
+        viewBinding?.run {
+            with(this) {
+                favLl.setOnClickListener {
+//                    router.navigateTo(Screens.Favorites())
+                }
+                editProfileLl.setOnClickListener {
+//                    router.navigateTo(Screens.EditProfile())
+                }
+                routesLl.setOnClickListener {
+//                    router.navigateTo(Screens.MyRoutes())
+                }
+                settingsLl.setOnClickListener {
+//                    router.navigateTo(Screens.Settings())
+                }
+                exitLl.setOnClickListener {
+                }
+                profileLl.setOnClickListener {
+                }
             }
         }
     }
