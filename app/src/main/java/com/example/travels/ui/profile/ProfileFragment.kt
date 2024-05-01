@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment() {
+
     private var viewBinding: FragmentProfileBinding? = null
     private val viewModel: ProfileViewModel by viewModels()
 
@@ -77,6 +78,11 @@ class ProfileFragment : BaseFragment() {
                 profileLl.setOnClickListener {
                 }
             }
+
+    companion object {
+        const val TAG = "PROFILE_FRAGMENT"
+        fun newInstance(): ProfileFragment {
+            return ProfileFragment()
         }
     }
 }
