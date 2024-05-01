@@ -12,4 +12,5 @@ interface UserRepository {
 
     suspend fun signIn(email: String, password: String): UserModel
     suspend fun getUserById(uId: String): UserModel
+    suspend fun getCurrentUser(): UserModel
 }

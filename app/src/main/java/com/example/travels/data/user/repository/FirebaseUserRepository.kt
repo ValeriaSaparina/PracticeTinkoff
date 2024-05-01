@@ -42,13 +42,23 @@ class FirebaseUserRepository @Inject constructor(
     }
 
     private suspend fun saveUserToStore(user: UserModel) {
-        db.collection("users").document(user.id).set(user).await()
+        db.collection(USERS_COLLECTION_PATH).document(user.id).set(user).await()
     }
 
     override suspend fun getUserById(uId: String): UserModel {
         return mapper.firebaseDocToUserModel(
-            db.collection("users").document(uId).get().await()
+            db.collection(USERS_COLLECTION_PATH).document(uId).get().await()
         )
+    }
+
+    override suspend fun getCurrentUser(): UserModel {
+        return mapper.firebaseDocToUserModel(
+            db.collection(USERS_COLLECTION_PATH).document(auth.currentUser!!.uid).get().await()
+        )
+    }
+
+    companion object {
+        private const val USERS_COLLECTION_PATH = "users"
     }
 
 }

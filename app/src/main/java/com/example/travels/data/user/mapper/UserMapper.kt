@@ -14,7 +14,14 @@ class UserMapper @Inject constructor() {
     }
 
     fun firebaseDocToUserModel(document: DocumentSnapshot): UserModel {
-        return document.toObject(UserModel::class.java)!!
+        return with(document) {
+            UserModel(
+                id = id,
+                email = getString("email") ?: "",
+                firstname = getString("firstname"),
+                lastname = getString("lastname"),
+            )
+        }
     }
 
 }
