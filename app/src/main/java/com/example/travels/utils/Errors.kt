@@ -23,7 +23,7 @@ enum class ApiErrors {
     SERVICE_UNAVAILABLE;
 
     companion object {
-        fun mapToApiError(code: Int): ApiErrors? {
+        fun mapToApiError(code: Int?): ApiErrors? {
             return when (code) {
                 400 -> PARAM_IS_EMPTY
                 403 -> FORBIDDEN

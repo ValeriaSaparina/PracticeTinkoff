@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.travels.databinding.FragmentPlacesBinding
 import com.example.travels.ui.MainActivity
@@ -72,9 +73,20 @@ class PlacesFragment : BaseFragment() {
         viewBinding?.run {
             with(placesRv) {
                 layoutManager = GridLayoutManager(context, 2)
+
+                placesAdapter.addLoadStateListener { state ->
+                    val refreshState = state.refresh
+                    placesRv.visibility =
+                        if (refreshState != LoadState.Loading) View.VISIBLE else View.GONE
+                    progressBar.visibility =
+                        if (refreshState == LoadState.Loading) View.VISIBLE else View.GONE
+                    if (refreshState is LoadState.Error) {
+                        showToast(refreshState.error.message.toString())
+                    }
+                }
                 adapter = placesAdapter.withLoadStateHeaderAndFooter(
-                    header = PlacesLoaderStateAdapter(),
-                    footer = PlacesLoaderStateAdapter(),
+                    header = PlacesLoaderStateAdapter(::showToast),
+                    footer = PlacesLoaderStateAdapter(::showToast),
                 )
             }
         }

@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.travels.databinding.ItemErrorBinding
 import com.example.travels.databinding.ItemProgressBinding
 
-class PlacesLoaderStateAdapter : LoadStateAdapter<PlacesLoaderStateAdapter.ItemViewHolder>() {
+class PlacesLoaderStateAdapter(
+    private val showError: (String) -> Unit
+) : LoadStateAdapter<PlacesLoaderStateAdapter.ItemViewHolder>() {
 
     override fun getStateViewType(loadState: LoadState) = when (loadState) {
         is LoadState.NotLoading -> error("Not supported")
@@ -30,7 +32,12 @@ class PlacesLoaderStateAdapter : LoadStateAdapter<PlacesLoaderStateAdapter.ItemV
     ): ItemViewHolder {
         return when (loadState) {
             is LoadState.Loading -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
-            is LoadState.Error -> ErrorViewHolder(LayoutInflater.from(parent.context), parent)
+            is LoadState.Error -> ErrorViewHolder(
+                LayoutInflater.from(parent.context),
+                parent,
+                showError = showError
+            )
+
             is LoadState.NotLoading -> error("Not supported")
         }
     }
@@ -67,11 +74,13 @@ class PlacesLoaderStateAdapter : LoadStateAdapter<PlacesLoaderStateAdapter.ItemV
     }
 
     class ErrorViewHolder internal constructor(
-        viewBinding: ItemErrorBinding
+        private val viewBinding: ItemErrorBinding,
+        private val showError: (String) -> Unit
     ) : ItemViewHolder(viewBinding.root) {
 
         override fun bind(loadState: LoadState) {
             require(loadState is LoadState.Error)
+            showError(loadState.error.message.toString())
         }
 
         companion object {
@@ -79,14 +88,16 @@ class PlacesLoaderStateAdapter : LoadStateAdapter<PlacesLoaderStateAdapter.ItemV
             operator fun invoke(
                 layoutInflater: LayoutInflater,
                 parent: ViewGroup? = null,
-                attachToRoot: Boolean = false
+                attachToRoot: Boolean = false,
+                showError: (String) -> Unit
             ): ErrorViewHolder {
                 return ErrorViewHolder(
-                    ItemErrorBinding.inflate(
+                    viewBinding = ItemErrorBinding.inflate(
                         layoutInflater,
                         parent,
                         attachToRoot
-                    )
+                    ),
+                    showError = showError
                 )
             }
         }

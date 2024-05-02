@@ -6,6 +6,7 @@ import com.example.travels.data.places.remote.PlacesApi
 import com.example.travels.data.places.remote.mapper.PlacesResponseDomainModelMapper
 import com.example.travels.domain.places.model.PlaceDomainModel
 import com.example.travels.domain.places.repository.PlacesRepository
+import com.example.travels.utils.ApiErrors
 import com.example.travels.utils.Constants
 import com.example.travels.utils.runSuspendCatching
 import javax.inject.Inject
@@ -25,20 +26,24 @@ class PlacesPagingSource @Inject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PlaceDomainModel> {
-        if (query.isEmpty()) {
+        if (query.isEmpty() || params.key == 6) {
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
         val page = params.key ?: 1
-        val pageSize = params.loadSize.coerceAtMost(Constants.MAX_PAGE_SIZE)
+        val pageSize = Constants.PAGE_SIZE
         val placesResult = runSuspendCatching {
             placesApi.getPlacesByQueryPage(
                 query = query,
                 page = page
             )
         }
-        return placesResult.fold(
+        placesResult.fold(
             onSuccess = { places ->
+                val code = places?.meta?.code
+                if (code == null || code != 200) {
+                    return LoadResult.Error(Throwable(ApiErrors.mapToApiError(code)?.name))
+                } else {
                 val favorites = repository.getIdAllFavPlaces()
                 val domainPlaces = mapperDomainModel.mapResponseToDomainModel(places)
                     .result?.items?.map {
@@ -46,9 +51,10 @@ class PlacesPagingSource @Inject constructor(
                     }.orEmpty()
                 val nextKey = if (domainPlaces.size < pageSize) null else page + 1
                 val prevKey = if (page == 1) null else page - 1
-                LoadResult.Page(domainPlaces, prevKey, nextKey)
+                    return LoadResult.Page(domainPlaces, prevKey, nextKey)
+                }
             },
-            onFailure = { LoadResult.Error(it) }
+            onFailure = { return LoadResult.Error(it) }
         )
     }
 }

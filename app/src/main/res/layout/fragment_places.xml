@@ -24,8 +24,8 @@
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/baseline_filter_list_24"
-            android:contentDescription="@string/filter" />
+            android:contentDescription="@string/filter"
+            android:src="@drawable/baseline_filter_list_24" />
 
         <EditText
             android:id="@+id/query_et"
@@ -44,8 +44,8 @@
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/baseline_search_24"
-            android:contentDescription="@string/search" />
+            android:contentDescription="@string/search"
+            android:src="@drawable/baseline_search_24" />
 
     </LinearLayout>
 
@@ -61,5 +61,15 @@
         app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:spanCount="2"
         tools:listitem="@layout/item_place" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
