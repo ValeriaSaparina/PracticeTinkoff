@@ -78,6 +78,8 @@ class ProfileFragment : BaseFragment() {
                 profileLl.setOnClickListener {
                 }
             }
+        }
+    }
 
     companion object {
         const val TAG = "PROFILE_FRAGMENT"

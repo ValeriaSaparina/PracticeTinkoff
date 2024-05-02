@@ -10,7 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-inline fun <T> Flow<T>.observe(fragment: Fragment, crossinline block: (T) -> Unit): Job {
+inline fun <T> Flow<T>.observe(fragment: Fragment, crossinline block: suspend (T) -> Unit): Job {
     val lifecycleOwner = fragment.viewLifecycleOwner
     return lifecycleOwner.lifecycleScope.launch {
         lifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED) {

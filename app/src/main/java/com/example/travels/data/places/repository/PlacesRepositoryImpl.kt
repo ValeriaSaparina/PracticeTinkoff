@@ -44,7 +44,7 @@ class PlacesRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun searchPlaces(query: String): Flow<PagingData<PlaceDomainModel>> = Pager(
+    override fun searchPlaces(query: String): Flow<PagingData<PlaceDomainModel>> = Pager(
         pagingSourceFactory = {
             PlacesPagingSource(
                 placesApi = placesApi,
@@ -54,10 +54,10 @@ class PlacesRepositoryImpl @Inject constructor(
             )
         },
         config = PagingConfig(
-            pageSize = 10
+            pageSize = 10,
+            prefetchDistance = 4,
         )
     ).flow
-
 
     override suspend fun addNewFavPlaces(vararg items: FavItemDomainModel) {
         val entities = mutableListOf<FavoritePlacesEntity>()

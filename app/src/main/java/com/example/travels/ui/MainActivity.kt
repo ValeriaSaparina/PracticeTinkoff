@@ -2,6 +2,7 @@ package com.example.travels.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.travels.R
 import com.example.travels.ui.App.Companion.router
@@ -17,6 +18,13 @@ class MainActivity : AppCompatActivity() {
 
     private val navigator = object : AppNavigator(this, R.id.container) {}
 
+    private val bottomNav: BottomNavigationView by lazy { findViewById(R.id.bottom_nav) }
+    var isBottomNavVisible: Boolean
+        get() = bottomNav.isVisible
+        set(value) {
+            bottomNav.isVisible = value
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,7 +33,6 @@ class MainActivity : AppCompatActivity() {
             router.newRootScreen(Screens.Places()) // TODO: init screen
         }
 
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.places -> {
@@ -93,7 +100,6 @@ class MainActivity : AppCompatActivity() {
         transaction.commitNow()
     }
 
-
     override fun onResumeFragments() {
         super.onResumeFragments()
         App.navigatorHolder.setNavigator(navigator)
@@ -103,5 +109,4 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         App.navigatorHolder.removeNavigator()
     }
-
 }

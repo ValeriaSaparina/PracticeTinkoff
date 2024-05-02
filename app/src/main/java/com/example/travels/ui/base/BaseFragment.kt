@@ -14,7 +14,7 @@ open class BaseFragment : Fragment() {
         Toast.makeText(requireContext(), message, duration).show()
     }
 
-    inline fun <T> Flow<T>.observe(crossinline block: (T) -> Unit): Job {
+    inline fun <T> Flow<T>.observe(crossinline block: suspend (T) -> Unit): Job {
         return observe(fragment = this@BaseFragment, block)
     }
 
