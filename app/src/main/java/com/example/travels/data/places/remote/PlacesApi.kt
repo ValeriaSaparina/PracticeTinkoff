@@ -10,13 +10,13 @@ interface PlacesApi {
     @GET("items")
     suspend fun getPlaceByTextQuery(
         @Query("q") query: String,
-        @Query("page_size") pageSize: Int = Constants.PAGE_SIZE,
+        @Query("page_size") pageSize: Int = Constants.MAX_PAGE_SIZE,
     ): PlacesResponseModel?
 
     @GET("items")
     suspend fun getPlacesByQueryPage(
         @Query("q") query: String,
-        @Query("page_size") pageSize: Int = Constants.PAGE_SIZE,
+        @Query("page_size") pageSize: Int = Constants.MAX_PAGE_SIZE,
         @Query("page") page: Int
     ): PlacesResponseModel?
 

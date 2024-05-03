@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -76,10 +77,8 @@ class PlacesFragment : BaseFragment() {
 
                 placesAdapter.addLoadStateListener { state ->
                     val refreshState = state.refresh
-                    placesRv.visibility =
-                        if (refreshState != LoadState.Loading) View.VISIBLE else View.GONE
-                    progressBar.visibility =
-                        if (refreshState == LoadState.Loading) View.VISIBLE else View.GONE
+                    placesRv.isVisible = refreshState != LoadState.Loading
+                    progressBar.isVisible = refreshState == LoadState.Loading
                     if (refreshState is LoadState.Error) {
                         showToast(refreshState.error.message.toString())
                     }

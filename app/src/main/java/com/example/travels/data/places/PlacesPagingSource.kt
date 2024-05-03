@@ -26,12 +26,12 @@ class PlacesPagingSource @Inject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PlaceDomainModel> {
-        if (query.isEmpty() || params.key == 6) {
+        if (query.isEmpty() || params.key == Constants.MAX_PAGE) {
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
         val page = params.key ?: 1
-        val pageSize = Constants.PAGE_SIZE
+        val pageSize = params.loadSize.coerceAtMost(Constants.MAX_PAGE_SIZE)
         val placesResult = runSuspendCatching {
             placesApi.getPlacesByQueryPage(
                 query = query,
@@ -44,13 +44,13 @@ class PlacesPagingSource @Inject constructor(
                 if (code == null || code != 200) {
                     return LoadResult.Error(Throwable(ApiErrors.mapToApiError(code)?.name))
                 } else {
-                val favorites = repository.getIdAllFavPlaces()
-                val domainPlaces = mapperDomainModel.mapResponseToDomainModel(places)
-                    .result?.items?.map {
-                        it.copy(isFav = favorites.contains(it.id.toLong()))
-                    }.orEmpty()
-                val nextKey = if (domainPlaces.size < pageSize) null else page + 1
-                val prevKey = if (page == 1) null else page - 1
+                    val favorites = repository.getIdAllFavPlaces()
+                    val domainPlaces = mapperDomainModel.mapResponseToDomainModel(places)
+                        .result?.items?.map {
+                            it.copy(isFav = favorites.contains(it.id.toLong()))
+                        }.orEmpty()
+                    val nextKey = if (domainPlaces.size < pageSize) null else page + 1
+                    val prevKey = if (page == 1) null else page - 1
                     return LoadResult.Page(domainPlaces, prevKey, nextKey)
                 }
             },
