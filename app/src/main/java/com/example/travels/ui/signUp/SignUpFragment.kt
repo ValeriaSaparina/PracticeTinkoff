@@ -45,7 +45,7 @@ class SignUpFragment : BaseFragment() {
 
             success.observe {
                 if (it) {
-//                    router.newRootScreen(Screens.Places())
+                    router.newRootScreen(Screens.Places())
                 }
             }
         }

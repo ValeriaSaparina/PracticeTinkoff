@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("com.google.dagger.hilt.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -17,11 +19,18 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField(
+            "String",
+            "PLACES_API_BASE_URL",
+            "\"https://catalog.api.2gis.com/3.0/\""
+        )
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
@@ -58,10 +67,17 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-//    Firebase
+    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+
+    // Room
+    val roomVersion = "2.6.0"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    "kapt"("androidx.room:room-compiler:$roomVersion")
+
 
     // mvvm
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -78,6 +94,24 @@ dependencies {
     val daggerVersion = "2.49"
     implementation("com.google.dagger:hilt-android:$daggerVersion")
     "kapt"("com.google.dagger:hilt-compiler:$daggerVersion")
+
+    // Retrofit
+    val retrofitVersion = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    val loggingVersion = "4.12.0"
+    implementation("com.squareup.okhttp3:logging-interceptor:$loggingVersion")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
+    // Paging
+    val pagingVersion = "3.2.1"
+    implementation("androidx.paging:paging-runtime:$pagingVersion")
+
+    // kotlinx-serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // viewBindingDelegate
+    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
 
 }
 

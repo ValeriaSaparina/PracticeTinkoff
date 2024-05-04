@@ -9,11 +9,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 
 open class BaseFragment : Fragment() {
+
     protected fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(requireContext(), message, duration).show()
     }
 
-    inline fun <T> Flow<T>.observe(crossinline block: (T) -> Unit): Job {
+    inline fun <T> Flow<T>.observe(crossinline block: suspend (T) -> Unit): Job {
         return observe(fragment = this@BaseFragment, block)
     }
 

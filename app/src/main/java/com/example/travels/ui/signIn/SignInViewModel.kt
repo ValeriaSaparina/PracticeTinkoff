@@ -2,7 +2,7 @@ package com.example.travels.ui.signIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.travels.domain.usecase.auth.SignInUserUseCase
+import com.example.travels.domain.auth.usecase.auth.SignInUserUseCase
 import com.example.travels.utils.AuthErrors
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.lifecycle.HiltViewModel

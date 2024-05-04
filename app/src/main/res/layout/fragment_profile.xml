@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:id="@+id/profile_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profile_ic"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_search_bar"
+            android:backgroundTint="@color/md_theme_light_error"
+            android:contentDescription="@string/avatar"
+            android:padding="8dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                tools:text="Firstname Lastname"
+                android:textColor="@color/md_theme_light_onSecondaryContainer"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/link_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                tools:text="\@tg_link"
+                android:textColor="@color/md_theme_light_onSecondaryContainer"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fav_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/profile_ll">
+
+        <ImageView
+            android:id="@+id/fav_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/favorites"
+            android:padding="8dp"
+            android:src="@drawable/outline_favorite_border_24" />
+
+        <TextView
+            android:id="@+id/fav_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/favorites"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/routes_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/fav_ll">
+
+        <ImageView
+            android:id="@+id/routes_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/routes"
+            android:padding="8dp"
+            android:src="@drawable/outline_route_24" />
+
+        <TextView
+            android:id="@+id/routes_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/routes"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/routes_ll">
+
+        <ImageView
+            android:id="@+id/settings_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/settings"
+            android:padding="8dp"
+            android:src="@drawable/outline_settings_24" />
+
+        <TextView
+            android:id="@+id/settings_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/settings"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/edit_profile_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/settings_ll">
+
+        <ImageView
+            android:id="@+id/edit_profile_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/settings"
+            android:padding="8dp"
+            android:src="@drawable/outline_mode_edit_24" />
+
+        <TextView
+            android:id="@+id/edit_profile_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/edit_profile"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/exit_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shape_card_button"
+        android:backgroundTint="@color/md_theme_light_errorContainer"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/edit_profile_ll">
+
+        <ImageView
+            android:id="@+id/exit_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/exit"
+            android:padding="8dp"
+            android:src="@drawable/baseline_exit_to_app_24"
+            app:tint="@color/md_theme_light_onErrorContainer" />
+
+        <TextView
+            android:id="@+id/exit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/exit"
+            android:textColor="@color/md_theme_light_onErrorContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

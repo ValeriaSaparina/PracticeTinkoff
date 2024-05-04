@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true">
+        <scale android:scaleHeight="1.2" android:scaleWidth="1.2" />
+    </item>
+
+    <item>
+        <scale android:scaleHeight="1.0" android:scaleWidth="1.0" />
+    </item>
+
+</selector>
