@@ -14,7 +14,7 @@ import com.example.travels.utils.validate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : BaseFragment() {
+class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
     private var viewBinding: FragmentSignUpBinding? = null
 
 

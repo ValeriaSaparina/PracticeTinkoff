@@ -1,6 +1,7 @@
 package com.example.travels.ui.base
 
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.example.travels.R
 import com.example.travels.utils.AuthErrors
@@ -8,7 +9,7 @@ import com.example.travels.utils.observe
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 
-open class BaseFragment : Fragment() {
+open class BaseFragment(@LayoutRes fragmentRoutes: Int) : Fragment(fragmentRoutes) {
 
     protected fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(requireContext(), message, duration).show()

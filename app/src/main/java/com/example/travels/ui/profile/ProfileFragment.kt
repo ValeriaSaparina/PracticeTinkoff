@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.example.travels.R
 import com.example.travels.databinding.FragmentProfileBinding
 import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment() {
+class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     private var viewBinding: FragmentProfileBinding? = null
     private val viewModel: ProfileViewModel by viewModels()
