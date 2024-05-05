@@ -2,6 +2,7 @@ package com.example.travels.ui.routes
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -33,12 +34,24 @@ class RoutesFragment : BaseFragment(R.layout.fragment_routes) {
             result.observe {
                 it?.let {
                     routesAdapter.submitList(it)
+                    if (it.isEmpty()) {
+                        showToast(resources.getString(R.string.not_found))
+                    }
                 }
             }
 
             error.observe {
                 it?.let {
                     showToast(it.message.toString())
+                }
+            }
+
+            process.observe {
+                it?.let {
+                    with(viewBinding) {
+                        progressBar.isVisible = it
+                        favRoutesRv.isVisible = !it
+                    }
                 }
             }
         }

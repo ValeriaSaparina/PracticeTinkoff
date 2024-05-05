@@ -35,7 +35,8 @@
             android:background="@color/md_theme_light_secondaryContainer"
             android:hint="@string/search"
             android:inputType="text"
-            android:textColor="@color/md_theme_light_onSecondaryContainer" />
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:importantForAutofill="no" />
 
         <ImageView
             android:id="@+id/search_ic"
@@ -58,8 +59,19 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
         tools:itemCount="10"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_route" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_routes_fb"
