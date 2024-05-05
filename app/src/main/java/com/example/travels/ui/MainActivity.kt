@@ -1,9 +1,13 @@
 package com.example.travels.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.travels.R
 import com.example.travels.ui.App.Companion.router
 import com.example.travels.ui.places.PlacesFragment
@@ -12,11 +16,14 @@ import com.example.travels.ui.routes.RoutesFragment
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val navigator = object : AppNavigator(this, R.id.container) {}
+
+    private val viewModel: AuthViewModel by viewModels()
 
     private val bottomNav: BottomNavigationView by lazy { findViewById(R.id.bottom_nav) }
     var isBottomNavVisible: Boolean
@@ -25,12 +32,39 @@ class MainActivity : AppCompatActivity() {
             bottomNav.isVisible = value
         }
 
+    var bottomNavVisibility
+        get() = bottomNav.visibility
+        set(value) {
+            bottomNav.visibility = value
+        }
+
+    var bottomNavItemSelected
+        get() = bottomNav.menu.getItem(0).isChecked
+        set(value) {
+            bottomNav.menu.getItem(0).isChecked = value
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            router.newRootScreen(Screens.Places()) // TODO: init screen
+            lifecycleScope.launch {
+                repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                    with(viewModel) {
+                        getAuthStatus()
+                        authorizationStatus.collect {
+                            it?.let {
+                                if (it) {
+                                    select(PlacesFragment.TAG)
+                                } else {
+                                    router.newRootScreen(Screens.SignIn())
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         bottomNav.setOnItemSelectedListener {
@@ -56,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun select(tag: String) {
+    internal fun select(tag: String) {
         val fm = supportFragmentManager
         var currentFragment: Fragment? = null
         val fragments = fm.fragments

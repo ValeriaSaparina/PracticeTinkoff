@@ -10,7 +10,7 @@ class GetCurrentUserUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(): Result<UserModel> {
         return runSuspendCatching {
-            userRepository.getCurrentUser()
+            userRepository.getCurrentUserFromLocal()
         }
     }
 }
