@@ -15,5 +15,7 @@ object Screens {
     fun Routes() = FragmentScreen { RoutesFragment() }
     fun Profile() = FragmentScreen { ProfileFragment() }
 //    fun PlaceDetails() = FragmentScreen { PlaceDetailsFragment() }
+//    fun AddRoute() = FragmentScreen { AddRouteFragment() }
+//    fun RouteDetails(id: Long) = FragmentScreen { RouteDetailsFragmnet.newInstance(id) }
 
 }

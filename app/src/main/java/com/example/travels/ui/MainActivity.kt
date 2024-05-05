@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            router.newRootScreen(Screens.Places()) // TODO: init screen
+            router.newRootScreen(Screens.SignIn()) // TODO: init screen
         }
 
         bottomNav.setOnItemSelectedListener {
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun select(tag: String) {
+    internal fun select(tag: String) {
         val fm = supportFragmentManager
         var currentFragment: Fragment? = null
         val fragments = fm.fragments

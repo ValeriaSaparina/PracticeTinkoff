@@ -40,4 +40,8 @@ class DataModule {
     @Singleton
     fun providePlacesDao(db: FavoritesDatabase) = db.favoritePlacesDao
 
+    @Provides
+    @Singleton
+    fun providerRoutesDao(db: FavoritesDatabase) = db.favoriteRoutesDao
+
 }
