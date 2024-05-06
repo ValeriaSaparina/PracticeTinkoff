@@ -77,6 +77,13 @@ class PlacesRepositoryImpl @Inject constructor(
         } ?: listOf()
     }
 
+    override suspend fun getFavPlaces(n: Int): List<FavItemDomainModel> {
+        return favoritePlacesDao.getFavPlaces(10)?.map {
+            favPlaceDomainModelMapper.toDomainModel(it)
+        } ?: listOf()
+    }
+
+
     override suspend fun getIdAllFavPlaces(): List<Long> {
         return favoritePlacesDao.getIdAllFavPlaces()
     }

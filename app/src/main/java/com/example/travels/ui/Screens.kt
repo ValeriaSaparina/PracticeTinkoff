@@ -1,5 +1,6 @@
 package com.example.travels.ui
 
+import com.example.travels.ui.favorites.FavoritesFragment
 import com.example.travels.ui.places.PlacesFragment
 import com.example.travels.ui.profile.ProfileFragment
 import com.example.travels.ui.routes.RoutesFragment
@@ -14,8 +15,10 @@ object Screens {
     fun Places() = FragmentScreen { PlacesFragment() }
     fun Routes() = FragmentScreen { RoutesFragment() }
     fun Profile() = FragmentScreen { ProfileFragment() }
-//    fun PlaceDetails() = FragmentScreen { PlaceDetailsFragment() }
+
+    //    fun PlaceDetails() = FragmentScreen { PlaceDetailsFragment() }
 //    fun AddRoute() = FragmentScreen { AddRouteFragment() }
 //    fun RouteDetails(id: Long) = FragmentScreen { RouteDetailsFragmnet.newInstance(id) }
+    fun Favorites() = FragmentScreen { FavoritesFragment() }
 
 }
