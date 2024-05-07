@@ -29,4 +29,8 @@ class RoutesUiModelMapper @Inject constructor() {
         }
     }
 
+    fun mapTUiModel(routes: List<RouteDomainModel>): List<RouteUIModel> {
+        return routes.map { mapToUiModel(it) }
+    }
+
 }

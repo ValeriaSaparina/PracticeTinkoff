@@ -39,7 +39,7 @@ class FavoritePlacesAdapter @Inject constructor(
                 favIc.setOnClickListener {
                     onFavIcClicked(item)
                     val newList = currentList.toMutableList()
-                    newList.removeAt(newList.indexOf(item))
+                    newList.remove(item)
                     submitList(newList)
                 }
             }

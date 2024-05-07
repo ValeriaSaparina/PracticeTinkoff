@@ -73,7 +73,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
             passwordEt.validate(
                 getString(R.string.short_password),
-                ) { text -> viewModel.isValidPassword(text) }
+            ) { text -> viewModel.isValidPassword(text) }
 
             confirmPasswordEt.validate(
                 getString(R.string.different_passwords),

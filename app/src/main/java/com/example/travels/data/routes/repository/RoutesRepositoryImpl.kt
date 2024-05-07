@@ -52,7 +52,11 @@ class RoutesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getIdAllFavRoutes(): List<String> {
-        return favoriteRoutesDao.getIdAllFavRoutes()
+        return favoriteRoutesDao.getIdAllFavRoutes() ?: listOf()
+    }
+
+    override suspend fun getFavRoutes(n: Int): List<RouteDomainModel> {
+        return mapper.toDomainModel(favoriteRoutesDao.getFavRoutes(n))
     }
 
 

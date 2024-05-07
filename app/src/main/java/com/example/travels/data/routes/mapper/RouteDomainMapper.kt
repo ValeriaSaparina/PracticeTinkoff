@@ -79,5 +79,9 @@ class RouteDomainMapper @Inject constructor() {
         )
     }
 
+    fun toDomainModel(entities: List<FavoriteRouteEntity>?): List<RouteDomainModel> {
+        return entities?.map { toDomainModel(it) } ?: listOf()
+    }
+
 
 }

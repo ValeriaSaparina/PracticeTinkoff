@@ -8,9 +8,13 @@ import javax.inject.Inject
 class GetFavoritePlacesUseCase @Inject constructor(
     private val repository: PlacesRepository,
 ) {
-    suspend operator fun invoke(): Result<List<FavItemDomainModel>> {
+    suspend operator fun invoke(n: Int? = null): Result<List<FavItemDomainModel>> {
         return runSuspendCatching {
-            repository.getAllFavPlaces()
+            if (n == null) {
+                repository.getAllFavPlaces()
+            } else {
+                repository.getFavPlaces(n)
+            }
         }
     }
 }

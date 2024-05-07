@@ -12,16 +12,21 @@ import com.example.travels.ui.App.Companion.router
 import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.places.model.PlaceUiModel
+import com.example.travels.ui.routes.model.RouteUIModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
 
     private var viewBinding: FragmentFavoritesBinding? = null
-    private val viewModel: FavoritePlacesViewModel by viewModels()
+    private val viewModel: FavoritesViewModel by viewModels()
     private val favPlacesAdapter = FavoritePlacesAdapter(
-        onFavIcClicked = ::onFavIcClicked,
-        onItemClicked = ::onItemClicked
+        onFavIcClicked = ::onPlaceFavIcClicked,
+        onItemClicked = ::onPlaceItemClicked
+    )
+    private val favRoutesAdapter = FavoritesRoutesAdapter(
+        onFavIcClicked = ::onRouteFavIcClicked,
+        onItemClicked = ::onRouteItemClicked
     )
 
     override fun onCreateView(
@@ -40,6 +45,7 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
         initObservers()
 
         viewModel.getFavoritePlaces()
+        viewModel.getFavoriteRoutes()
     }
 
     private fun initObservers() {
@@ -49,8 +55,11 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
                     showToast(it.name)
                 }
             }
-            result.observe {
+            resultPlaces.observe {
                 favPlacesAdapter.submitList(it)
+            }
+            resultRoutes.observe {
+                favRoutesAdapter.submitList(it)
             }
         }
     }
@@ -64,18 +73,28 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 }
                 with(favRoutesRv) {
-
+                    adapter = favRoutesAdapter
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 }
             }
         }
     }
 
-    private fun onItemClicked(item: PlaceUiModel) {
+    private fun onPlaceItemClicked(item: PlaceUiModel) {
 //        router.navigateTo(Screens.PlaceDetails())
     }
 
-    private fun onFavIcClicked(item: PlaceUiModel) {
-        viewModel.onFavIcClicked(item)
+    private fun onPlaceFavIcClicked(item: PlaceUiModel) {
+        viewModel.onPlaceFavIcClicked(item)
+    }
+
+    private fun onRouteItemClicked(item: RouteUIModel) {
+//        router.navigateTo(Screens.RouteDetails())
+    }
+
+    private fun onRouteFavIcClicked(item: RouteUIModel) {
+        viewModel.onRouteFavIcClicked(item)
     }
 
     private fun initListeners() {
