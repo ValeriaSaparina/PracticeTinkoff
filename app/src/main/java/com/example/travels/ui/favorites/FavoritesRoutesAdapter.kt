@@ -3,6 +3,7 @@ package com.example.travels.ui.favorites
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.example.travels.R
 import com.example.travels.databinding.ItemRouteBinding
 import com.example.travels.ui.routes.RoutesDiffCallback
 import com.example.travels.ui.routes.RoutesViewHolder
@@ -26,6 +27,13 @@ class FavoritesRoutesAdapter(
         override fun bind(item: RouteUIModel) {
             super.showData(item)
             initListeners(item)
+            setIcon()
+        }
+
+        private fun setIcon() {
+            with(viewBinding) {
+                favIc.setImageResource(R.drawable.outline_favorite_24)
+            }
         }
 
         private fun initListeners(item: RouteUIModel) {

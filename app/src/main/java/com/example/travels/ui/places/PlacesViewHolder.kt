@@ -28,6 +28,6 @@ open class PlacesViewHolder(
     private fun setIcon(isFav: Boolean) {
         val ic =
             if (isFav) R.drawable.outline_favorite_24 else R.drawable.outline_favorite_border_24
-        viewBinding.favIc.setBackgroundResource(ic)
+        viewBinding.favIc.setImageResource(ic)
     }
 }
