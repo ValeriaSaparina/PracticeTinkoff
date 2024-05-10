@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    internal fun select(tag: String) {
+    fun select(tag: String) {
         val fm = supportFragmentManager
         var currentFragment: Fragment? = null
         val fragments = fm.fragments
