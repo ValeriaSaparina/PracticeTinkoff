@@ -32,12 +32,6 @@ class MainActivity : AppCompatActivity() {
             bottomNav.isVisible = value
         }
 
-    var bottomNavVisibility
-        get() = bottomNav.visibility
-        set(value) {
-            bottomNav.visibility = value
-        }
-
     var bottomNavItemSelected
         get() = bottomNav.menu.getItem(0).isChecked
         set(value) {
@@ -90,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    internal fun select(tag: String) {
+    fun select(tag: String) {
         val fm = supportFragmentManager
         var currentFragment: Fragment? = null
         val fragments = fm.fragments

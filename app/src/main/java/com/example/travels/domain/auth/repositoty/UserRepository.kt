@@ -15,5 +15,5 @@ interface UserRepository {
     suspend fun getCurrentUserFromRemote(): UserModel
     suspend fun signOut()
     suspend fun isAuth(): Boolean
-    suspend fun getCurrentUserFromLocal(): UserModel
+    suspend fun getCurrentUserFromLocal(): UserModel?
 }

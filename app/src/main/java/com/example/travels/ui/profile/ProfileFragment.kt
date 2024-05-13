@@ -41,6 +41,8 @@ class ProfileFragment : BaseFragment() {
             user.observe {
                 if (it != null) {
                     showData(it)
+                } else {
+                    navigateToSignIn()
                 }
             }
             error.observe {
@@ -50,11 +52,15 @@ class ProfileFragment : BaseFragment() {
             }
             signOut.observe {
                 if (it == true) {
-                    router.newRootScreen(Screens.SignIn())
-                    (requireActivity() as MainActivity).bottomNavVisibility = View.INVISIBLE
+                    navigateToSignIn()
                 }
             }
         }
+    }
+
+    private fun navigateToSignIn() {
+        router.newRootScreen(Screens.SignIn())
+        (requireActivity() as MainActivity).isBottomNavVisible = false
     }
 
     @SuppressLint("SetTextI18n")

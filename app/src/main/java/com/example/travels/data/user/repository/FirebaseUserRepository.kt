@@ -72,14 +72,17 @@ class FirebaseUserRepository @Inject constructor(
         )
     }
 
-    override suspend fun getCurrentUserFromLocal(): UserModel {
-        return with(sharedPreferences)
-        {
-            UserModel(
-                id = getString(SP_USER_ID_KEY, "") ?: "",
-                firstname = getString(SP_USER_FIRSTNAME_KEY, ""),
-                lastname = getString(SP_USER_LASTNAME_KEY, ""),
-                email = getString(SP_USER_EMAIL_KEY, "") ?: ""
+    override suspend fun getCurrentUserFromLocal(): UserModel? {
+        with(sharedPreferences) {
+            val id = getString(SP_USER_ID_KEY, "") ?: return null
+            val firstname = getString(SP_USER_FIRSTNAME_KEY, "") ?: return null
+            val lastname = getString(SP_USER_LASTNAME_KEY, "") ?: return null
+            val email = getString(SP_USER_EMAIL_KEY, "") ?: return null
+            return UserModel(
+                id = id,
+                firstname = firstname,
+                lastname = lastname,
+                email = email
             )
         }
     }
