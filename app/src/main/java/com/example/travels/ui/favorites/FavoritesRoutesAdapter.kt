@@ -43,9 +43,6 @@ class FavoritesRoutesAdapter(
                 }
                 favIc.setOnClickListener {
                     onFavIcClicked(item)
-                    val newList = currentList.toMutableList()
-                    newList.remove(item)
-                    submitList(newList)
                 }
             }
         }

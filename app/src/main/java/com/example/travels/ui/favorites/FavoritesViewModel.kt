@@ -42,6 +42,9 @@ class FavoritesViewModel @Inject constructor(
             if (item.isFav) {
                 deleteFromFavPlacesUseCase.invoke(item.id.toLong())
                 item.isFav = !item.isFav
+                val newList = _resultPlaces.value?.toMutableList()
+                newList?.remove(item)
+                _resultPlaces.emit(newList)
             }
         }
     }
@@ -64,6 +67,9 @@ class FavoritesViewModel @Inject constructor(
             if (item.isFav) {
                 deleteFromFavRoutesUseCase.invoke(item)
                 item.isFav = !item.isFav
+                val newList = _resultRoutes.value?.toMutableList()
+                newList?.remove(item)
+                _resultRoutes.emit(newList)
             }
         }
     }

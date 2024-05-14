@@ -38,9 +38,6 @@ class FavoritePlacesAdapter @Inject constructor(
             with(viewBinding) {
                 favIc.setOnClickListener {
                     onFavIcClicked(item)
-                    val newList = currentList.toMutableList()
-                    newList.remove(item)
-                    submitList(newList)
                 }
             }
         }
