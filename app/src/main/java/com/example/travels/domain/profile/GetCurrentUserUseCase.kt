@@ -8,9 +8,9 @@ import javax.inject.Inject
 class GetCurrentUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    suspend operator fun invoke(): Result<UserModel> {
+    suspend operator fun invoke(): Result<UserModel?> {
         return runSuspendCatching {
-            userRepository.getCurrentUser()
+            userRepository.getCurrentUserFromLocal()
         }
     }
 }

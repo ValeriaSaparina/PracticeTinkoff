@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.travels.databinding.FragmentProfileBinding
 import com.example.travels.domain.auth.model.UserModel
+import com.example.travels.ui.App.Companion.router
+import com.example.travels.ui.MainActivity
+import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +41,8 @@ class ProfileFragment : BaseFragment() {
             user.observe {
                 if (it != null) {
                     showData(it)
+                } else {
+                    navigateToSignIn()
                 }
             }
             error.observe {
@@ -45,7 +50,17 @@ class ProfileFragment : BaseFragment() {
                     showToast(it.name)
                 }
             }
+            signOut.observe {
+                if (it == true) {
+                    navigateToSignIn()
+                }
+            }
         }
+    }
+
+    private fun navigateToSignIn() {
+        router.newRootScreen(Screens.SignIn())
+        (requireActivity() as MainActivity).isBottomNavVisible = false
     }
 
     @SuppressLint("SetTextI18n")
@@ -74,6 +89,7 @@ class ProfileFragment : BaseFragment() {
 //                    router.navigateTo(Screens.Settings())
                 }
                 exitLl.setOnClickListener {
+                    viewModel.signOut()
                 }
                 profileLl.setOnClickListener {
                 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.domain.profile.GetCurrentUserUseCase
+import com.example.travels.domain.profile.SignOutUseCase
 import com.example.travels.utils.NetworkErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val signOutUseCase: SignOutUseCase,
 ) : ViewModel() {
 
     private val _error = MutableStateFlow<NetworkErrors?>(null)
@@ -22,6 +24,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _user = MutableStateFlow<UserModel?>(null)
     val user: StateFlow<UserModel?> get() = _user
+
+    private val _signOut = MutableStateFlow<Boolean?>(null)
+    val signOut: StateFlow<Boolean?> get() = _signOut
 
     fun loadCurrentUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,6 +36,15 @@ class ProfileViewModel @Inject constructor(
                 }
                 .onFailure {
                     _error.emit(NetworkErrors.UNEXPECTED)
+                }
+        }
+    }
+
+    fun signOut() {
+        viewModelScope.launch(Dispatchers.IO) {
+            signOutUseCase.invoke()
+                .onSuccess {
+                    _signOut.emit(true)
                 }
         }
     }

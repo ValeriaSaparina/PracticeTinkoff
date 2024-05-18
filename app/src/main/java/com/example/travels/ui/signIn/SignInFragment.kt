@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.travels.databinding.FragmentSignInBinding
 import com.example.travels.ui.App.Companion.router
+import com.example.travels.ui.MainActivity
 import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
+import com.example.travels.ui.places.PlacesFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +30,6 @@ class SignInFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observe()
         initListeners()
     }
@@ -55,7 +56,10 @@ class SignInFragment : BaseFragment() {
 
             success.observe {
                 if (it) {
-                    router.newRootScreen(Screens.Places())
+                    with(requireActivity() as MainActivity) {
+                        bottomNavItemSelected = true
+                        select(PlacesFragment.TAG)
+                    }
                 }
             }
         }
