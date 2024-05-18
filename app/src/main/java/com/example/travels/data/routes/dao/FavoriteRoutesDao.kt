@@ -17,6 +17,9 @@ interface FavoriteRoutesDao {
     @Query("select * from favorite_routes where id=:id")
     suspend fun getFavRoute(id: String): FavoriteRouteEntity?
 
+    @Query("select * from favorite_routes limit :n")
+    suspend fun getFavRoutes(n: Int): List<FavoriteRouteEntity>?
+
     @Query("delete from favorite_routes where id=:id")
     suspend fun deleteFavRoute(id: String)
 
@@ -24,6 +27,6 @@ interface FavoriteRoutesDao {
     suspend fun deleteAllFavRoutes()
 
     @Query("select id from favorite_routes")
-    suspend fun getIdAllFavRoutes(): List<String>
+    suspend fun getIdAllFavRoutes(): List<String>?
 }
 

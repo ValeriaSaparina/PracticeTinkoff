@@ -9,7 +9,7 @@ import com.example.travels.utils.observe
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 
-open class BaseFragment(@LayoutRes fragmentRoutes: Int) : Fragment(fragmentRoutes) {
+open class BaseFragment(@LayoutRes layout: Int) : Fragment(layout) {
 
     protected fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(requireContext(), message, duration).show()

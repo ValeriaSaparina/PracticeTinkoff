@@ -13,4 +13,5 @@ interface RoutesRepository {
     suspend fun getFavRouteById(id: String): RouteDomainModel
     suspend fun deleteAllFavRoutes()
     suspend fun getIdAllFavRoutes(): List<String>
+    suspend fun getFavRoutes(n: Int): List<RouteDomainModel>
 }
