@@ -1,11 +1,11 @@
 package com.example.travels.ui.placeDetails.review.mapper
 
-import com.example.travels.domain.review.model.ReviewDomainModel
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.example.travels.ui.placeDetails.review.model.ReviewUiModel
 import javax.inject.Inject
 
 class ReviewUiModelMapper @Inject constructor() {
-    fun toUiModel(review: ReviewDomainModel): ReviewUiModel {
+    fun toUiModel(review: UserReviewDomainModel): ReviewUiModel {
         return with(review) {
             ReviewUiModel(
                 author = user,
@@ -15,7 +15,7 @@ class ReviewUiModelMapper @Inject constructor() {
         }
     }
 
-    fun toUiModel(reviews: List<ReviewDomainModel>?): List<ReviewUiModel> {
+    fun toUiModel(reviews: List<UserReviewDomainModel>?): List<ReviewUiModel> {
         return reviews?.map { toUiModel(it) } ?: listOf()
     }
 

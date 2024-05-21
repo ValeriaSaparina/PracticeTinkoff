@@ -2,7 +2,7 @@ package com.example.travels.data.review.mapper
 
 import com.example.travels.data.review.ReviewModel
 import com.example.travels.domain.auth.model.UserModel
-import com.example.travels.domain.review.model.ReviewDomainModel
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,9 +27,9 @@ class ReviewDomainModelMapper @Inject constructor() {
         )
     }
 
-    fun toDomainModel(review: DocumentSnapshot?, user: UserModel): ReviewDomainModel {
+    fun toDomainModel(review: DocumentSnapshot?, user: UserModel): UserReviewDomainModel {
         return with(firebaseDocToReviewModel(review)) {
-            ReviewDomainModel(
+            UserReviewDomainModel(
                 id = id,
                 rating = rating,
                 text = text,

@@ -5,7 +5,7 @@ import com.example.travels.data.review.ReviewModel
 import com.example.travels.domain.places.model.FavItemDomainModel
 import com.example.travels.domain.places.model.PlaceDomainModel
 import com.example.travels.domain.places.model.PlacesDomainModel
-import com.example.travels.domain.review.model.ReviewDomainModel
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import kotlinx.coroutines.flow.Flow
 
 interface PlacesRepository {
@@ -20,7 +20,7 @@ interface PlacesRepository {
     suspend fun deleteAllFavPlaces()
     suspend fun deleteFromFavPlaces(id: Long)
     suspend fun addNewFavPlaces(vararg items: FavItemDomainModel)
-    suspend fun addReview(review: ReviewModel): ReviewDomainModel
-    suspend fun getAllReviewsByPlace(placeId: Long): List<ReviewDomainModel>
+    suspend fun addReview(review: ReviewModel): UserReviewDomainModel
+    suspend fun getAllReviewsByPlace(placeId: Long): List<UserReviewDomainModel>
 
 }

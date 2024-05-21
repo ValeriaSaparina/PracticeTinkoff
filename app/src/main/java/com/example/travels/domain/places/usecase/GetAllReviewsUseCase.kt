@@ -1,14 +1,14 @@
 package com.example.travels.domain.places.usecase
 
 import com.example.travels.domain.places.repository.PlacesRepository
-import com.example.travels.domain.review.model.ReviewDomainModel
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.example.travels.utils.runSuspendCatching
 import javax.inject.Inject
 
 class GetAllReviewsUseCase @Inject constructor(
     private val repository: PlacesRepository,
 ) {
-    suspend operator fun invoke(placeId: Long): Result<List<ReviewDomainModel>> {
+    suspend operator fun invoke(placeId: Long): Result<List<UserReviewDomainModel>> {
         return runSuspendCatching {
             repository.getAllReviewsByPlace(placeId)
         }

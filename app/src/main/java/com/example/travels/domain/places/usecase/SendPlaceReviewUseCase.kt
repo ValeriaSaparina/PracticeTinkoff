@@ -3,7 +3,7 @@ package com.example.travels.domain.places.usecase
 import com.example.travels.data.review.ReviewModel
 import com.example.travels.domain.auth.repositoty.UserRepository
 import com.example.travels.domain.places.repository.PlacesRepository
-import com.example.travels.domain.review.model.ReviewDomainModel
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.example.travels.utils.runSuspendCatching
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class SendPlaceReviewUseCase @Inject constructor(
         placeId: Long,
         rating: String,
         text: String
-    ): Result<ReviewDomainModel> {
+    ): Result<UserReviewDomainModel> {
         return runSuspendCatching {
             placesRepository.addReview(
                 ReviewModel(
