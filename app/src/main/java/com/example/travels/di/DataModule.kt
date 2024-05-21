@@ -1,6 +1,7 @@
 package com.example.travels.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.travels.data.places.local.FavoritesDatabase
 import com.google.firebase.auth.FirebaseAuth
@@ -43,5 +44,10 @@ class DataModule {
     @Provides
     @Singleton
     fun providerRoutesDao(db: FavoritesDatabase) = db.favoriteRoutesDao
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences("storage", Context.MODE_PRIVATE)
 
 }

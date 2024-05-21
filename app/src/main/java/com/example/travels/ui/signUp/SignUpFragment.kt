@@ -8,8 +8,10 @@ import androidx.fragment.app.viewModels
 import com.example.travels.R
 import com.example.travels.databinding.FragmentSignUpBinding
 import com.example.travels.ui.App.Companion.router
+import com.example.travels.ui.MainActivity
 import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
+import com.example.travels.ui.places.PlacesFragment
 import com.example.travels.utils.validate
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,7 +47,10 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
             success.observe {
                 if (it) {
-                    router.newRootScreen(Screens.Places())
+                    with(requireActivity() as MainActivity) {
+                        bottomNavItemSelected = true
+                        select(PlacesFragment.TAG)
+                    }
                 }
             }
         }
