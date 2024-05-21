@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.travels.R
 import com.example.travels.databinding.FragmentPlacesBinding
 import com.example.travels.ui.MainActivity
 import com.example.travels.ui.base.BaseFragment
@@ -15,7 +16,7 @@ import com.example.travels.ui.places.model.PlaceUiModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PlacesFragment : BaseFragment() {
+class PlacesFragment : BaseFragment(R.layout.fragment_places) {
 
     private var viewBinding: FragmentPlacesBinding? = null
     private val viewModel: PlacesViewModel by viewModels()

@@ -30,4 +30,7 @@
     <string name="edit_profile">Edit profile</string>
     <string name="exit">Exit</string>
     <string name="avatar">Avatar</string>
+    <string name="all_routes">all routes</string>
+    <string name="all_places">all places</string>
+    <string name="add_route">Add route</string>
 </resources>

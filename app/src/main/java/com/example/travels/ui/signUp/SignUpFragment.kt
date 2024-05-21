@@ -16,7 +16,7 @@ import com.example.travels.utils.validate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : BaseFragment() {
+class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
     private var viewBinding: FragmentSignUpBinding? = null
 
 
@@ -78,7 +78,7 @@ class SignUpFragment : BaseFragment() {
 
             passwordEt.validate(
                 getString(R.string.short_password),
-                ) { text -> viewModel.isValidPassword(text) }
+            ) { text -> viewModel.isValidPassword(text) }
 
             confirmPasswordEt.validate(
                 getString(R.string.different_passwords),

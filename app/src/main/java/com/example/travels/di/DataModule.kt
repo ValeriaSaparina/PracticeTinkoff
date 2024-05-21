@@ -43,6 +43,10 @@ class DataModule {
 
     @Provides
     @Singleton
+    fun providerRoutesDao(db: FavoritesDatabase) = db.favoriteRoutesDao
+
+    @Provides
+    @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences("storage", Context.MODE_PRIVATE)
 
