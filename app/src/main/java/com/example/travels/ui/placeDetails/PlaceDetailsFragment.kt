@@ -41,7 +41,6 @@ class PlaceDetailsFragment : BaseFragment() {
 
         placeId = arguments?.getLong(Constants.ID)
         viewModel.getPlaceDetails(placeId!!)
-        viewModel.getAllReviews(placeId!!)
     }
 
     private fun initAdapter() {
@@ -56,6 +55,7 @@ class PlaceDetailsFragment : BaseFragment() {
             placeResult.observe {
                 if (it != null) {
                     showData(it)
+                    viewModel.getAllReviews(placeId!!)
                 }
             }
             error.observe {

@@ -17,8 +17,9 @@ import com.example.travels.domain.auth.repositoty.UserRepository
 import com.example.travels.domain.places.model.FavItemDomainModel
 import com.example.travels.domain.places.model.PlaceDomainModel
 import com.example.travels.domain.places.model.PlacesDomainModel
+import com.example.travels.domain.places.model.ReviewDomainModel
 import com.example.travels.domain.places.repository.PlacesRepository
-import com.example.travels.domain.review.model.ReviewDomainModel
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
@@ -75,7 +76,17 @@ class PlacesRepositoryImpl @Inject constructor(
     override suspend fun getPlaceById(id: Long): PlaceDomainModel {
         return responseDomainModelMapper.mapItemResponseToItemDomainModel(
             placesApi.getPlaceById(id)?.result?.items?.get(0)
-        )
+        ).copy(isFav = isFavPlace(id), review = ReviewDomainModel(getPlaceRating(id)))
+    }
+
+    private suspend fun isFavPlace(placeId: Long): Boolean {
+        return favoritePlacesDao.getFavPlace(placeId) != null
+    }
+
+    private suspend fun getPlaceRating(placeId: Long): Float {
+        val reviews = getAllReviewsByPlace(placeId)
+        val averageRating = reviews.sumOf { it.rating } / reviews.size
+        return if (averageRating.isNaN()) 0.0f else averageRating.toFloat()
     }
 
     override suspend fun addNewFavPlaces(vararg items: FavItemDomainModel) {
@@ -86,7 +97,7 @@ class PlacesRepositoryImpl @Inject constructor(
         favoritePlacesDao.addNewPlaces(*entities.toTypedArray())
     }
 
-    override suspend fun addReview(review: ReviewModel): ReviewDomainModel {
+    override suspend fun addReview(review: ReviewModel): UserReviewDomainModel {
         val data = with(review) {
             hashMapOf(
                 USER_ID to userId,
@@ -96,7 +107,7 @@ class PlacesRepositoryImpl @Inject constructor(
             )
         }
         val currentUser = userRepository.getCurrentUserFromRemote()
-        var result: ReviewDomainModel? = null
+        var result: UserReviewDomainModel? = null
         reviewsDoc.add(data).await().get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -111,8 +122,8 @@ class PlacesRepositoryImpl @Inject constructor(
         return result!!
     }
 
-    override suspend fun getAllReviewsByPlace(placeId: Long): List<ReviewDomainModel> {
-        val result = mutableListOf<ReviewDomainModel>()
+    override suspend fun getAllReviewsByPlace(placeId: Long): List<UserReviewDomainModel> {
+        val result = mutableListOf<UserReviewDomainModel>()
         reviewsDoc.whereEqualTo(PLACE_ID, placeId.toString()).get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

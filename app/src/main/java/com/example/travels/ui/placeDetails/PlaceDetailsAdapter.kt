@@ -1,5 +1,6 @@
 package com.example.travels.ui.placeDetails
 
+import com.example.travels.R
 import com.example.travels.databinding.ItemDetailsBinding
 import com.example.travels.ui.base.DisplayableItem
 import com.example.travels.ui.places.model.PlaceUiModel
@@ -19,6 +20,7 @@ fun placeDetailsAdapterDelegate(sendReview: (String, String) -> Unit) =
                         descriptionTv.text = description
                         addressTv.text = address
                         ratingTv.text = review.rating.toString()
+                        favIc.setImageResource(setIcon(item))
                     }
                 }
 
@@ -28,3 +30,7 @@ fun placeDetailsAdapterDelegate(sendReview: (String, String) -> Unit) =
             }
         }
     }
+
+private fun setIcon(item: PlaceUiModel): Int {
+    return if (item.isFav) R.drawable.outline_favorite_24 else R.drawable.outline_favorite_border_24
+}
