@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.travels.databinding.FragmentPlacesBinding
+import com.example.travels.ui.App.Companion.router
 import com.example.travels.ui.MainActivity
+import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.places.model.PlaceUiModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,7 +64,7 @@ class PlacesFragment : BaseFragment() {
     }
 
     private fun onItemClicked(item: PlaceUiModel) {
-//        router.navigateTo(Screens.PlaceDetails())
+        router.navigateTo(Screens.PlaceDetails(item.id.toLong()))
     }
 
     private fun onFavIcClicked(item: PlaceUiModel) {

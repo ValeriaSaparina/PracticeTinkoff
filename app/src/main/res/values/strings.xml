@@ -30,4 +30,12 @@
     <string name="edit_profile">Edit profile</string>
     <string name="exit">Exit</string>
     <string name="avatar">Avatar</string>
+    <string name="work_time">Work time</string>
+    <string name="address">Address</string>
+    <string name="rating">Rating</string>
+    <string name="reviews">Reviews</string>
+    <string name="rate_it">Rate it</string>
+    <string name="rating_example">5.0</string>
+    <string name="review_hint">Review text</string>
+    <string name="leave_review">Leave review</string>
 </resources>

@@ -40,6 +40,9 @@ class PlacesAdapter(
                     onFavIcClicked(item)
                     setIcon(!item.isFav)
                 }
+                root.setOnClickListener {
+                    onItemClicked(item)
+                }
             }
         }
 

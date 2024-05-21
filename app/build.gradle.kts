@@ -113,6 +113,11 @@ dependencies {
     // viewBindingDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
 
+    // adapterDelegate
+    val adapterDelegate = "4.3.2"
+    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adapterDelegate")
+    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegate")
+
 }
 
 
