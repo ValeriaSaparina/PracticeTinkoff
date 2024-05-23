@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.travels.R
 import com.example.travels.databinding.FragmentRoutesBinding
+import com.example.travels.ui.App.Companion.router
+import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.routes.model.RouteUIModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -76,7 +78,7 @@ class RoutesFragment : BaseFragment(R.layout.fragment_routes) {
     }
 
     private fun onItemClicked(item: RouteUIModel) {
-//        router.navigateTo(Screens.RouteDetails(item.id))
+        router.navigateTo(Screens.RouteDetails(item.id))
     }
 
     private fun onFavIcClicked(item: RouteUIModel) {

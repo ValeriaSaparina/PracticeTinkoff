@@ -5,5 +5,6 @@ data class RouteDomainModel(
     val name: String,
     val authorId: String,
     val type: String,
+    val rating: Float,
     val isFav: Boolean
 )

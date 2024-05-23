@@ -10,8 +10,9 @@ class RoutesUiModelMapper @Inject constructor() {
             RouteUIModel(
                 id = id,
                 name = name,
-                authorId = authorId,
+                author = authorId,
                 type = type,
+                rating = rating,
                 isFav = route.isFav
             )
         }
@@ -22,11 +23,13 @@ class RoutesUiModelMapper @Inject constructor() {
             RouteDomainModel(
                 id = id,
                 name = name,
-                authorId = authorId,
+                authorId = author,
                 type = type,
+                rating = rating,
                 isFav = isFav
             )
         }
+        // TODO: author instead of authorId
     }
 
     fun mapTUiModel(routes: List<RouteDomainModel>): List<RouteUIModel> {

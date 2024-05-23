@@ -3,6 +3,7 @@ package com.example.travels.ui
 import com.example.travels.ui.favorites.FavoritesFragment
 import com.example.travels.ui.places.PlacesFragment
 import com.example.travels.ui.profile.ProfileFragment
+import com.example.travels.ui.routeDetails.RouteDetailsFragment
 import com.example.travels.ui.routes.RoutesFragment
 import com.example.travels.ui.signIn.SignInFragment
 import com.example.travels.ui.signUp.SignUpFragment
@@ -18,7 +19,7 @@ object Screens {
 
     //    fun PlaceDetails() = FragmentScreen { PlaceDetailsFragment() }
 //    fun AddRoute() = FragmentScreen { AddRouteFragment() }
-//    fun RouteDetails(id: Long) = FragmentScreen { RouteDetailsFragmnet.newInstance(id) }
+    fun RouteDetails(id: String) = FragmentScreen { RouteDetailsFragment.newInstance(id) }
     fun Favorites() = FragmentScreen { FavoritesFragment() }
 
 }

@@ -1,6 +1,8 @@
 package com.example.travels.domain.routes.repository
 
+import com.example.travels.data.review.ReviewModel
 import com.example.travels.data.routes.model.RouteDataModel
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.example.travels.domain.routes.model.RouteDomainModel
 
 interface RoutesRepository {
@@ -14,4 +16,6 @@ interface RoutesRepository {
     suspend fun deleteAllFavRoutes()
     suspend fun getIdAllFavRoutes(): List<String>
     suspend fun getFavRoutes(n: Int): List<RouteDomainModel>
+    suspend fun getAllReviewsByRoute(routeId: String): List<UserReviewDomainModel>
+    suspend fun addReview(review: ReviewModel): UserReviewDomainModel
 }

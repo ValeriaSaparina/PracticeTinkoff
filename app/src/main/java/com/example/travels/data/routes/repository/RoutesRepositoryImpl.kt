@@ -1,8 +1,14 @@
 package com.example.travels.data.routes.repository
 
+import android.util.Log
+import com.example.travels.data.review.ReviewModel
+import com.example.travels.data.review.mapper.UserReviewDomainModelMapper
 import com.example.travels.data.routes.dao.FavoriteRoutesDao
 import com.example.travels.data.routes.mapper.RouteDomainMapper
 import com.example.travels.data.routes.model.RouteDataModel
+import com.example.travels.domain.auth.model.UserModel
+import com.example.travels.domain.auth.repositoty.UserRepository
+import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.example.travels.domain.routes.model.RouteDomainModel
 import com.example.travels.domain.routes.repository.RoutesRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -14,11 +20,14 @@ class RoutesRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore,
     private val auth: FirebaseAuth,
     private val favoriteRoutesDao: FavoriteRoutesDao,
+    private val userRepository: UserRepository,
     private val mapper: RouteDomainMapper,
+    private val reviewDomainModelMapper: UserReviewDomainModelMapper,
 ) : RoutesRepository {
 
     private val routeDoc = db.collection(ROUTES_COLLECTION_PATH)
     private val favoriteRoutesDoc = db.collection(FAVORITE_ROUTES_COLLECTION_PATH)
+    private val reviewsDoc = db.collection(ROUTE_REVIEWS_COLLECTION_PATH)
 
     override suspend fun searchRoutes(query: String): List<RouteDataModel> {
         return routeDoc.whereGreaterThanOrEqualTo("name", query).get()
@@ -75,12 +84,66 @@ class RoutesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllReviewsByRoute(routeId: String): List<UserReviewDomainModel> {
+        val allReviews = mutableListOf<UserReviewDomainModel>()
+        reviewsDoc.whereEqualTo(ROUTE_ID, routeId).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    allReviews.addAll(
+                        task.result.documents.map {
+                            reviewDomainModelMapper.toDomainModel(
+                                it,
+                                UserModel(it.getString("user_id") ?: "", "", "", "")
+                            )
+                        }
+                    )
+                }
+            }
+            .addOnFailureListener {
+                Log.d("REVIEW", it.toString())
+            }
+            .await()
+        val result = mutableListOf<UserReviewDomainModel>()
+        allReviews.forEach {
+            result.add(it.copy(user = userRepository.getUserById(it.user.id)))
+        }
+        return result
+    }
+
+    override suspend fun addReview(review: ReviewModel): UserReviewDomainModel {
+        val data = with(review) {
+            hashMapOf(
+                USER_ID to userId,
+                ROUTE_ID to routeId,
+                TEXT to text,
+                RATING to rating
+            )
+        }
+        val currentUser = userRepository.getCurrentUserFromRemote()
+        var result: UserReviewDomainModel? = null
+        reviewsDoc.add(data).await().get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    result = reviewDomainModelMapper.toDomainModel(
+                        task.result!!,
+                        currentUser
+                    )
+                }
+            }
+            .addOnFailureListener {}
+            .await()
+        return result!!
+    }
+
 
     companion object {
         private const val ROUTES_COLLECTION_PATH = "routes"
         private const val FAVORITE_ROUTES_COLLECTION_PATH = "favorite_routes"
+        private const val ROUTE_REVIEWS_COLLECTION_PATH = "route_reviews"
         private const val USER_ID = "user_id"
         private const val ROUTE_ID = "route_id"
+        private const val TEXT = "text"
+        private const val RATING = "rating"
     }
 
 }

@@ -9,6 +9,7 @@ data class FavoriteRouteEntity(
     val name: String,
     val authorId: String,
     val type: String,
+    val rating: Float,
     val noteId: Long
 )
 

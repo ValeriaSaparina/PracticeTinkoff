@@ -12,16 +12,18 @@ class RouteDomainMapper @Inject constructor() {
             RouteDomainModel(
                 id = id,
                 name = name,
-                isFav = false,
                 authorId = "",
                 type = "",
+                rating = rating,
+                isFav = false,
             )
         } ?: RouteDomainModel(
             id = "",
             name = "",
-            isFav = false,
             authorId = "",
             type = "",
+            rating = 0f,
+            isFav = false,
         )
     }
 
@@ -29,11 +31,13 @@ class RouteDomainMapper @Inject constructor() {
         return doc?.run {
             RouteDataModel(
                 id = id,
-                name = data?.get("name").toString()
+                name = data?.get("name").toString(),
+                rating = data?.get("rating").toString().toFloat()
             )
         } ?: RouteDataModel(
             id = "",
-            name = ""
+            name = "",
+            rating = 0f
         )
     }
 
@@ -44,6 +48,7 @@ class RouteDomainMapper @Inject constructor() {
                 name = name,
                 authorId = authorId,
                 type = type,
+                rating = rating,
                 noteId = -1
             )
         } ?: FavoriteRouteEntity(
@@ -51,6 +56,7 @@ class RouteDomainMapper @Inject constructor() {
             name = "",
             authorId = "",
             type = "",
+            rating = 0f,
             noteId = -1
         )
     }
@@ -60,16 +66,18 @@ class RouteDomainMapper @Inject constructor() {
             RouteDomainModel(
                 id = id,
                 name = name,
-                isFav = false,
                 authorId = "",
                 type = "",
+                rating = rating,
+                isFav = false,
             )
         } ?: RouteDomainModel(
             id = "",
             name = "",
-            isFav = false,
             authorId = "",
             type = "",
+            rating = 0f,
+            isFav = false,
         )
     }
 
