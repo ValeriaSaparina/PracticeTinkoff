@@ -39,9 +39,25 @@ class RoutesRepositoryImpl @Inject constructor(
 
 
     override suspend fun getRoute(id: String): RouteDataModel {
-        return mapper.toDataModel(
+        val route = mapper.toDataModel(
             routeDoc.document(id).get().await()
         )
+        return route.copy(
+            isFav = isFavRoute(id),
+            rating = getRouteRating(id),
+            author = getRouteAuthor(route.author.id)
+        )
+    }
+
+
+    private suspend fun isFavRoute(placeId: String): Boolean {
+        return favoriteRoutesDao.getFavRoute(placeId) != null
+    }
+
+    private suspend fun getRouteRating(routeId: String): Float {
+        val reviews = getAllReviewsByRoute(routeId)
+        val averageRating = reviews.sumOf { it.rating } / reviews.size
+        return if (averageRating.isNaN()) 0.0f else averageRating.toFloat()
     }
 
     override suspend fun addNewFavRoute(route: RouteDomainModel) {
@@ -62,8 +78,16 @@ class RoutesRepositoryImpl @Inject constructor(
         return favoriteRoutesDao.getAllFavRoutes()?.map { entity ->
             mapper.toDomainModel(entity)
         }?.map {
-            it.copy(isFav = true)
+            it.copy(
+                isFav = true,
+                rating = getRouteRating(routeId = it.id),
+                author = getRouteAuthor(routeId = it.author.id)
+            )
         } ?: listOf()
+    }
+
+    private suspend fun getRouteAuthor(routeId: String): UserModel {
+        return userRepository.getUserById(routeId)
     }
 
     override suspend fun getFavRouteById(id: String): RouteDomainModel {
@@ -80,7 +104,11 @@ class RoutesRepositoryImpl @Inject constructor(
 
     override suspend fun getFavRoutes(n: Int): List<RouteDomainModel> {
         return mapper.toDomainModel(favoriteRoutesDao.getFavRoutes(n)).map {
-            it.copy(isFav = true)
+            it.copy(
+                isFav = true,
+                rating = getRouteRating(it.id),
+                author = getRouteAuthor(it.author.id)
+            )
         }
     }
 

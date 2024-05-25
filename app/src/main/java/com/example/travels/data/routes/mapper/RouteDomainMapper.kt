@@ -2,25 +2,28 @@ package com.example.travels.data.routes.mapper
 
 import com.example.travels.data.routes.entity.FavoriteRouteEntity
 import com.example.travels.data.routes.model.RouteDataModel
+import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.domain.routes.model.RouteDomainModel
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
 class RouteDomainMapper @Inject constructor() {
+    private val defaultUser = UserModel("", "", "", "")
+
     fun toDomainModel(route: RouteDataModel?): RouteDomainModel {
         return route?.run {
             RouteDomainModel(
                 id = id,
                 name = name,
-                authorId = "",
-                type = "",
+                author = author,
+                type = type,
                 rating = rating,
-                isFav = false,
+                isFav = isFav,
             )
         } ?: RouteDomainModel(
             id = "",
             name = "",
-            authorId = "",
+            author = defaultUser,
             type = "",
             rating = 0f,
             isFav = false,
@@ -32,12 +35,18 @@ class RouteDomainMapper @Inject constructor() {
             RouteDataModel(
                 id = id,
                 name = data?.get("name").toString(),
-                rating = data?.get("rating").toString().toFloat()
+                type = data?.get("type").toString(),
+                author = defaultUser.copy(id = data?.get("user_id").toString()),
+                rating = data?.get("rating").toString().toFloat(),
+                isFav = false
             )
         } ?: RouteDataModel(
             id = "",
             name = "",
-            rating = 0f
+            rating = 0f,
+            author = defaultUser,
+            isFav = false,
+            type = ""
         )
     }
 
@@ -46,7 +55,7 @@ class RouteDomainMapper @Inject constructor() {
             FavoriteRouteEntity(
                 id = id,
                 name = name,
-                authorId = authorId,
+                authorId = author.id,
                 type = type,
                 rating = rating,
                 noteId = -1
@@ -66,15 +75,15 @@ class RouteDomainMapper @Inject constructor() {
             RouteDomainModel(
                 id = id,
                 name = name,
-                authorId = "",
-                type = "",
+                author = defaultUser.copy(id = entity.authorId),
+                type = type,
                 rating = rating,
                 isFav = false,
             )
         } ?: RouteDomainModel(
             id = "",
             name = "",
-            authorId = "",
+            author = defaultUser,
             type = "",
             rating = 0f,
             isFav = false,

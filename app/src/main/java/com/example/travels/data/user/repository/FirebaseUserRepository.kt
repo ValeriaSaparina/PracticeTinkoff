@@ -1,7 +1,6 @@
 package com.example.travels.data.user.repository
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.travels.data.user.mapper.UserMapper
 import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.domain.auth.repositoty.UserRepository
@@ -65,7 +64,6 @@ class FirebaseUserRepository @Inject constructor(
         val user = mapper.firebaseDocToUserModel(
             db.collection(USERS_COLLECTION_PATH).document(uId).get().await()
         )
-        Log.d("ROUTES", user.toString())
         return user
     }
 

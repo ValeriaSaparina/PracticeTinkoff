@@ -1,7 +1,6 @@
 package com.example.travels.ui.routeDetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -98,14 +97,12 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
         val newList =
             detailsAdapter.items.orEmpty().toMutableList().apply { add(item) }
         detailsAdapter.items = newList
-        Log.d("ROUTES", newList.size.toString())
         detailsAdapter.notifyItemInserted(newList.size - 1)
     }
 
     private fun updateItem(items: List<DisplayableItem>) {
         val newList =
             detailsAdapter.items.orEmpty().toMutableList().apply { addAll(items) }
-        Log.d("ROUTES", newList.size.toString())
         detailsAdapter.items = newList
         detailsAdapter.notifyItemInserted(newList.size - 1)
     }

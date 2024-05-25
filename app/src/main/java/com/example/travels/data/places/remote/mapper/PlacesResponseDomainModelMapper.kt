@@ -19,16 +19,16 @@ class PlacesResponseDomainModelMapper @Inject constructor() {
 
     fun mapResponseToDomainModel(response: PlacesResponseModel?): PlacesDomainModel {
         return response?.run {
-                val meta = mapMetaResponseToMetaDomainModel(meta)
-                val result = ResultDomainModel(
-                    items = mapItemResponseToItemDomainModel(result?.items),
-                    total = result?.total ?: 0
-                )
+            val meta = mapMetaResponseToMetaDomainModel(meta)
+            val result = ResultDomainModel(
+                items = mapItemResponseToItemDomainModel(result?.items),
+                total = result?.total ?: 0
+            )
 
-                PlacesDomainModel(
-                    meta = meta,
-                    result = result
-                )
+            PlacesDomainModel(
+                meta = meta,
+                result = result
+            )
 
         } ?: throw NullPointerException("response is null")
     }
