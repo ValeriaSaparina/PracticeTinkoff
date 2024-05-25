@@ -1,14 +1,15 @@
 package com.example.travels.ui.favorites
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.places.usecase.DeleteFromFavPlacesUseCase
 import com.example.travels.domain.places.usecase.GetFavoritePlacesUseCase
 import com.example.travels.domain.routes.usercase.DeleteFavRouteUseCase
 import com.example.travels.domain.routes.usercase.GetFavoriteRoutesUseCase
-import com.example.travels.ui.mapper.RoutesUiModelMapper
 import com.example.travels.ui.places.mapper.PlacesUiModelMapper
 import com.example.travels.ui.places.model.PlaceUiModel
+import com.example.travels.ui.routes.mapper.RoutesUiModelMapper
 import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.NetworkErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -81,6 +82,7 @@ class FavoritesViewModel @Inject constructor(
                     _resultRoutes.emit(routesMapper.mapTUiModel(it))
                 }
                 .onFailure {
+                    Log.d("ROUTES", it.toString())
                     _error.emit(NetworkErrors.UNEXPECTED)
                 }
         }

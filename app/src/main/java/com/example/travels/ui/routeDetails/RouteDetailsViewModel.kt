@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.review.GetAllRouteReviewsUseCase
 import com.example.travels.domain.review.SendRouteReviewReviewUseCase
 import com.example.travels.domain.routes.usercase.GetRouteByIdUseCase
-import com.example.travels.ui.mapper.RoutesUiModelMapper
 import com.example.travels.ui.routeDetails.review.mapper.ReviewUiModelMapper
 import com.example.travels.ui.routeDetails.review.model.UserReviewUiModel
+import com.example.travels.ui.routes.mapper.RoutesUiModelMapper
 import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.NetworkErrors
 import dagger.hilt.android.lifecycle.HiltViewModel

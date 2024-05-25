@@ -1,4 +1,4 @@
-package com.example.travels.ui.mapper
+package com.example.travels.ui.routes.mapper
 
 import com.example.travels.domain.routes.model.RouteDomainModel
 import com.example.travels.ui.routes.model.RouteUIModel

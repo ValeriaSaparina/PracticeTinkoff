@@ -33,9 +33,9 @@
     <string name="all_routes">all routes</string>
     <string name="all_places">all places</string>
     <string name="add_route">Add route</string>
-    <string name="author">Author</string>
-    <string name="type">Type</string>
-    <string name="rating">Rating</string>
+    <string name="author">Author:</string>
+    <string name="type">Type:</string>
+    <string name="rating">Rating:</string>
     <string name="reviews">Reviews</string>
     <string name="rate_it">Rate it</string>
     <string name="rating_example">5.0</string>

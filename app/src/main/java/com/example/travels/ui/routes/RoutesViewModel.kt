@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.routes.usercase.AddNewFavRouteUseCase
 import com.example.travels.domain.routes.usercase.DeleteFavRouteUseCase
 import com.example.travels.domain.routes.usercase.SearchRoutesUseCase
-import com.example.travels.ui.mapper.RoutesUiModelMapper
+import com.example.travels.ui.routes.mapper.RoutesUiModelMapper
 import com.example.travels.ui.routes.model.RouteUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

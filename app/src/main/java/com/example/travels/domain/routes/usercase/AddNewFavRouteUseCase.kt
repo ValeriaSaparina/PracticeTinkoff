@@ -1,7 +1,7 @@
 package com.example.travels.domain.routes.usercase
 
 import com.example.travels.domain.routes.repository.RoutesRepository
-import com.example.travels.ui.mapper.RoutesUiModelMapper
+import com.example.travels.ui.routes.mapper.RoutesUiModelMapper
 import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.runSuspendCatching
 import javax.inject.Inject

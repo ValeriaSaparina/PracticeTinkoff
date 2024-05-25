@@ -30,11 +30,19 @@ class RoutesRepositoryImpl @Inject constructor(
     private val reviewsDoc = db.collection(ROUTE_REVIEWS_COLLECTION_PATH)
 
     override suspend fun searchRoutes(query: String): List<RouteDataModel> {
-        return routeDoc.whereGreaterThanOrEqualTo("name", query).get()
+        val routes = routeDoc.whereGreaterThanOrEqualTo("name", query).get()
             .await()
             .map {
                 mapper.toDataModel(it)
             }
+
+        return routes.map { route ->
+            route.copy(
+                isFav = isFavRoute(route.id),
+                rating = getRouteRating(route.id),
+                author = getRouteAuthor(route.author.id)
+            )
+        }
     }
 
 
@@ -121,7 +129,7 @@ class RoutesRepositoryImpl @Inject constructor(
                         task.result.documents.map {
                             reviewDomainModelMapper.toDomainModel(
                                 it,
-                                UserModel(it.getString("user_id") ?: "", "", "", "")
+                                UserModel(it.getString(USER_ID) ?: "", "", "", "")
                             )
                         }
                     )
@@ -158,7 +166,8 @@ class RoutesRepositoryImpl @Inject constructor(
                     )
                 }
             }
-            .addOnFailureListener {}
+            .addOnFailureListener {
+            }
             .await()
         return result!!
     }

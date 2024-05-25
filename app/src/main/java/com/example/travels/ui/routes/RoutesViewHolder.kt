@@ -1,5 +1,6 @@
 package com.example.travels.ui.routes
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travels.R
 import com.example.travels.databinding.ItemRouteBinding
@@ -12,23 +13,18 @@ open class RoutesViewHolder(
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
     open fun bind(item: RouteUIModel) {
-        with(viewBinding) {
-            showData(item)
-            routeNameTv.text = item.name
-//                routeRateTv.text = item.rate
-//                routeTypeTv.text = item.type
-//                authorTv.text = item.author
-            setIcon(item.isFav)
-            initListeners(item)
-        }
+        showData(item)
+        setIcon(item.isFav)
+        initListeners(item)
     }
 
+    @SuppressLint("SetTextI18n")
     protected fun showData(item: RouteUIModel) {
         with(viewBinding) {
             routeNameTv.text = item.name
-//                routeRateTv.text = item.rate
-//                routeTypeTv.text = item.type
-//                authorTv.text = item.author}
+            valueRouteRateTv.text = item.rating.toString()
+            valuerouteTypeTv.text = item.type
+            valueAuthorTv.text = "${item.author.firstname} ${item.author.lastname}"
         }
     }
 
