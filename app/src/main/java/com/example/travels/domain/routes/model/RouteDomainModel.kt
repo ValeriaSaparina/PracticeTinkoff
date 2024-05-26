@@ -8,5 +8,6 @@ data class RouteDomainModel(
     val author: UserModel,
     val type: String,
     val rating: Float,
+    val placesId: List<String>,
     val isFav: Boolean
 )

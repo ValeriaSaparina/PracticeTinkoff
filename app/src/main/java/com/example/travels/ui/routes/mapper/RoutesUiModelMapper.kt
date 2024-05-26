@@ -13,7 +13,8 @@ class RoutesUiModelMapper @Inject constructor() {
                 author = author,
                 type = type,
                 rating = rating,
-                isFav = isFav
+                isFav = isFav,
+                placesId = placesId
             )
         }
     }
@@ -26,7 +27,8 @@ class RoutesUiModelMapper @Inject constructor() {
                 author = author,
                 type = type,
                 rating = rating,
-                isFav = isFav
+                isFav = isFav,
+                placesId = placesId
             )
         }
     }

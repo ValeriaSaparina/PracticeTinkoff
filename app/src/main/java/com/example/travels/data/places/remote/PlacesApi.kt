@@ -20,4 +20,9 @@ interface PlacesApi {
         @Query("page") page: Int
     ): PlacesResponseModel?
 
+    @GET("items/byid")
+    suspend fun getPlaceById(
+        @Query("id") id: Long
+    ): PlacesResponseModel?
+
 }

@@ -9,5 +9,7 @@ data class RouteUIModel(
     val author: UserModel,
     val type: String,
     val rating: Float,
-    var isFav: Boolean
-) : DisplayableItem
+    var isFav: Boolean,
+    val placesId: List<String>
+) : DisplayableItem {
+}

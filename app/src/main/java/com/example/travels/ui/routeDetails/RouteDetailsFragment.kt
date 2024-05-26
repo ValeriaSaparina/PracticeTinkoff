@@ -14,7 +14,7 @@ import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.base.DisplayableItem
 import com.example.travels.ui.routeDetails.adapter.DetailsAdapter
-import com.example.travels.ui.routes.model.RouteUIModel
+import com.example.travels.ui.routeDetails.model.RouteDetailsUIModel
 import com.example.travels.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,10 +86,10 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
         )
     }
 
-    private fun showData(route: RouteUIModel) {
+    private fun showData(details: RouteDetailsUIModel) {
         viewBinding?.run {
-            toolbar.toolbar.title = route.name
-            updateItem(route)
+            toolbar.toolbar.title = details.route.name
+            updateItem(details)
         }
     }
 

@@ -18,6 +18,7 @@ class RouteDomainMapper @Inject constructor() {
                 author = author,
                 type = type,
                 rating = rating,
+                placesId = placesId,
                 isFav = isFav,
             )
         } ?: RouteDomainModel(
@@ -26,6 +27,7 @@ class RouteDomainMapper @Inject constructor() {
             author = defaultUser,
             type = "",
             rating = 0f,
+            placesId = listOf(),
             isFav = false,
         )
     }
@@ -38,6 +40,7 @@ class RouteDomainMapper @Inject constructor() {
                 type = data?.get("type").toString(),
                 author = defaultUser.copy(id = data?.get("user_id").toString()),
                 rating = data?.get("rating").toString().toFloat(),
+                placesId = listOf(),
                 isFav = false
             )
         } ?: RouteDataModel(
@@ -46,6 +49,7 @@ class RouteDomainMapper @Inject constructor() {
             rating = 0f,
             author = defaultUser,
             isFav = false,
+            placesId = listOf(),
             type = ""
         )
     }
@@ -78,6 +82,7 @@ class RouteDomainMapper @Inject constructor() {
                 author = defaultUser.copy(id = entity.authorId),
                 type = type,
                 rating = rating,
+                placesId = listOf(), // TODO: list of places from Room
                 isFav = false,
             )
         } ?: RouteDomainModel(
@@ -86,6 +91,7 @@ class RouteDomainMapper @Inject constructor() {
             author = defaultUser,
             type = "",
             rating = 0f,
+            placesId = listOf(),
             isFav = false,
         )
     }

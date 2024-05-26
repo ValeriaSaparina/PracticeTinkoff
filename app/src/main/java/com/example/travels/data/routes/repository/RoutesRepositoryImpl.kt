@@ -26,6 +26,7 @@ class RoutesRepositoryImpl @Inject constructor(
 ) : RoutesRepository {
 
     private val routeDoc = db.collection(ROUTES_COLLECTION_PATH)
+    private val routePlacesDoc = db.collection(ROUTES_PLACES_COLLECTION_PATH)
     private val favoriteRoutesDoc = db.collection(FAVORITE_ROUTES_COLLECTION_PATH)
     private val reviewsDoc = db.collection(ROUTE_REVIEWS_COLLECTION_PATH)
 
@@ -53,13 +54,20 @@ class RoutesRepositoryImpl @Inject constructor(
         return route.copy(
             isFav = isFavRoute(id),
             rating = getRouteRating(id),
-            author = getRouteAuthor(route.author.id)
+            author = getRouteAuthor(route.author.id),
+            placesId = getRoutePlaces(id)
         )
     }
 
 
-    private suspend fun isFavRoute(placeId: String): Boolean {
-        return favoriteRoutesDao.getFavRoute(placeId) != null
+    private suspend fun isFavRoute(routeId: String): Boolean {
+        return favoriteRoutesDao.getFavRoute(routeId) != null
+    }
+
+    private suspend fun getRoutePlaces(routeId: String): List<String> {
+        return routePlacesDoc.whereEqualTo(ROUTE_ID, routeId).get().await().documents.map {
+            it.getString(PLACE_ID)!!
+        }
     }
 
     private suspend fun getRouteRating(routeId: String): Float {
@@ -175,10 +183,12 @@ class RoutesRepositoryImpl @Inject constructor(
 
     companion object {
         private const val ROUTES_COLLECTION_PATH = "routes"
+        private const val ROUTES_PLACES_COLLECTION_PATH = "route_places"
         private const val FAVORITE_ROUTES_COLLECTION_PATH = "favorite_routes"
         private const val ROUTE_REVIEWS_COLLECTION_PATH = "route_reviews"
         private const val USER_ID = "user_id"
         private const val ROUTE_ID = "route_id"
+        private const val PLACE_ID = "place_id"
         private const val TEXT = "text"
         private const val RATING = "rating"
     }

@@ -11,8 +11,8 @@ interface PlacesRepository {
     suspend fun getPlaceByTextQuery(query: String): PlacesDomainModel
     suspend fun getPlacesByPage(query: String, page: Long, pageSize: Int = 50): PlacesDomainModel
     fun searchPlaces(query: String): Flow<PagingData<PlaceDomainModel>>
-
     suspend fun getAllFavPlaces(): List<FavItemDomainModel>
+    suspend fun getPlaceById(id: Long): PlaceDomainModel
     suspend fun getIdAllFavPlaces(): List<Long>
     suspend fun getFavPlaceById(id: Long): FavItemDomainModel
     suspend fun deleteAllFavPlaces()
