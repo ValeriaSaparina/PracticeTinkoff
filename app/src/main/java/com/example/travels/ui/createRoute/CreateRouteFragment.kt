@@ -1,6 +1,7 @@
 package com.example.travels.ui.createRoute
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ class CreateRouteFragment : BaseFragment(R.layout.fragment_create_route) {
 
     private val viewBinding by viewBinding(FragmentCreateRouteBinding::bind)
     private val viewModel: CreateRouteViewModel by viewModels()
-    private val placesAdapter = RoutePlacesAdapter(::onIcClicked, ::onItemLongClick)
+    private val placesAdapter = RoutePlacesAdapter(::onFavIcClicked, ::onItemClicked)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,12 +85,14 @@ class CreateRouteFragment : BaseFragment(R.layout.fragment_create_route) {
         this.id
     }
 
-    private fun onIcClicked(item: PlaceUiModel) {
-        viewModel.deleteFromList(item)
+    private fun onFavIcClicked(item: PlaceUiModel) {
+
     }
 
-    private fun onItemLongClick(item: PlaceUiModel) {
-        viewModel.addPlaceToRoute(item)
+    private fun onItemClicked(item: PlaceUiModel): Boolean {
+        val result = viewModel.onPlaceClicked(item)
+        Log.d("CREATE_ROUTE", "$result")
+        return result
     }
 
     companion object {

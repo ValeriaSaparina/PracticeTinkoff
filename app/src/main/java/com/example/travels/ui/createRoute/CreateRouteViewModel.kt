@@ -23,16 +23,7 @@ class CreateRouteViewModel @Inject constructor(
     private var _error = MutableStateFlow<CreateRouteError?>(null)
     val error: StateFlow<CreateRouteError?> get() = _error
 
-    private val places = mutableListOf<PlaceUiModel>(/*PlaceUiModel(
-        id = 1,
-        type = "type1",
-        name = "name1",
-        description = "desc1",
-        address = "address1",
-        rating = 0.0f,
-        isFav = true,
-    )*/
-    )
+    private val places = mutableListOf<PlaceUiModel>()
 
     private val _success = MutableStateFlow<Boolean?>(null)
     val success: StateFlow<Boolean?> get() = _success
@@ -40,12 +31,16 @@ class CreateRouteViewModel @Inject constructor(
     private val _favPlaces = MutableStateFlow<List<PlaceUiModel>?>(null)
     val favPlaces: StateFlow<List<PlaceUiModel>?> get() = _favPlaces
 
-    fun deleteFromList(item: PlaceUiModel) {
-        places.remove(item)
-    }
-
-    fun addPlaceToRoute(item: PlaceUiModel) {
-        places.add(item)
+    fun onPlaceClicked(item: PlaceUiModel): Boolean {
+        return if (places.contains(item)) {
+            places.remove(item)
+            Log.d("CREATE_ROUTE", places.toString())
+            false
+        } else {
+            places.add(item)
+            Log.d("CREATE_ROUTE", places.toString())
+            true
+        }
     }
 
     fun getFavPlaces() {
@@ -54,7 +49,6 @@ class CreateRouteViewModel @Inject constructor(
             getFavoritePlacesUseCase.invoke()
                 .onSuccess {
                     _favPlaces.emit(placesMapper.toUiModel(it))
-                    places.add(placesMapper.toUiModel(it)[0])
                 }
                 .onFailure {
                     Log.d("GET_FAVS", it.toString())

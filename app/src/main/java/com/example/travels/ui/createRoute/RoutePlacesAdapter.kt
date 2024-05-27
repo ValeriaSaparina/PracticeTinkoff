@@ -1,17 +1,17 @@
 package com.example.travels.ui.createRoute
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.travels.R
 import com.example.travels.databinding.ItemPlaceBinding
 import com.example.travels.ui.places.PlacesDiffCallback
 import com.example.travels.ui.places.model.PlaceUiModel
 
 class RoutePlacesAdapter(
     private val onIcClicked: (PlaceUiModel) -> Unit,
-    private val onItemLongClick: (PlaceUiModel) -> Unit,
+    private val onItemLongClick: (PlaceUiModel) -> Boolean,
 ) : ListAdapter<PlaceUiModel, RoutePlacesAdapter.ViewHolder>(PlacesDiffCallback()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -30,20 +30,24 @@ class RoutePlacesAdapter(
             with(viewBinding) {
                 nameTv.text = item.name
                 descriptionTv.text = item.description
-//                favIc.setBackgroundResource(R.drawable.baseline_delete_outline_24)
+                favIc.setImageResource(R.drawable.outline_favorite_24)
+                content.setBackgroundResource(R.color.md_thene_light_not_selected)
                 initListeners(item)
             }
         }
 
         private fun initListeners(item: PlaceUiModel) {
             with(viewBinding) {
-                favIc.setOnClickListener {
+                this.favIc.setOnClickListener {
                     onIcClicked(item)
                 }
-                root.setOnLongClickListener {
-                    onItemLongClick(item)
-                    it.setBackgroundColor(Color.argb(128, 255, 255, 255))
-                    true
+                cardView.setOnClickListener {
+                    val color = if (!onItemLongClick(item)) {
+                        R.color.md_thene_light_not_selected
+                    } else {
+                        R.color.md_theme_light_secondaryContainer
+                    }
+                    content.setBackgroundResource(color)
                 }
             }
         }
