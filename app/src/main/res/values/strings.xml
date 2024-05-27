@@ -41,4 +41,10 @@
     <string name="rating_example">5.0</string>
     <string name="type_something">Type something…</string>
     <string name="leave_review">Leave review</string>
+    <string name="create_route">Create routes</string>
+    <string name="description">Description</string>
+    <string name="route_name">Route name</string>
+    <string name="route_type">Type</string>
+    <string name="empty_value">Empty value</string>
+    <string name="empty_route_places">Add at least one place</string>
 </resources>

@@ -36,3 +36,9 @@ enum class ApiErrors {
         }
     }
 }
+
+enum class CreateRouteError {
+    EMPTY_VALUE,
+    EMPTY_LIST,
+    UNEXPECTED
+}

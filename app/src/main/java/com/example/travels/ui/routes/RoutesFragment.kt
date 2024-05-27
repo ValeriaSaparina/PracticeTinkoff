@@ -69,7 +69,7 @@ class RoutesFragment : BaseFragment(R.layout.fragment_routes) {
     private fun initListeners() {
         with(viewBinding) {
             addRoutesFb.setOnClickListener {
-//                router.navigateTo(Screens.AddRoute())
+                router.navigateTo(Screens.AddRoute())
             }
             searchIc.setOnClickListener {
                 viewModel.searchRoutes(queryEt.text.toString())

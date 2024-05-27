@@ -11,6 +11,7 @@ import com.example.travels.domain.auth.repositoty.UserRepository
 import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.example.travels.domain.routes.model.RouteDomainModel
 import com.example.travels.domain.routes.repository.RoutesRepository
+import com.example.travels.ui.places.model.PlaceUiModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -159,8 +160,8 @@ class RoutesRepositoryImpl @Inject constructor(
             hashMapOf(
                 USER_ID to userId,
                 ROUTE_ID to routeId,
-                TEXT to text,
-                RATING to rating
+                REVIEW_TEXT to text,
+                REVIEW_RATING to rating
             )
         }
         val currentUser = userRepository.getCurrentUserFromRemote()
@@ -174,10 +175,34 @@ class RoutesRepositoryImpl @Inject constructor(
                     )
                 }
             }
-            .addOnFailureListener {
-            }
+            .addOnFailureListener {}
             .await()
         return result!!
+    }
+
+    override suspend fun createRoute(name: String, type: String, places: List<PlaceUiModel>) {
+        val routeData =
+            hashMapOf(
+                ROUTE_NAME to name,
+                ROUTE_TYPE to type,
+                ROUTE_RATING to 0,
+                USER_ID to auth.uid
+            )
+        routeDoc.add(routeData).await().get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val routeId = task.result.id
+                    places.forEach {
+                        val placeData =
+                            hashMapOf(
+                                PLACE_ID to it.id,
+                                ROUTE_ID to routeId
+                            )
+                        routePlacesDoc.add(placeData)
+                    }
+                }
+            }
+            .addOnFailureListener {}
     }
 
 
@@ -186,11 +211,17 @@ class RoutesRepositoryImpl @Inject constructor(
         private const val ROUTES_PLACES_COLLECTION_PATH = "route_places"
         private const val FAVORITE_ROUTES_COLLECTION_PATH = "favorite_routes"
         private const val ROUTE_REVIEWS_COLLECTION_PATH = "route_reviews"
+
         private const val USER_ID = "user_id"
-        private const val ROUTE_ID = "route_id"
         private const val PLACE_ID = "place_id"
-        private const val TEXT = "text"
-        private const val RATING = "rating"
+
+        private const val ROUTE_ID = "route_id"
+        private const val ROUTE_NAME = "name"
+        private const val ROUTE_TYPE = "type"
+        private const val ROUTE_RATING = "rating"
+
+        private const val REVIEW_TEXT = "text"
+        private const val REVIEW_RATING = "rating"
     }
 
 }

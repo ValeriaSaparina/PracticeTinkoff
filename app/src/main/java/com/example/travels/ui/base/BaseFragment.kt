@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.example.travels.R
 import com.example.travels.utils.AuthErrors
+import com.example.travels.utils.CreateRouteError
 import com.example.travels.utils.observe
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +26,15 @@ open class BaseFragment(@LayoutRes layout: Int) : Fragment(layout) {
             AuthErrors.INVALID_DATA -> showToast(getString(R.string.invalid_data))
             AuthErrors.UNEXPECTED -> showToast(getString(R.string.unexpected_error))
             AuthErrors.INVALID_CREDENTIALS -> showToast(getString(R.string.invalid_credentials))
+        }
+    }
+
+    protected fun showInputError(error: CreateRouteError?) {
+        when (error) {
+            CreateRouteError.EMPTY_VALUE -> showToast(getString(R.string.empty_value))
+            CreateRouteError.EMPTY_LIST -> showToast(getString(R.string.empty_route_places))
+            CreateRouteError.UNEXPECTED -> showToast(getString(R.string.unexpected_error))
+            null -> {}
         }
     }
 

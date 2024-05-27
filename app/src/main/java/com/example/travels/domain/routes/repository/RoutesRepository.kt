@@ -4,6 +4,7 @@ import com.example.travels.data.review.ReviewModel
 import com.example.travels.data.routes.model.RouteDataModel
 import com.example.travels.domain.review.model.UserReviewDomainModel
 import com.example.travels.domain.routes.model.RouteDomainModel
+import com.example.travels.ui.places.model.PlaceUiModel
 
 interface RoutesRepository {
     suspend fun searchRoutes(query: String): List<RouteDataModel>
@@ -18,4 +19,5 @@ interface RoutesRepository {
     suspend fun getFavRoutes(n: Int): List<RouteDomainModel>
     suspend fun getAllReviewsByRoute(routeId: String): List<UserReviewDomainModel>
     suspend fun addReview(review: ReviewModel): UserReviewDomainModel
+    suspend fun createRoute(name: String, type: String, places: List<PlaceUiModel>)
 }
