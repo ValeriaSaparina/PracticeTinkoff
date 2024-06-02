@@ -1,11 +1,11 @@
 package com.example.travels.ui.routeDetails
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.travels.R
 import com.example.travels.databinding.FragmentRouteDetailsBinding
 import com.example.travels.ui.App.Companion.router
@@ -16,22 +16,19 @@ import com.example.travels.ui.base.DisplayableItem
 import com.example.travels.ui.routeDetails.adapter.DetailsAdapter
 import com.example.travels.ui.routeDetails.model.RouteDetailsUIModel
 import com.example.travels.utils.Constants
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
-    private var viewBinding: FragmentRouteDetailsBinding? = null
+    private val viewBinding by viewBinding(FragmentRouteDetailsBinding::bind)
     private val viewModel: RouteDetailsViewModel by viewModels()
     private var routeId: String? = null
     private val detailsAdapter = DetailsAdapter(::sendReview)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentRouteDetailsBinding.inflate(inflater)
-        return viewBinding?.root
-    }
+    @Inject
+    lateinit var auth: FirebaseAuth
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,7 +43,7 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     }
 
     private fun initAdapter() {
-        viewBinding?.detailsRv?.run {
+        viewBinding.detailsRv.run {
             adapter = detailsAdapter
             layoutManager = LinearLayoutManager(context)
         }
@@ -54,6 +51,15 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
 
     private fun initObservers() {
         with(viewModel) {
+            process.observe {
+                it?.let {
+                    with(viewBinding) {
+                        contentGroup.isVisible = !it
+                        progressBar.isVisible = it
+                    }
+                }
+            }
+
             routeResult.observe {
                 if (it != null) {
                     showData(it)
@@ -87,17 +93,25 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     }
 
     private fun showData(details: RouteDetailsUIModel) {
-        viewBinding?.run {
-            toolbar.toolbar.title = details.route.name
+        viewBinding.run {
+            detailsToolbar.toolbar.title = details.route.name
+            if (details.route.author.id == auth.uid) {
+                editRouteFab.isVisible = true
+            }
             updateItem(details)
         }
     }
 
     private fun updateItem(item: DisplayableItem) {
         val newList =
-            detailsAdapter.items.orEmpty().toMutableList().apply { add(item) }
+            detailsAdapter.items.orEmpty().toMutableList().apply {
+                if (size != 0) {
+                    removeAt(0)
+                }
+                add(0, item)
+            }
         detailsAdapter.items = newList
-        detailsAdapter.notifyItemInserted(newList.size - 1)
+        detailsAdapter.notifyItemChanged(0)
     }
 
     private fun updateItem(items: List<DisplayableItem>) {
@@ -108,14 +122,16 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     }
 
     private fun initListeners() {
-        viewBinding?.let {
-            with(it) {
-                toolbar.toolbar.setNavigationOnClickListener {
-                    router.backTo(Screens.Places())
-                }
+        with(viewBinding) {
+            detailsToolbar.toolbar.setNavigationOnClickListener {
+                router.backTo(Screens.Places())
+            }
+            editRouteFab.setOnClickListener {
+                router.navigateTo(Screens.EditRoute(routeId!!))
             }
         }
     }
+
 
     companion object {
         private const val TAG = "PlaceDetailsFragment"

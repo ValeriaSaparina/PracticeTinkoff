@@ -12,4 +12,7 @@ object Constants {
     const val EMPTY_RATING: Float = 0.0F
 
     const val MAX_PAGE_SIZE: Int = 10
+
+    const val LOCALE = "locale"
+    const val LOCALE_VALUE = "ru_RU"
 }

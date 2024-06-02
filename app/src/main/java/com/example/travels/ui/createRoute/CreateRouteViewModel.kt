@@ -20,6 +20,10 @@ class CreateRouteViewModel @Inject constructor(
     private val getFavoritePlacesUseCase: GetFavoritePlacesUseCase,
     private val placesMapper: PlacesUiModelMapper,
 ) : ViewModel() {
+
+    private val _process = MutableStateFlow<Boolean?>(null)
+    val process: StateFlow<Boolean?> get() = _process
+
     private var _error = MutableStateFlow<CreateRouteError?>(null)
     val error: StateFlow<CreateRouteError?> get() = _error
 
@@ -34,18 +38,16 @@ class CreateRouteViewModel @Inject constructor(
     fun onPlaceClicked(item: PlaceUiModel): Boolean {
         return if (places.contains(item)) {
             places.remove(item)
-            Log.d("CREATE_ROUTE", places.toString())
             false
         } else {
             places.add(item)
-            Log.d("CREATE_ROUTE", places.toString())
             true
         }
     }
 
     fun getFavPlaces() {
-
         viewModelScope.launch {
+            _process.emit(true)
             getFavoritePlacesUseCase.invoke()
                 .onSuccess {
                     _favPlaces.emit(placesMapper.toUiModel(it))
@@ -53,6 +55,7 @@ class CreateRouteViewModel @Inject constructor(
                 .onFailure {
                     Log.d("GET_FAVS", it.toString())
                 }
+            _process.emit(false)
         }
     }
 

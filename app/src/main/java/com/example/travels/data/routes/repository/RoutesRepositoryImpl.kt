@@ -205,6 +205,38 @@ class RoutesRepositoryImpl @Inject constructor(
             .addOnFailureListener {}
     }
 
+    override suspend fun updateRoute(route: RouteDomainModel) {
+        val routeDataModel = mapper.toDataModel(route)
+        val routeData =
+            mapOf(
+                ROUTE_NAME to routeDataModel.name,
+                ROUTE_TYPE to routeDataModel.type,
+                ROUTE_RATING to routeDataModel.rating,
+                USER_ID to routeDataModel.author.id
+            )
+        val routeId = routeDataModel.id
+        val prevPlaces = routePlacesDoc.whereEqualTo(ROUTE_ID, routeId).get()
+            .await().documents.map { it.getString(PLACE_ID)!! }
+        routeDoc.document(routeId).update(routeData).await()
+        routeDataModel.placesId.forEach {
+            if (!prevPlaces.contains(it)) {
+                val placeData =
+                    hashMapOf(
+                        PLACE_ID to it,
+                        ROUTE_ID to routeId
+                    )
+                routePlacesDoc.add(placeData)
+            }
+        }
+        prevPlaces.forEach {
+            if (!routeDataModel.placesId.contains(it)) {
+                routePlacesDoc.whereEqualTo(PLACE_ID, it).get().await().forEach { document ->
+                    document.reference.delete()
+                }
+            }
+        }
+    }
+
 
     companion object {
         private const val ROUTES_COLLECTION_PATH = "routes"

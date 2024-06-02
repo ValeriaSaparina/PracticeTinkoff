@@ -47,4 +47,5 @@
     <string name="route_type">Type</string>
     <string name="empty_value">Empty value</string>
     <string name="empty_route_places">Add at least one place</string>
+    <string name="edit_route">edit route</string>
 </resources>

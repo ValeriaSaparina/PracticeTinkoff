@@ -3,6 +3,7 @@ package com.example.travels.di
 import com.example.travels.BuildConfig
 import com.example.travels.data.places.remote.PlacesApi
 import com.example.travels.data.places.remote.interceptor.ApiKeyInterceptor
+import com.example.travels.data.places.remote.interceptor.LocaleInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,9 @@ class ApiModule {
     fun provideApiKeyInterceptor(): ApiKeyInterceptor = ApiKeyInterceptor()
 
     @Provides
+    fun provideLocaleInterceptor(): LocaleInterceptor = LocaleInterceptor()
+
+    @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor.Level.BODY
@@ -36,10 +40,12 @@ class ApiModule {
     fun provideOkHttpClient(
         apiKeyInterceptor: ApiKeyInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
+        localeInterceptor: LocaleInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(apiKeyInterceptor)
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(localeInterceptor)
             .build()
     }
 

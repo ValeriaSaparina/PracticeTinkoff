@@ -20,4 +20,5 @@ interface RoutesRepository {
     suspend fun getAllReviewsByRoute(routeId: String): List<UserReviewDomainModel>
     suspend fun addReview(review: ReviewModel): UserReviewDomainModel
     suspend fun createRoute(name: String, type: String, places: List<PlaceUiModel>)
+    suspend fun updateRoute(route: RouteDomainModel)
 }

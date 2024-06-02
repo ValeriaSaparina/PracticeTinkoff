@@ -12,6 +12,7 @@ import com.example.travels.ui.places.model.PlaceUiModel
 class RoutePlacesAdapter(
     private val onIcClicked: (PlaceUiModel) -> Unit,
     private val onItemLongClick: (PlaceUiModel) -> Boolean,
+    private val isSelected: (String?) -> Boolean = { false },
 ) : ListAdapter<PlaceUiModel, RoutePlacesAdapter.ViewHolder>(PlacesDiffCallback()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,7 +32,12 @@ class RoutePlacesAdapter(
                 nameTv.text = item.name
                 descriptionTv.text = item.description
                 favIc.setImageResource(R.drawable.outline_favorite_24)
-                content.setBackgroundResource(R.color.md_thene_light_not_selected)
+                val color = if (isSelected(item.id)) {
+                    R.color.md_theme_light_secondaryContainer
+                } else {
+                    R.color.md_thene_light_not_selected
+                }
+                content.setBackgroundResource(color)
                 initListeners(item)
             }
         }

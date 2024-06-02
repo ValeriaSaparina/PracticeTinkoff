@@ -100,5 +100,19 @@ class RouteDomainMapper @Inject constructor() {
         return entities?.map { toDomainModel(it) } ?: listOf()
     }
 
+    fun toDataModel(route: RouteDomainModel): RouteDataModel {
+        return with(route) {
+            RouteDataModel(
+                id = id,
+                name = name,
+                type = type,
+                author = author,
+                rating = rating,
+                placesId = placesId,
+                isFav = false
+            )
+        }
+    }
+
 
 }
