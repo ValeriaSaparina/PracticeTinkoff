@@ -26,6 +26,7 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     private val viewModel: RouteDetailsViewModel by viewModels()
     private var routeId: String? = null
     private val detailsAdapter = DetailsAdapter(::sendReview)
+    private var routeDetails: RouteDetailsUIModel? = null
 
     @Inject
     lateinit var auth: FirebaseAuth
@@ -63,6 +64,7 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
             routeResult.observe {
                 if (it != null) {
                     showData(it)
+                    routeDetails = it
                     viewModel.getAllReviews(routeId!!)
                 }
             }
@@ -73,7 +75,13 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
             }
             review.observe {
                 if (it != null) {
-                    updateItem(it)
+                    updateItem(it, 1)
+                    val reviewsSize = detailsAdapter.items.orEmpty().size
+                    val newRating =
+                        (routeDetails!!.route.rating * reviewsSize + it.rating.toFloat()) / (reviewsSize + 1)
+                    routeDetails =
+                        routeDetails!!.copy(route = routeDetails!!.route.copy(rating = newRating))
+                    updateItem(routeDetails!!, 0)
                 }
             }
             reviewResults.observe {
@@ -98,27 +106,29 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
             if (details.route.author.id == auth.uid) {
                 editRouteFab.isVisible = true
             }
-            updateItem(details)
+            updateItem(details, 0)
         }
     }
 
-    private fun updateItem(item: DisplayableItem) {
+    private fun updateItem(item: DisplayableItem, index: Int) {
         val newList =
             detailsAdapter.items.orEmpty().toMutableList().apply {
                 if (size != 0) {
-                    removeAt(0)
+                    removeAt(index)
                 }
-                add(0, item)
+                add(index, item)
             }
         detailsAdapter.items = newList
-        detailsAdapter.notifyItemChanged(0)
+        detailsAdapter.notifyItemChanged(index)
     }
 
     private fun updateItem(items: List<DisplayableItem>) {
-        val newList =
-            detailsAdapter.items.orEmpty().toMutableList().apply { addAll(items) }
-        detailsAdapter.items = newList
-        detailsAdapter.notifyItemInserted(newList.size - 1)
+        if (detailsAdapter.items.orEmpty().size <= 1) {
+            val newList =
+                detailsAdapter.items.orEmpty().toMutableList().apply { addAll(items) }
+            detailsAdapter.items = newList
+            detailsAdapter.notifyItemInserted(newList.size - 1)
+        }
     }
 
     private fun initListeners() {

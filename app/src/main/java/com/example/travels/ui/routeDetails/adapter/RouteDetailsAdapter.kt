@@ -30,6 +30,8 @@ fun routeDetailsAdapterDelegate(sendReview: (String, String) -> Unit) =
                 }
                 reviewBtn.setOnClickListener {
                     sendReview(ratingEt.text.toString(), reviewEt.text.toString())
+                    ratingEt.setText("")
+                    reviewEt.setText("")
                 }
                 with(placesRv) {
                     adapter = FavoritePlacesAdapter({}, {}).apply {
