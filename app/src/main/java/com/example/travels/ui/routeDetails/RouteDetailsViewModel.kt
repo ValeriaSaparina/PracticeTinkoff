@@ -5,12 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.review.GetAllRouteReviewsUseCase
 import com.example.travels.domain.review.SendRouteReviewReviewUseCase
+import com.example.travels.domain.routes.usercase.AddNewFavRouteUseCase
+import com.example.travels.domain.routes.usercase.DeleteFavRouteUseCase
 import com.example.travels.domain.routes.usercase.GetRouteDetailsUseCase
 import com.example.travels.ui.routeDetails.model.RouteDetailsUIModel
 import com.example.travels.ui.routeDetails.review.mapper.ReviewUiModelMapper
 import com.example.travels.ui.routeDetails.review.model.UserReviewUiModel
+import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.NetworkErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,6 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RouteDetailsViewModel @Inject constructor(
+    private val deleteFavRouteUseCase: DeleteFavRouteUseCase,
+    private val addNewFavRouteUseCase: AddNewFavRouteUseCase,
     private val sendRouteReviewReviewUseCase: SendRouteReviewReviewUseCase,
     private val getRouteDetailsUseCase: GetRouteDetailsUseCase,
     private val getAllRouteReviewsUseCase: GetAllRouteReviewsUseCase,
@@ -75,6 +81,17 @@ class RouteDetailsViewModel @Inject constructor(
                 .onSuccess {
                     _review.emit(reviewMapper.toUiModel(it))
                 }
+        }
+    }
+
+    fun onFavIcClicked(route: RouteUIModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (route.isFav) {
+                deleteFavRouteUseCase.invoke(route)
+            } else {
+                addNewFavRouteUseCase.invoke(route)
+            }
+            route.isFav = !route.isFav
         }
     }
 

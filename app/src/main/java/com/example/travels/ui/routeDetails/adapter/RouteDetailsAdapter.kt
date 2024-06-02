@@ -11,7 +11,10 @@ import com.example.travels.ui.routes.model.RouteUIModel
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 
 @SuppressLint("SetTextI18n")
-fun routeDetailsAdapterDelegate(sendReview: (String, String) -> Unit) =
+fun routeDetailsAdapterDelegate(
+    sendReview: (String, String) -> Unit,
+    onFavIcClicked: (RouteUIModel) -> Unit
+) =
     adapterDelegateViewBinding<RouteDetailsUIModel, DisplayableItem, ItemRouteDetailsBinding>(
         { layoutInflater, root ->
             ItemRouteDetailsBinding.inflate(layoutInflater, root, false)
@@ -25,7 +28,11 @@ fun routeDetailsAdapterDelegate(sendReview: (String, String) -> Unit) =
                         typeTv.text = type
                         authorTv.text = "${author.firstname} ${author.lastname}"
                         ratingTv.text = rating.toString()
-                        favIc.setImageResource(setIcon(this))
+                        favIc.setImageResource(selectIcon(this.isFav))
+                        favIc.setOnClickListener {
+                            onFavIcClicked(item.route)
+                            favIc.setImageResource(selectIcon(!this.isFav))
+                        }
                     }
                 }
                 reviewBtn.setOnClickListener {
@@ -44,6 +51,6 @@ fun routeDetailsAdapterDelegate(sendReview: (String, String) -> Unit) =
         }
     }
 
-private fun setIcon(item: RouteUIModel): Int {
-    return if (item.isFav) R.drawable.outline_favorite_24 else R.drawable.outline_favorite_border_24
+private fun selectIcon(isFav: Boolean): Int {
+    return if (isFav) R.drawable.outline_favorite_24 else R.drawable.outline_favorite_border_24
 }

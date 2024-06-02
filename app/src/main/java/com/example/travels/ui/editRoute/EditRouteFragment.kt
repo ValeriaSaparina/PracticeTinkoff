@@ -117,8 +117,7 @@ class EditRouteFragment : BaseFragment(R.layout.fragment_create_route) {
     }
 
     private fun onItemClicked(item: PlaceUiModel): Boolean {
-        val result = viewModel.onPlaceClicked(item)
-        return result
+        return viewModel.onPlaceClicked(item)
     }
 
     private fun isSelected(id: String?): Boolean {

@@ -15,6 +15,7 @@ import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.base.DisplayableItem
 import com.example.travels.ui.routeDetails.adapter.DetailsAdapter
 import com.example.travels.ui.routeDetails.model.RouteDetailsUIModel
+import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,7 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     private val viewBinding by viewBinding(FragmentRouteDetailsBinding::bind)
     private val viewModel: RouteDetailsViewModel by viewModels()
     private var routeId: String? = null
-    private val detailsAdapter = DetailsAdapter(::sendReview)
+    private val detailsAdapter = DetailsAdapter(::sendReview, ::onFavIcClicked)
     private var routeDetails: RouteDetailsUIModel? = null
 
     @Inject
@@ -129,6 +130,10 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
             detailsAdapter.items = newList
             detailsAdapter.notifyItemInserted(newList.size - 1)
         }
+    }
+
+    private fun onFavIcClicked(item: RouteUIModel) {
+        viewModel.onFavIcClicked(item)
     }
 
     private fun initListeners() {
