@@ -87,7 +87,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                     router.navigateTo(Screens.MyRoutes())
                 }
                 settingsLl.setOnClickListener {
-//                    router.navigateTo(Screens.Settings())
+                    router.navigateTo(Screens.Settings())
                 }
                 exitLl.setOnClickListener {
                     viewModel.signOut()

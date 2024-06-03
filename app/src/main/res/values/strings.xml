@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Travels</string>
+    <string name="app_name" translatable="false">Travels</string>
     <string name="email">Email</string>
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
@@ -38,7 +38,7 @@
     <string name="rating">Rating:</string>
     <string name="reviews">Reviews</string>
     <string name="rate_it">Rate it</string>
-    <string name="rating_example">5.0</string>
+    <string name="rating_example" translatable="false">5.0</string>
     <string name="type_something">Type something…</string>
     <string name="leave_review">Leave review</string>
     <string name="create_route">Create routes</string>
@@ -51,4 +51,10 @@
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
     <string name="my_routes">My routes</string>
+    <string name="change_theme">Change theme</string>
+    <string name="change_language">Change language</string>
+    <string name="delete_account">Delete account</string>
+    <string name="russian">Russian</string>
+    <string name="english">English</string>
+    <string name="choice_the_language">Choice the language</string>
 </resources>

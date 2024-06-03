@@ -3,6 +3,7 @@ package com.example.travels.utils
 object Constants {
     // TODO: appId, apiKey
 
+    const val LANGUAGE: String = "language"
     const val ID = "id"
 
     const val MAX_PAGE: Int = 6

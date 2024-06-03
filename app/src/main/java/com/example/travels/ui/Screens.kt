@@ -10,6 +10,7 @@ import com.example.travels.ui.places.PlacesFragment
 import com.example.travels.ui.profile.ProfileFragment
 import com.example.travels.ui.routeDetails.RouteDetailsFragment
 import com.example.travels.ui.routes.RoutesFragment
+import com.example.travels.ui.settings.SettingsFragment
 import com.example.travels.ui.signIn.SignInFragment
 import com.example.travels.ui.signUp.SignUpFragment
 import com.example.travels.ui.userDetails.UserDetailsFragment
@@ -32,5 +33,6 @@ object Screens {
     fun FavoriteRoutes() = FragmentScreen { FavoriteRoutesFragment() }
     fun UserDetails(id: String) = FragmentScreen { UserDetailsFragment.newInstance(id) }
     fun MyRoutes() = FragmentScreen { MyRoutesFragment() }
+    fun Settings() = FragmentScreen { SettingsFragment() }
 
 }

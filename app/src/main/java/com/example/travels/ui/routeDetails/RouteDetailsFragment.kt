@@ -115,7 +115,7 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     private fun updateItem(item: DisplayableItem, index: Int) {
         val newList =
             detailsAdapter.items.orEmpty().toMutableList().apply {
-                if (size != 0) {
+                if (size > index) {
                     removeAt(index)
                 }
                 add(index, item)

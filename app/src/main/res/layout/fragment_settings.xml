@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/settings_toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/change_language_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/settings_toolbar">
+
+        <ImageView
+            android:id="@+id/change_language_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/change_language"
+            android:padding="8dp"
+            android:src="@drawable/outline_language_24" />
+
+        <TextView
+            android:id="@+id/change_language_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/change_language"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/change_theme_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/change_language_ll">
+
+        <ImageView
+            android:id="@+id/change_theme_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/change_theme"
+            android:padding="8dp"
+            android:src="@drawable/theme_ic_24" />
+
+        <TextView
+            android:id="@+id/change_theme_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/change_theme"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/edit_profile_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shape_card_button"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/change_theme_ll">
+
+        <ImageView
+            android:id="@+id/edit_profile_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/settings"
+            android:padding="8dp"
+            android:src="@drawable/outline_mode_edit_24" />
+
+        <TextView
+            android:id="@+id/edit_profile_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/edit_profile"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/delete_account_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_card_button"
+        android:backgroundTint="@color/md_theme_light_errorContainer"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/edit_profile_ll">
+
+        <ImageView
+            android:id="@+id/delete_account_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/delete_account"
+            android:padding="8dp"
+            android:src="@drawable/outline_delete_outline_24"
+            app:tint="@color/md_theme_light_onErrorContainer" />
+
+        <TextView
+            android:id="@+id/delete_account_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="@string/delete_account"
+            android:textColor="@color/md_theme_light_onErrorContainer"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
