@@ -1,13 +1,13 @@
-package com.example.travels.ui.favoritesPlaces
+package com.example.travels.ui.favoritesRoutes
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.travels.domain.places.usecase.AddNewFavPlaceUseCase
-import com.example.travels.domain.places.usecase.DeleteFromFavPlacesUseCase
-import com.example.travels.domain.places.usecase.GetFavoritePlacesUseCase
-import com.example.travels.ui.places.mapper.PlacesUiModelMapper
-import com.example.travels.ui.places.model.PlaceUiModel
+import com.example.travels.domain.routes.usercase.AddNewFavRouteUseCase
+import com.example.travels.domain.routes.usercase.DeleteFavRouteUseCase
+import com.example.travels.domain.routes.usercase.GetFavoriteRoutesUseCase
+import com.example.travels.ui.routes.mapper.RoutesUiModelMapper
+import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.NetworkErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritePlacesViewModel @Inject constructor(
-    private val getAllFavoritePlacesUseCase: GetFavoritePlacesUseCase,
-    private val deleteFromFavPlacesUseCase: DeleteFromFavPlacesUseCase,
-    private val addNewFavPlaceUseCase: AddNewFavPlaceUseCase,
-    private val mapper: PlacesUiModelMapper
+class FavoriteRoutesViewModel @Inject constructor(
+    private val getAllFavoriteRoutesUseCase: GetFavoriteRoutesUseCase,
+    private val deleteFavRouteUseCase: DeleteFavRouteUseCase,
+    private val addNewFavRouteUseCase: AddNewFavRouteUseCase,
+    private val mapper: RoutesUiModelMapper
 ) : ViewModel() {
     private val _process = MutableStateFlow<Boolean?>(null)
     val process: StateFlow<Boolean?> get() = _process
@@ -28,17 +28,17 @@ class FavoritePlacesViewModel @Inject constructor(
     private val _error = MutableStateFlow<NetworkErrors?>(null)
     val error: StateFlow<NetworkErrors?> get() = _error
 
-    private val _placesResult = MutableStateFlow<List<PlaceUiModel>?>(null)
-    val placesResult: StateFlow<List<PlaceUiModel>?> get() = _placesResult
+    private val _placesResult = MutableStateFlow<List<RouteUIModel>?>(null)
+    val placesResult: StateFlow<List<RouteUIModel>?> get() = _placesResult
 
     fun getFavPlaces() {
         viewModelScope.launch {
             _process.emit(true)
-            getAllFavoritePlacesUseCase.invoke()
+            getAllFavoriteRoutesUseCase.invoke()
                 .onSuccess {
                     _placesResult.emit(
                         it.map { place ->
-                            mapper.toUiModel(place)
+                            mapper.mapToUiModel(place)
                         }
                     )
                 }
@@ -50,12 +50,12 @@ class FavoritePlacesViewModel @Inject constructor(
         }
     }
 
-    fun onFavIcClicked(item: PlaceUiModel) {
+    fun onFavIcClicked(item: RouteUIModel) {
         viewModelScope.launch {
             if (item.isFav) {
-                deleteFromFavPlacesUseCase.invoke(item.id.toLong())
+                deleteFavRouteUseCase.invoke(item)
             } else {
-                addNewFavPlaceUseCase.invoke(item)
+                addNewFavRouteUseCase.invoke(item)
             }
             item.isFav = !item.isFav
         }

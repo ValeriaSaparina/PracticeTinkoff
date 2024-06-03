@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.travels.R
 import com.example.travels.databinding.FragmentFavoriteItemsBinding
+import com.example.travels.ui.App.Companion.router
+import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.favorites.FavoritePlacesAdapter
 import com.example.travels.ui.places.model.PlaceUiModel
@@ -22,7 +24,12 @@ class FavoritePlacesFragment : BaseFragment(R.layout.fragment_favorite_items) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.favoritesItemsToolbar.toolbar.title = resources.getString(R.string.favorites)
+        with(viewBinding.favoritesItemsToolbar.toolbar) {
+            title = resources.getString(R.string.favorites)
+            setNavigationOnClickListener {
+                router.backTo(Screens.Favorites())
+            }
+        }
         initAdapter()
         initObservers()
         viewModel.getFavPlaces()
