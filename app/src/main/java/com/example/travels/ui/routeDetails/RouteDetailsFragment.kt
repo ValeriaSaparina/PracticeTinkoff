@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.travels.R
 import com.example.travels.databinding.FragmentRouteDetailsBinding
+import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.ui.App.Companion.router
 import com.example.travels.ui.MainActivity
 import com.example.travels.ui.Screens
@@ -26,7 +27,7 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     private val viewBinding by viewBinding(FragmentRouteDetailsBinding::bind)
     private val viewModel: RouteDetailsViewModel by viewModels()
     private var routeId: String? = null
-    private val detailsAdapter = DetailsAdapter(::sendReview, ::onFavIcClicked)
+    private val detailsAdapter = DetailsAdapter(::sendReview, ::onFavIcClicked, ::onAuthorClicked)
     private var routeDetails: RouteDetailsUIModel? = null
 
     @Inject
@@ -134,6 +135,10 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
 
     private fun onFavIcClicked(item: RouteUIModel) {
         viewModel.onFavIcClicked(item)
+    }
+
+    private fun onAuthorClicked(user: UserModel) {
+        router.navigateTo(Screens.UserDetails(user.id))
     }
 
     private fun initListeners() {

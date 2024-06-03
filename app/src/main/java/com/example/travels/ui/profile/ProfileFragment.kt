@@ -69,7 +69,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         viewBinding?.run {
             with(this) {
                 nameTv.text = "${user.firstname} ${user.lastname}"
-                linkTv.text = ""
+                linkTv.text = user.email
             }
         }
     }

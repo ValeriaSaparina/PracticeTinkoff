@@ -48,4 +48,6 @@
     <string name="empty_value">Empty value</string>
     <string name="empty_route_places">Add at least one place</string>
     <string name="edit_route">edit route</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
 </resources>

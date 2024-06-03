@@ -1,4 +1,4 @@
-package com.example.travels.domain.routes
+package com.example.travels.domain.routes.usercase
 
 import com.example.travels.domain.routes.model.RouteDomainModel
 import com.example.travels.domain.routes.repository.RoutesRepository

@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.places.usecase.GetFavoritePlacesUseCase
 import com.example.travels.domain.places.usecase.GetPlaceByIdUseCase
-import com.example.travels.domain.routes.UpdateRouteUseCase
 import com.example.travels.domain.routes.usercase.GetRouteByIdUseCase
+import com.example.travels.domain.routes.usercase.UpdateRouteUseCase
 import com.example.travels.ui.places.mapper.PlacesUiModelMapper
 import com.example.travels.ui.places.model.PlaceUiModel
 import com.example.travels.ui.routes.mapper.RoutesUiModelMapper

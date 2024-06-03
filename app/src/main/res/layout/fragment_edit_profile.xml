@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/edit_profile_toolbar"
+        layout="@layout/toolbar" />
+
+    <ImageView
+        android:id="@+id/avatar_iv"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_search_bar"
+        android:backgroundTint="@color/md_theme_light_error"
+        android:contentDescription="@string/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_profile_toolbar" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_avatar_btn"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="48dp"
+        app:icon="@drawable/baseline_add_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatar_iv"
+        tools:text="Select new avatar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/firstname_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/add_avatar_btn"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/firstname_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/firstname"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/lastname_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/email_til">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/firstname_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lastname_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/lastname"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/old_password_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/firstname_til">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastname_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/old_password_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/old_password"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/new_password_til"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/lastname_til"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/old_password_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/new_password_til"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/new_password"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/sign_up_btn"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/old_password_til"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/new_password_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/sign_up_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/end_gl"
+        app:layout_constraintStart_toStartOf="@id/start_gl"
+        app:layout_constraintTop_toBottomOf="@id/new_password_til" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_gl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_gl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

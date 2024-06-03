@@ -8,7 +8,7 @@ import com.example.travels.ui.places.model.PlaceUiModel
 
 interface RoutesRepository {
     suspend fun searchRoutes(query: String): List<RouteDataModel>
-
+    suspend fun getUserRoutes(userid: String): List<RouteDataModel>
     suspend fun getRoute(id: String): RouteDataModel?
     suspend fun addNewFavRoute(route: RouteDomainModel)
     suspend fun deleteFavRoute(id: String)

@@ -9,6 +9,7 @@ import com.example.travels.ui.routeDetails.RouteDetailsFragment
 import com.example.travels.ui.routes.RoutesFragment
 import com.example.travels.ui.signIn.SignInFragment
 import com.example.travels.ui.signUp.SignUpFragment
+import com.example.travels.ui.userDetails.UserDetailsFragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 object Screens {
@@ -24,5 +25,7 @@ object Screens {
     fun EditRoute(id: String) = FragmentScreen { EditRouteFragment.newInstance(id) }
     fun RouteDetails(id: String) = FragmentScreen { RouteDetailsFragment.newInstance(id) }
     fun Favorites() = FragmentScreen { FavoritesFragment() }
+
+    fun UserDetails(id: String) = FragmentScreen { UserDetailsFragment.newInstance(id) }
 
 }

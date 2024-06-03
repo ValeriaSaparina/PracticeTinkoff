@@ -48,7 +48,7 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
         initListeners()
         initObservers()
 
-        viewBinding?.toolbar?.toolbar?.title = resources.getString(R.string.favorites)
+        viewBinding?.favoritesToolbar?.toolbar?.title = resources.getString(R.string.favorites)
 
         viewModel.getFavoritePlaces()
         viewModel.getFavoriteRoutes()
@@ -112,7 +112,7 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
                 allFavRoutesTv.setOnClickListener {
 //                    router.navigateTo(Screens.FavoriteRoutes)
                 }
-                toolbar.toolbar.setNavigationOnClickListener {
+                favoritesToolbar.toolbar.setNavigationOnClickListener {
                     router.backTo(Screens.Profile())
                 }
             }

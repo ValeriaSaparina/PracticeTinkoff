@@ -1,5 +1,6 @@
 package com.example.travels.domain.routes.usercase
 
+import android.util.Log
 import com.example.travels.domain.places.usecase.GetPlaceByIdUseCase
 import com.example.travels.ui.places.mapper.PlacesUiModelMapper
 import com.example.travels.ui.places.model.PlaceUiModel
@@ -22,7 +23,7 @@ class GetRouteDetailsUseCase @Inject constructor(
             var route: RouteUIModel? = null
             getRouteByIdUseCase.invoke(id).onSuccess { routeDomain ->
                 route = routesUiModelMapper.mapToUiModel(routeDomain)
-
+                Log.d("DETAILS", "$route")
                 routeDomain.placesId.forEach { placeId ->
                     getPlacesByIdUseCase.invoke(placeId.toLong())
                         .onSuccess { place ->

@@ -237,6 +237,22 @@ class RoutesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getUserRoutes(userid: String): List<RouteDataModel> {
+        val routes = routeDoc.whereEqualTo(USER_ID, userid).get()
+            .await()
+            .map {
+                mapper.toDataModel(it)
+            }
+
+        return routes.map { route ->
+            route.copy(
+                isFav = isFavRoute(route.id),
+                rating = getRouteRating(route.id),
+                author = getRouteAuthor(route.author.id)
+            )
+        }
+    }
+
 
     companion object {
         private const val ROUTES_COLLECTION_PATH = "routes"
