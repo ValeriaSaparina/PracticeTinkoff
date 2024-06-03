@@ -107,10 +107,10 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
         viewBinding?.let {
             with(it) {
                 allFavPlacesTv.setOnClickListener {
-//                    router.navigateTo(Screens.FavoritePlaces)
+                    router.navigateTo(Screens.FavoritePlaces())
                 }
                 allFavRoutesTv.setOnClickListener {
-//                    router.navigateTo(Screens.FavoriteRoutes)
+                    router.navigateTo(Screens.FavoriteRoutes())
                 }
                 favoritesToolbar.toolbar.setNavigationOnClickListener {
                     router.backTo(Screens.Profile())
