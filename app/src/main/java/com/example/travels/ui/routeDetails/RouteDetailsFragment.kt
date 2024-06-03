@@ -78,7 +78,8 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
             review.observe {
                 if (it != null) {
                     updateItem(it, 1)
-                    val reviewsSize = detailsAdapter.items.orEmpty().size
+                    val reviewsSize = detailsAdapter.items.orEmpty().size - 2
+//                    routeDetails = detailsAdapter.items!![0] as RouteDetailsUIModel
                     val newRating =
                         (routeDetails!!.route.rating * reviewsSize + it.rating.toFloat()) / (reviewsSize + 1)
                     routeDetails =
@@ -115,13 +116,13 @@ class RouteDetailsFragment : BaseFragment(R.layout.fragment_route_details) {
     private fun updateItem(item: DisplayableItem, index: Int) {
         val newList =
             detailsAdapter.items.orEmpty().toMutableList().apply {
-                if (size > index) {
+                if (size != 0 && index == 0) {
                     removeAt(index)
                 }
                 add(index, item)
             }
         detailsAdapter.items = newList
-        detailsAdapter.notifyItemChanged(index)
+        detailsAdapter.notifyDataSetChanged()
     }
 
     private fun updateItem(items: List<DisplayableItem>) {

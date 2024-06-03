@@ -5,7 +5,7 @@
     <string name="lastname">Фамилия</string>
     <string name="password">Пароль</string>
     <string name="sign_up">Зарегистрироваться</string>
-    <string name="registration">Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
     <string name="sign_in">Войти</string>
     <string name="input_correct_email">Введите корректную почту</string>
     <string name="short_password">Пароль должен сожержать минимум 8 символов</string>
@@ -55,5 +55,5 @@
     <string name="delete_account">Удалить аккаунт</string>
     <string name="russian">Русский</string>
     <string name="english">Английский</string>
-    <string name="choice_the_language">Выберите языкчто </string>
+    <string name="choice_the_language">Выберите язык </string>
 </resources>
