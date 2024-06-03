@@ -7,7 +7,7 @@ import com.example.travels.domain.auth.model.UserModel
 import com.example.travels.domain.profile.GetUserByIdUseCase
 import com.example.travels.domain.routes.usercase.AddNewFavRouteUseCase
 import com.example.travels.domain.routes.usercase.DeleteFavRouteUseCase
-import com.example.travels.domain.routes.usercase.GetUserPlacesUseCase
+import com.example.travels.domain.routes.usercase.GetUserRoutesUseCase
 import com.example.travels.ui.routes.mapper.RoutesUiModelMapper
 import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.NetworkErrors
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserDetailsViewModel @Inject constructor(
-    private val getUserPlacesUseCase: GetUserPlacesUseCase,
+    private val getUserRoutesUseCase: GetUserRoutesUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val deleteFavRouteUseCase: DeleteFavRouteUseCase,
     private val addNewFavRouteUseCase: AddNewFavRouteUseCase,
@@ -41,7 +41,7 @@ class UserDetailsViewModel @Inject constructor(
 
     fun getUserRoutes(id: String) {
         viewModelScope.launch {
-            getUserPlacesUseCase.invoke(id)
+            getUserRoutesUseCase.invoke(id)
                 .onSuccess {
                     _routesResult.emit(
                         it.map { route ->

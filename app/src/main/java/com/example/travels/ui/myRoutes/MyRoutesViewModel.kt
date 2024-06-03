@@ -1,11 +1,11 @@
-package com.example.travels.ui.favoritesRoutes
+package com.example.travels.ui.myRoutes
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travels.domain.routes.usercase.AddNewFavRouteUseCase
 import com.example.travels.domain.routes.usercase.DeleteFavRouteUseCase
-import com.example.travels.domain.routes.usercase.GetFavoriteRoutesUseCase
+import com.example.travels.domain.routes.usercase.GetUserRoutesUseCase
 import com.example.travels.ui.routes.mapper.RoutesUiModelMapper
 import com.example.travels.ui.routes.model.RouteUIModel
 import com.example.travels.utils.NetworkErrors
@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteRoutesViewModel @Inject constructor(
-    private val getAllFavoriteRoutesUseCase: GetFavoriteRoutesUseCase,
+class MyRoutesViewModel @Inject constructor(
+    private val getUserRoutesUseCase: GetUserRoutesUseCase,
     private val deleteFavRouteUseCase: DeleteFavRouteUseCase,
     private val addNewFavRouteUseCase: AddNewFavRouteUseCase,
     private val mapper: RoutesUiModelMapper
@@ -34,7 +34,7 @@ class FavoriteRoutesViewModel @Inject constructor(
     fun getFavPlaces() {
         viewModelScope.launch {
             _process.emit(true)
-            getAllFavoriteRoutesUseCase.invoke()
+            getUserRoutesUseCase.invoke()
                 .onSuccess {
                     _routesResult.emit(
                         it.map { place ->

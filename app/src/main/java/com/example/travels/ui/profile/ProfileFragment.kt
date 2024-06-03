@@ -84,7 +84,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 //                    router.navigateTo(Screens.EditProfile())
                 }
                 routesLl.setOnClickListener {
-//                    router.navigateTo(Screens.MyRoutes())
+                    router.navigateTo(Screens.MyRoutes())
                 }
                 settingsLl.setOnClickListener {
 //                    router.navigateTo(Screens.Settings())

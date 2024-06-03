@@ -50,4 +50,5 @@
     <string name="edit_route">edit route</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
+    <string name="my_routes">My routes</string>
 </resources>

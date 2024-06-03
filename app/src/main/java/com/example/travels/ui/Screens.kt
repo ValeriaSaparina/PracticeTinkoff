@@ -5,6 +5,7 @@ import com.example.travels.ui.editRoute.EditRouteFragment
 import com.example.travels.ui.favorites.FavoritesFragment
 import com.example.travels.ui.favoritesPlaces.FavoritePlacesFragment
 import com.example.travels.ui.favoritesRoutes.FavoriteRoutesFragment
+import com.example.travels.ui.myRoutes.MyRoutesFragment
 import com.example.travels.ui.places.PlacesFragment
 import com.example.travels.ui.profile.ProfileFragment
 import com.example.travels.ui.routeDetails.RouteDetailsFragment
@@ -30,5 +31,6 @@ object Screens {
     fun FavoritePlaces() = FragmentScreen { FavoritePlacesFragment() }
     fun FavoriteRoutes() = FragmentScreen { FavoriteRoutesFragment() }
     fun UserDetails(id: String) = FragmentScreen { UserDetailsFragment.newInstance(id) }
+    fun MyRoutes() = FragmentScreen { MyRoutesFragment() }
 
 }

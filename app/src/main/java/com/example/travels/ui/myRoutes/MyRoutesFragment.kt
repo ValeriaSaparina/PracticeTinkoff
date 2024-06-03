@@ -1,4 +1,4 @@
-package com.example.travels.ui.favoritesRoutes
+package com.example.travels.ui.myRoutes
 
 import android.os.Bundle
 import android.view.View
@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.travels.R
 import com.example.travels.databinding.FragmentFavoriteItemsBinding
 import com.example.travels.ui.App.Companion.router
+import com.example.travels.ui.MainActivity
 import com.example.travels.ui.Screens
 import com.example.travels.ui.base.BaseFragment
 import com.example.travels.ui.favorites.FavoritesRoutesAdapter
@@ -16,16 +17,17 @@ import com.example.travels.ui.routes.model.RouteUIModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteRoutesFragment : BaseFragment(R.layout.fragment_favorite_items) {
+class MyRoutesFragment : BaseFragment(R.layout.fragment_favorite_items) {
 
     private val viewBinding by viewBinding(FragmentFavoriteItemsBinding::bind)
-    private val viewModel: FavoriteRoutesViewModel by viewModels()
+    private val viewModel: MyRoutesViewModel by viewModels()
     private val routesAdapter = FavoritesRoutesAdapter(::onItemClicked, ::onFavIcClicked)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as MainActivity).isBottomNavVisible = false
         with(viewBinding.favoritesItemsToolbar.toolbar) {
-            title = resources.getString(R.string.favorites)
+            title = resources.getString(R.string.my_routes)
             setNavigationOnClickListener {
                 router.backTo(Screens.Favorites())
             }
@@ -53,7 +55,6 @@ class FavoriteRoutesFragment : BaseFragment(R.layout.fragment_favorite_items) {
 
     private fun onFavIcClicked(route: RouteUIModel) {
         viewModel.onFavIcClicked(route)
-        routesAdapter.submitList(routesAdapter.currentList.toMutableList().apply { remove(route) })
     }
 
     private fun initObservers() {

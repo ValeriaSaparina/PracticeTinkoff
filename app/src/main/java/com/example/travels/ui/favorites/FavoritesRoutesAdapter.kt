@@ -27,12 +27,12 @@ class FavoritesRoutesAdapter(
         override fun bind(item: RouteUIModel) {
             super.showData(item)
             initListeners(item)
-            setIcon()
+            setIcon(item)
         }
 
-        private fun setIcon() {
+        private fun setIcon(item: RouteUIModel) {
             with(viewBinding) {
-                favIc.setImageResource(R.drawable.outline_favorite_24)
+                favIc.setImageResource(selectIcon(item.isFav))
             }
         }
 
@@ -43,9 +43,14 @@ class FavoritesRoutesAdapter(
                 }
                 favIc.setOnClickListener {
                     onFavIcClicked(item)
+                    favIc.setImageResource(selectIcon(!item.isFav))
                 }
             }
         }
+    }
+
+    private fun selectIcon(isFav: Boolean): Int {
+        return if (isFav) R.drawable.outline_favorite_24 else R.drawable.outline_favorite_border_24
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteRoutesViewHolder =
