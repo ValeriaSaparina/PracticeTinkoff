@@ -6,17 +6,15 @@ import javax.inject.Inject
 
 class FavPlaceDomainModelMapper @Inject constructor() {
 
-    fun toDomainModel(item: FavoritePlacesEntity?): FavItemDomainModel = item?.let {
-        with(item) {
-            FavItemDomainModel(
-                id = id,
-                type = type,
-                name = name,
-                description = description,
-                address = address,
-                review = review
-            )
-        }
+    fun toDomainModel(item: FavoritePlacesEntity?): FavItemDomainModel = item?.run {
+        FavItemDomainModel(
+            id = id,
+            type = type,
+            name = name,
+            description = description,
+            address = address,
+            review = review
+        )
     } ?: FavItemDomainModel(
         id = -1,
         type = "",

@@ -18,8 +18,7 @@ import javax.inject.Singleton
 class PlacesResponseDomainModelMapper @Inject constructor() {
 
     fun mapResponseToDomainModel(response: PlacesResponseModel?): PlacesDomainModel {
-        return response?.let {
-            with(it) {
+        return response?.run {
                 val meta = mapMetaResponseToMetaDomainModel(meta)
                 val result = ResultDomainModel(
                     items = mapItemResponseToItemDomainModel(result?.items),
@@ -30,7 +29,7 @@ class PlacesResponseDomainModelMapper @Inject constructor() {
                     meta = meta,
                     result = result
                 )
-            }
+
         } ?: throw NullPointerException("response is null")
     }
 
@@ -55,14 +54,14 @@ class PlacesResponseDomainModelMapper @Inject constructor() {
     }
 
     fun mapItemResponseToItemDomainModel(item: ItemResponse?): PlaceDomainModel {
-        return item?.let {
+        return item?.run {
             PlaceDomainModel(
-                id = it.id,
-                type = it.type,
-                name = it.name,
-                addressComment = it.addressComment ?: "",
-                addressName = it.addressName ?: "",
-                review = mapReviewResponseToReviewDomainModel(it.review),
+                id = id,
+                type = type,
+                name = name,
+                addressComment = addressComment ?: "",
+                addressName = addressName ?: "",
+                review = mapReviewResponseToReviewDomainModel(review),
                 isFav = false
             )
         } ?: PlaceDomainModel(

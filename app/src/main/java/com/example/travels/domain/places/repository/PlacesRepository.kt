@@ -23,4 +23,5 @@ interface PlacesRepository {
     suspend fun addReview(review: ReviewModel): UserReviewDomainModel
     suspend fun getAllReviewsByPlace(placeId: Long): List<UserReviewDomainModel>
 
+    suspend fun getFavPlaces(n: Int): List<FavItemDomainModel>
 }

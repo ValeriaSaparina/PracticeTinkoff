@@ -20,6 +20,7 @@ import com.example.travels.domain.places.model.PlacesDomainModel
 import com.example.travels.domain.places.model.ReviewDomainModel
 import com.example.travels.domain.places.repository.PlacesRepository
 import com.example.travels.domain.review.model.UserReviewDomainModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
@@ -27,6 +28,8 @@ import javax.inject.Inject
 
 class PlacesRepositoryImpl @Inject constructor(
     private val placesApi: PlacesApi,
+    private val db: FirebaseFirestore,
+    private val auth: FirebaseAuth,
     private val favoritePlacesDao: FavoritePlacesDao,
     private val db: FirebaseFirestore,
     private val userRepository: UserRepository,
@@ -36,6 +39,7 @@ class PlacesRepositoryImpl @Inject constructor(
 ) : PlacesRepository {
 
     private val reviewsDoc = db.collection(PLACES_REVIEWS)
+    private val favoritePlacesDoc = db.collection(FAVORITE_PLACES_COLLECTION_PATH)
 
     override suspend fun getPlaceByTextQuery(query: String): PlacesDomainModel {
         return responseDomainModelMapper.mapResponseToDomainModel(
@@ -95,6 +99,10 @@ class PlacesRepositoryImpl @Inject constructor(
             entities.add(favPlaceDomainModelMapper.toEntity(it))
         }
         favoritePlacesDao.addNewPlaces(*entities.toTypedArray())
+        items.forEach {
+            val data = hashMapOf(USER_ID to auth.uid, PLACE_ID to it.id)
+            favoritePlacesDoc.add(data)
+        }
     }
 
     override suspend fun addReview(review: ReviewModel): UserReviewDomainModel {
@@ -147,6 +155,11 @@ class PlacesRepositoryImpl @Inject constructor(
 
     override suspend fun deleteFromFavPlaces(id: Long) {
         favoritePlacesDao.deleteFavPlace(id)
+        val favId = favoritePlacesDoc.whereEqualTo(USER_ID, auth.uid).whereEqualTo(
+            PLACE_ID, id
+        ).get()
+            .await().documents[0].id
+        favoritePlacesDoc.document(favId).delete()
     }
 
     override suspend fun getAllFavPlaces(): List<FavItemDomainModel> {
@@ -154,6 +167,13 @@ class PlacesRepositoryImpl @Inject constructor(
             favPlaceDomainModelMapper.toDomainModel(it)
         } ?: listOf()
     }
+
+    override suspend fun getFavPlaces(n: Int): List<FavItemDomainModel> {
+        return favoritePlacesDao.getFavPlaces(n)?.map {
+            favPlaceDomainModelMapper.toDomainModel(it)
+        } ?: listOf()
+    }
+
 
     override suspend fun getIdAllFavPlaces(): List<Long> {
         return favoritePlacesDao.getIdAllFavPlaces()
@@ -173,5 +193,6 @@ class PlacesRepositoryImpl @Inject constructor(
         const val PLACE_ID: String = "place_id"
         const val TEXT: String = "text"
         const val RATING: String = "rating"
+        const val FAVORITE_PLACES_COLLECTION_PATH = "favorite_places"
     }
 }
