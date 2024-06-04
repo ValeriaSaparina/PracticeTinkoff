@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         if (newFragment != null) {
             transaction.show(newFragment)
         }
-        transaction.commitNow()
+        transaction.commitAllowingStateLoss()
     }
 
     override fun onResumeFragments() {
